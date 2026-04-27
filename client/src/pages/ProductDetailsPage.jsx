@@ -26,12 +26,38 @@ function ProductDetailsPage() {
   }
 
   return (
-    <div>
-      <h2>{product.name}</h2>
-      <p>{product.description}</p>
-      <p>{product.price} ₪</p>
+    <div className="product-details-page">
+      <div className="product-details-card">
+        <div className="product-details-image">
+          {product.image ? (
+            <img src={product.image} alt={product.name} />
+          ) : (
+            <span>No Image</span>
+          )}
+        </div>
 
-      <button onClick={() => addToCart(product)}>Add to Cart</button>
+        <div className="product-details-info">
+          <h2>{product.name}</h2>
+          <p className="product-category">{product.category}</p>
+          <p className="product-description">{product.description}</p>
+
+          <p className="product-price">{product.price} ₪</p>
+
+          <p className="product-stock">
+            {product.countInStock > 0
+              ? `In stock: ${product.countInStock}`
+              : "Out of stock"}
+          </p>
+
+          <button
+            className="primary-btn"
+            onClick={() => addToCart(product)}
+            disabled={product.countInStock <= 0}
+          >
+            Add to Cart
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
