@@ -22,3 +22,7 @@ export const markOrderPaid = async (id) => {
   const response = await api.put(`/orders/${id}/pay`);
   return response.data;
 };
+export const getOrderById = async (id) => {
+  const response = await api.get(`/orders/${id}`);
+  return response.data;
+};

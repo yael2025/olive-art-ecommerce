@@ -9,6 +9,7 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import AdminPage from "./pages/AdminPage";
 import NotFoundPage from "./pages/NotFoundPage";
+import OrderDetailsPage from "./pages/OrderDetailsPage";
 
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
           <Route path="admin" element={<AdminPage />} />
           <Route path="*" element={<NotFoundPage />} />
           <Route path="/admin" element={<AdminPage />} />
+          <Route path="/orders/:id" element={<OrderDetailsPage />} />
         </Route>
       </Routes>
     </BrowserRouter>

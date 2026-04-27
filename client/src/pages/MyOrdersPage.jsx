@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getMyOrders } from "../services/orderService";
+import { Link } from "react-router-dom";
 
 function MyOrdersPage() {
   const [orders, setOrders] = useState([]);
@@ -46,6 +47,9 @@ function MyOrdersPage() {
                 {order.orderItems.map((item, index) => (
                   <div className="order-item" key={index}>
                     <div className="order-item-info">
+                      <Link to={`/orders/${order._id}`} className="details-link">
+                        View Details
+                      </Link>
                       <p className="item-name">{item.name}</p>
                       <p className="item-details">
                         Qty: {item.qty} | {item.price} ₪
