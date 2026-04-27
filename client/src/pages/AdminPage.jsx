@@ -4,6 +4,7 @@ import { useUser } from "../context/UserContext";
 import { useNavigate } from "react-router-dom";
 import { getAllOrders } from "../services/orderService";
 import { markOrderDelivered } from "../services/orderService";
+import { markOrderPaid } from "../services/orderService";
 
 function AdminPage() {
   const [products, setProducts] = useState([]);
@@ -122,6 +123,14 @@ function AdminPage() {
       fetchOrders(); 
     } catch (error) {
       console.error("Deliver failed", error);
+    }
+  };
+  const payHandler = async (id) => {
+    try {
+      await markOrderPaid(id);
+      fetchOrders();
+    } catch (error) {
+      console.error("Payment failed", error);
     }
   };
 
@@ -335,12 +344,30 @@ function AdminPage() {
                         </p>
                         <p>
                           Status:{" "}
-                          {order.isDelivered ? (
+                          {order.isPaid && order.isDelivered ? (
                             <span style={{ color: "green" }}>Delivered</span>
                           ) : (
                             <span style={{ color: "red" }}>Pending</span>
                           )}
+                          {!order.isPaid && (
+                            <p style={{ color: "gray" }}>
+                              Pay the order before marking it as delivered
+                            </p>
+                          )}
                         </p>
+                        <p>
+                          Payment:{" "}
+                          {order.isPaid ? (
+                            <span style={{ color: "green" }}>Paid</span>
+                          ) : (
+                            <span style={{ color: "red" }}>Not Paid</span>
+                          )}
+                        </p>
+                        {!order.isPaid && (
+                          <button onClick={() => payHandler(order._id)}>
+                            Mark as Paid
+                          </button>
+                        )}
                       </div>
                     </div>
                   

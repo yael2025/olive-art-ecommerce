@@ -18,3 +18,7 @@ export const markOrderDelivered = async (id) => {
   const response = await api.put(`/orders/${id}/deliver`);
   return response.data;
 };
+export const markOrderPaid = async (id) => {
+  const response = await api.put(`/orders/${id}/pay`);
+  return response.data;
+};

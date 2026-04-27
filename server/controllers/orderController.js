@@ -65,9 +65,35 @@ const markAsDelivered = async (req, res) => {
   }
 };
 
+const markAsPaid = async (req, res) => {
+  try {
+    const order = await Order.findById(req.params.id);
+
+    if (!order) {
+      return res.status(404).json({ message: "Order not found" });
+    }
+    if (!order.isPaid) {
+      return res.status(400).json({
+        message: "Order must be paid before it can be delivered",
+      });
+    }
+
+    order.isPaid = true;
+    order.paidAt = Date.now();
+
+    const updatedOrder = await order.save();
+
+    res.json(updatedOrder);
+  } catch (error) {
+    console.error("PAY ORDER ERROR:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
 module.exports = {
   createOrder,
   getMyOrders,
   getOrders,
   markAsDelivered,
+  markAsPaid,
 };
