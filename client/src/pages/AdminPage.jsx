@@ -3,6 +3,7 @@ import api from "../services/api";
 import { useUser } from "../context/UserContext";
 import { useNavigate } from "react-router-dom";
 import { getAllOrders } from "../services/orderService";
+import { markOrderDelivered } from "../services/orderService";
 
 function AdminPage() {
   const [products, setProducts] = useState([]);
@@ -113,6 +114,14 @@ function AdminPage() {
       } catch (error) {
         console.error("Delete failed", error);
       }
+    }
+  };
+  const deliverHandler = async (id) => {
+    try {
+      await markOrderDelivered(id);
+      fetchOrders(); 
+    } catch (error) {
+      console.error("Deliver failed", error);
     }
   };
 
@@ -313,32 +322,47 @@ function AdminPage() {
                 <div className="admin-orders-list">
                   {orders.map((order) => (
                     <div className="admin-order-card" key={order._id}>
-
-                      <div className="admin-order-header">
-                        <div>
-                          <p><strong>User:</strong> {order.user.username}</p>
-                          <p><strong>Email:</strong> {order.user.email}</p>
-                        </div>
-
-                        <div>
-                          <p><strong>Total:</strong> {order.totalPrice} ₪</p>
-                          <p>
-                            {new Date(order.createdAt).toLocaleDateString()}
-                          </p>
-                        </div>
+                    <div className="admin-order-header">
+                      <div>
+                        <p><strong>User:</strong> {order.user.username}</p>
+                        <p><strong>Email:</strong> {order.user.email}</p>
                       </div>
-
-                      <div className="admin-order-items">
-                        {order.orderItems.map((item, index) => (
-                          <div key={index} className="admin-order-item">
-                            <p>{item.name}</p>
-                            <p>Qty: {item.qty}</p>
-                            <p>{item.price} ₪</p>
-                          </div>
-                        ))}
+                  
+                      <div>
+                        <p><strong>Total:</strong> {order.totalPrice} ₪</p>
+                        <p>
+                          {new Date(order.createdAt).toLocaleDateString()}
+                        </p>
+                        <p>
+                          Status:{" "}
+                          {order.isDelivered ? (
+                            <span style={{ color: "green" }}>Delivered</span>
+                          ) : (
+                            <span style={{ color: "red" }}>Pending</span>
+                          )}
+                        </p>
                       </div>
-
                     </div>
+                  
+                    <div className="admin-order-items">
+                      {order.orderItems.map((item, index) => (
+                        <div key={index} className="admin-order-item">
+                          <p>{item.name}</p>
+                          <p>Qty: {item.qty}</p>
+                          <p>{item.price} ₪</p>
+                        </div>
+                      ))}
+                    </div>
+                  
+                    {!order.isDelivered && (
+                      <button
+                        onClick={() => deliverHandler(order._id)}
+                        style={{ marginTop: "10px" }}
+                      >
+                        Mark as Delivered
+                      </button>
+                    )}
+                  </div>
                   ))}
                 </div>
               )}
