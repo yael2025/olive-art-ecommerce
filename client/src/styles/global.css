@@ -1,0 +1,28 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f5f0;
+    color: #2f2f2f;
+  }
+  
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+  
+  button,
+  input,
+  select,
+  textarea {
+    font: inherit;
+  }
+  
+  main {
+    min-height: 80vh;
+    padding: 20px;
+  }
