@@ -28,6 +28,21 @@ function CartPage() {
     0
   );
 
+  const [shippingDetails, setShippingDetails] = useState({
+    fullName:"",
+    phone:"",
+    city:"",
+    address :"", 
+    shippingMethod :"Delivery"
+  })
+
+  const handleShippingChange  = (e) =>{
+    setShippingDetails((prev)=>({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }))
+  }
+
   const checkoutHandler = async () => {
     if (!user) {
       setMessage("You must be logged in to place an order");
@@ -44,6 +59,7 @@ function CartPage() {
           product: item.product._id,
         })),
         totalPrice,
+        shippingDetails,
       };
 
       await createOrder(orderData);
@@ -92,7 +108,45 @@ function CartPage() {
               </div>
             ))}
           </div>
+            <div className="checkout-form">
+              <h3>Shipping Details</h3>
 
+              <input
+               name= "fullName"
+               placeholder="Full Name"
+               value={shippingDetails.fullName}
+               onChange={handleShippingChange}
+                />
+
+              <input
+              name="phone"
+              placeholder="Phone"
+              value={shippingDetails.phone}
+              onChange={handleShippingChange}
+              />
+
+              <input
+                  name="city"
+                  placeholder="City"
+                  value={shippingDetails.city}
+                  onChange={handleShippingChange}
+                />
+
+                <input
+                  name="address"
+                  placeholder="Address"
+                  value={shippingDetails.address}
+                  onChange={handleShippingChange}
+                />
+
+                <select name="shippingMethod" 
+                value={shippingDetails.shippingMethod}
+                onChange={handleShippingChange}
+                >
+                  <option value="Delivery">Home Delivery</option>
+                  <option value="Pickup">Pickup</option>
+                </select>
+              </div>  
           <div className="cart-summary">
             <h3>Total items: {totalItems}</h3>
             <h3>Total: {totalPrice} ₪</h3>

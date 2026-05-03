@@ -6,8 +6,7 @@ function ProductCard({ product }) {
 
   const handleAddToCart = () => {
     addToCart(product);
-    // console.log("Added product:", product);
-    // console.log("Cart after click:", cartItems);
+    
   };
 
   return (

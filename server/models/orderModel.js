@@ -37,6 +37,28 @@ const orderItemSchema = new mongoose.Schema(
         required: true,
       },
       orderItems: [orderItemSchema],
+      shippingDetails: {
+        fullName:{
+          type: String,
+          required : true,
+        },
+        phone: {
+          type: String,
+          required: true,
+        },
+        city: {
+          type: String,
+          required: true,
+        },
+        address: {
+          type: String,
+          required: true,
+        },
+        shippingMethod: {
+          type: String,
+          required: true,
+        },
+      },
       totalPrice: {
         type: Number,
         required: true,
@@ -56,6 +78,7 @@ const orderItemSchema = new mongoose.Schema(
       deliveredAt: {
         type: Date,
       },
+      
     },
     {
       timestamps: true,
