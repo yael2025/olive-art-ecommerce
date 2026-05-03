@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getProductById } from "../services/productsService";
 import { useCart } from "../context/CartContext";
+import toast from "react-hot-toast";
 
 function ProductDetailsPage() {
   const { id } = useParams();
@@ -51,7 +52,10 @@ function ProductDetailsPage() {
 
           <button
             className="primary-btn"
-            onClick={() => addToCart(product)}
+            onClick={() => {
+              addToCart(product);
+              toast.success(`${product.name} added to cart 🛒`);
+            }}
             disabled={product.countInStock <= 0}
           >
             Add to Cart

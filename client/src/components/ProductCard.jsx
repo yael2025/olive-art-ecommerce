@@ -1,11 +1,15 @@
 import { Link } from "react-router-dom";
 import { useCart } from "../context/CartContext";
+import toast from "react-hot-toast";
 
 function ProductCard({ product }) {
   const { addToCart } = useCart();
 
   const handleAddToCart = () => {
+    console.log("Button clicked - toast should appear");
     addToCart(product);
+
+    toast.success(`${product.name} added to cart 🛒`);
     
   };
 
