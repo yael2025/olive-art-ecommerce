@@ -12,15 +12,22 @@ function ProductCard({ product }) {
 
   return (
     <div className="product-card">
-      <div className="product-image-placeholder">Image</div>
+      <div className="product-image">
+        {product.image ? (
+          <img src={product.image} alt={product.name} />
+        ) : (
+          <div className="product-image-placeholder">No Image</div>
+        )}
+      </div>
 
       <h3>{product.name}</h3>
       <p>{product.price} ₪</p>
 
-      <div className="product-card-actions">
-        <Link to={`/products/${product._id}`}>View Details</Link>
-        <button onClick={handleAddToCart}>Add to Cart</button>
-      </div>
+      <Link to={`/products/${product._id}`}>View Details</Link>
+
+      <br /><br />
+
+      <button onClick={handleAddToCart}>Add to Cart</button>
     </div>
   );
 }
