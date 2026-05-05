@@ -127,3 +127,20 @@
     height: 100%;
     object-fit: cover;
   }
+  .products-filters {
+    display: flex;
+    gap: 12px;
+    margin-top: 16px;
+    margin-bottom: 20px;
+  }
+  .products-filters input,
+.products-filters select {
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+@media (max-width: 600px) {
+  .products-filters {
+    flex-direction: column;
+  }
+}
