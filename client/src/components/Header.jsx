@@ -19,7 +19,10 @@ function Header() {
                     ☰
                 </button>
 
-                <h2>Olive Art Creations</h2>
+                <div className="logo-container">
+                    <img src="/images/logo.jpg" alt="logo" />
+                    <h2>Olive Art Creations</h2>
+                </div>
             </header>
 
             {/* Overlay */}

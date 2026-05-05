@@ -1,29 +1,47 @@
-import { useUser } from "../context/UserContext";
-import { useCart } from "../context/CartContext";
+import { Link } from "react-router-dom";
 
 function HomePage() {
-  const { user, login, logout } = useUser();
-  const { cartItems, addToCart } = useCart();
-
   return (
-    <div>
-      <h2>Home Page</h2>
+    <div className="home-page">
+      <section className="hero-section">
+        <div className="hero-content">
+          <h1>Olive Art Creations</h1>
+          <p>
+            Handmade Judaica products crafted from olive wood and colorful epoxy resin.
+          </p>
 
-      <button onClick={() => login({ name: "Yael", role: "user" })}>
-        Login (fake)
-      </button>
+          <div className="hero-actions">
+            <Link to="/products" className="primary-btn">
+              Shop Products
+            </Link>
 
-      <button onClick={logout}>Logout</button>
+            <Link to="/my-orders" className="secondary-btn">
+              My Orders
+            </Link>
+          </div>
+        </div>
 
-      <p>User: {user ? user.name : "Not logged in"}</p>
+        <div className="hero-image">
+          <img src="/images/logo.jpg" alt="Olive Art Creations Logo" />
+        </div>
+      </section>
 
-      <hr />
+      <section className="home-info">
+        <div className="info-card">
+          <h3>Handmade Products</h3>
+          <p>Unique mezuzot, menorahs, jewelry, candle holders and home decor.</p>
+        </div>
 
-      <button onClick={() => addToCart({ name: "Menorah", price: 100 })}>
-        Add to Cart
-      </button>
+        <div className="info-card">
+          <h3>Natural Materials</h3>
+          <p>Products made with olive wood, resin, and artistic handmade finishes.</p>
+        </div>
 
-      <p>Cart items: {cartItems.length}</p>
+        <div className="info-card">
+          <h3>Personal Gifts</h3>
+          <p>Perfect for holidays, weddings, housewarming gifts and special occasions.</p>
+        </div>
+      </section>
     </div>
   );
 }
