@@ -25,7 +25,10 @@
 
 .admin-section-toggle {
   width: 100%;
-  text-align: left;
+  max-width: 320px;
+  display: block;
+  margin: 0 auto;
+  text-align: center;
   padding: 14px 16px;
   border: none;
   border-radius: 10px;
@@ -33,7 +36,25 @@
   color: white;
   font-size: 16px;
   cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+
 }
+.admin-section-toggle:hover {
+  background-color: #8b6a4e;
+  transform: translateY(-2px);
+}
+.admin-form button,
+.admin-product-row button,
+.admin-order-card button {
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+.admin-form button:hover,
+.admin-product-row button:hover,
+.admin-order-card button:hover {
+  background-color: #8b6a4e;
+  transform: translateY(-2px);
+}
+
 
 .admin-section-content {
   margin-top: 16px;
