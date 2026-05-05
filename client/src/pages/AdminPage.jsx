@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import api from "../services/api";
 import { useUser } from "../context/UserContext";
-import { useNavigate } from "react-router-dom";
+
 import { getAllOrders } from "../services/orderService";
 import { markOrderDelivered } from "../services/orderService";
 import { markOrderPaid } from "../services/orderService";
@@ -27,7 +27,7 @@ function AdminPage() {
   });
 
   const { user } = useUser();
-  const navigate = useNavigate();
+  
 
   const fetchProducts = async () => {
     try {
@@ -47,15 +47,9 @@ function AdminPage() {
   };
 
   useEffect(() => {
-    if (user === null) return;
-
-    if (!user || !user.isAdmin) {
-      navigate("/");
-    } else {
-      fetchProducts();
-      fetchOrders();
-    }
-  }, [user, navigate]);
+    fetchProducts();
+    fetchOrders();
+  }, []);
 
   const handleChange = (e) => {
     setFormData((prev) => ({
