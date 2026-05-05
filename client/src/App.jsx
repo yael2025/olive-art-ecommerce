@@ -10,6 +10,7 @@ import RegisterPage from "./pages/RegisterPage";
 import AdminPage from "./pages/AdminPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import OrderDetailsPage from "./pages/OrderDetailsPage";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 
 function App() {
@@ -21,13 +22,34 @@ function App() {
           <Route path="products" element={<ProductsPage />} />
           <Route path="products/:id" element={<ProductDetailsPage />} />
           <Route path="cart" element={<CartPage />} />
-          <Route path="/my-orders" element={<MyOrdersPage />} />
+          <Route
+            path="my-orders"
+            element={
+              <ProtectedRoute>
+                <MyOrdersPage />
+              </ProtectedRoute>
+            }
+          />
           <Route path="login" element={<LoginPage />} />
           <Route path="register" element={<RegisterPage />} />
           <Route path="admin" element={<AdminPage />} />
           <Route path="*" element={<NotFoundPage />} />
-          <Route path="/admin" element={<AdminPage />} />
-          <Route path="/orders/:id" element={<OrderDetailsPage />} />
+          <Route
+            path="admin"
+            element={
+              <ProtectedRoute adminOnly={true}>
+                <AdminPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="orders/:id"
+            element={
+              <ProtectedRoute>
+                <OrderDetailsPage />
+              </ProtectedRoute>
+            }
+          />
         </Route>
       </Routes>
     </BrowserRouter>
