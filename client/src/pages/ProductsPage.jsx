@@ -7,6 +7,9 @@ function ProductsPage() {
   const [searchText, setSearchText] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
 
+  const [minPrice, setMinPrice] = useState("")
+  const [maxPrice, setMaxPrice] = useState("")  
+
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -28,14 +31,22 @@ function ProductsPage() {
   const filteredProducts = products.filter((product)=>{
     const text = searchText.toLowerCase()
 
-    const matchSearch = 
+    const matchesSearch = 
       product.name.toLowerCase().includes(text) ||
       product.description?.toLowerCase().includes(text)
 
     const matchesCategory  = 
       selectedCategory ==="All" || product.category ===selectedCategory
 
-     return matchSearch && matchesCategory
+    const price = Number(product.price)
+
+    const matchesMinPrice = minPrice === "" || price >= Number(minPrice)
+
+    const matchesMaxPrice  = maxPrice === "" || price <= Number(maxPrice)
+    
+    
+
+    return matchesSearch && matchesCategory && matchesMinPrice && matchesMaxPrice
 
   })
 
@@ -61,6 +72,19 @@ function ProductsPage() {
               </option>
             ))}
           </select>
+
+          <input 
+          type="number"
+          placeholder="Min price"
+          value={minPrice}
+          onChange={(e) => setMinPrice(e.target.value)}
+          />
+          <input
+            type="number"
+            placeholder="Max price"
+            value={maxPrice}
+            onChange={(e) => setMaxPrice(e.target.value)}
+          />
       </div>
 
       {filteredProducts.length===0 ?(
