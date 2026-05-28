@@ -18,11 +18,10 @@ function Header() {
                 <button className="menu-btn" onClick={() => setIsOpen(true)}>
                     ☰
                 </button>
-
-                <div className="logo-container">
-                    <img src="/images/logo.jpg" alt="logo" />
-                    <h2>Olive Art Creations</h2>
-                </div>
+                    <Link to="/" className="logo-container">
+                        <img src="/images/logo.jpg" alt="logo" />
+                        <h2>Olive Art Creations</h2>
+                    </Link>
             </header>
 
             {/* Overlay */}
@@ -36,6 +35,10 @@ function Header() {
 
                 <nav>
                     {user && (<><span>Hello, {user.username}</span></>)}
+
+                    <Link to="/" onClick={()=> setIsOpen(false)}>
+                    Home 
+                    </Link>
 
                     <Link to="/products" onClick={() => setIsOpen(false)}>
                         Products

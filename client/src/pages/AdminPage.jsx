@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import api from "../services/api";
 import { useUser } from "../context/UserContext";
+import toast from "react-hot-toast";
 
 import { getAllOrders } from "../services/orderService";
 import { markOrderDelivered } from "../services/orderService";
@@ -27,7 +28,7 @@ function AdminPage() {
   });
 
   const { user } = useUser();
-  
+
 
   const fetchProducts = async () => {
     try {
@@ -76,17 +77,19 @@ function AdminPage() {
     try {
       if (editingProductId) {
         await api.put(`/products/${editingProductId}`, formData);
+        toast.success("Product updated ✏️");
       } else {
         await api.post("/products", formData);
+        toast.success("Product created successfully 🎉");
       }
 
       resetForm();
       fetchProducts();
     } catch (error) {
       console.error("Save product failed", error);
+      toast.error("Save product failed ❌");
     }
   };
-
   const editHandler = (product) => {
     setEditingProductId(product._id);
     setShowEditSection(true);
@@ -101,30 +104,42 @@ function AdminPage() {
     });
   };
 
+
+
   const deleteHandler = async (id) => {
     if (window.confirm("Are you sure?")) {
       try {
         await api.delete(`/products/${id}`);
+        toast.success("Product deleted 🗑️");
         fetchProducts();
       } catch (error) {
         console.error("Delete failed", error);
+        toast.error(error.response?.data?.message || "Delete failed ❌");
+        fetchProducts();
       }
     }
   };
   const deliverHandler = async (id) => {
     try {
       await markOrderDelivered(id);
-      fetchOrders(); 
+      fetchOrders();
+      await markOrderDelivered(id);
+
+      toast.success("Order delivered 🚚");
     } catch (error) {
       console.error("Deliver failed", error);
+      toast.error("Something went wrong ❌");
     }
   };
   const payHandler = async (id) => {
     try {
       await markOrderPaid(id);
       fetchOrders();
+      await markOrderPaid(id);
+      toast.success("Order marked as paid 💰");
     } catch (error) {
       console.error("Payment failed", error);
+      toast.error("Something went wrong ❌");
     }
   };
 
@@ -326,63 +341,59 @@ function AdminPage() {
                   {orders.map((order) => (
                     <div className="admin-order-card" key={order._id}>
                     <div className="admin-order-header">
-                      <div>
-                        <p><strong>User:</strong> {order.user.username}</p>
-                        <p><strong>Email:</strong> {order.user.email}</p>
-                      </div>
-                  
-                      <div>
-                        <p><strong>Total:</strong> {order.totalPrice} ₪</p>
-                        <p>
-                          {new Date(order.createdAt).toLocaleDateString()}
-                        </p>
-                        <p>
-                          Status:{" "}
-                          {order.isPaid && order.isDelivered ? (
-                            <span style={{ color: "green" }}>Delivered</span>
-                          ) : (
-                            <span style={{ color: "red" }}>Pending</span>
-                          )}
-                          {!order.isPaid && (
-                            <p style={{ color: "gray" }}>
-                              Pay the order before marking it as delivered
-                            </p>
-                          )}
-                        </p>
-                        <p>
-                          Payment:{" "}
-                          {order.isPaid ? (
-                            <span style={{ color: "green" }}>Paid</span>
-                          ) : (
-                            <span style={{ color: "red" }}>Not Paid</span>
-                          )}
-                        </p>
-                        {!order.isPaid && (
-                          <button onClick={() => payHandler(order._id)}>
-                            Mark as Paid
-                          </button>
-                        )}
-                      </div>
+                      <span><strong>Order ID:</strong> {order._id.slice(-6)}</span>
+                      <span><strong>Total:</strong> ₪{order.totalPrice}</span>
                     </div>
                   
+                    {/* 👤 USER */}
+                    <p><strong>User:</strong> {order.user?.username}</p>
+                  
+                    {/* 📦 SHIPPING */}
+                    {order.shippingDetails && (
+                      <div className="admin-shipping">
+                        <p><strong>Name:</strong> {order.shippingDetails.fullName}</p>
+                        <p><strong>City:</strong> {order.shippingDetails.city}</p>
+                        <p><strong>Address:</strong> {order.shippingDetails.address}</p>
+                      </div>
+                    )}
+                  
+                    {/* 📊 STATUS */}
+                    <div className="admin-status">
+                      <span className={order.isPaid ? "status paid" : "status not-paid"}>
+                        {order.isPaid ? "Paid" : "Not Paid"}
+                      </span>
+                  
+                      <span className={order.isDelivered ? "status delivered" : "status pending"}>
+                        {order.isDelivered ? "Delivered" : "Pending"}
+                      </span>
+                    </div>
+                  
+                    {/* 🛒 ITEMS */}
                     <div className="admin-order-items">
-                      {order.orderItems.map((item, index) => (
-                        <div key={index} className="admin-order-item">
-                          <p>{item.name}</p>
-                          <p>Qty: {item.qty}</p>
-                          <p>{item.price} ₪</p>
+                      {order.orderItems.map((item, i) => (
+                        <div key={i} className="admin-order-item">
+                          <span>{item.name}</span>
+                          <span>{item.qty} × ₪{item.price}</span>
                         </div>
                       ))}
                     </div>
                   
-                    {!order.isDelivered && (
+                    {/* 🎛 ACTIONS */}
+                    <div className="admin-order-actions">
+                      <button
+                        onClick={() => payHandler(order._id)}
+                        disabled={order.isPaid}
+                      >
+                        Mark as Paid
+                      </button>
+                  
                       <button
                         onClick={() => deliverHandler(order._id)}
-                        style={{ marginTop: "10px" }}
+                        disabled={!order.isPaid || order.isDelivered}
                       >
                         Mark as Delivered
                       </button>
-                    )}
+                    </div>
                   </div>
                   ))}
                 </div>
