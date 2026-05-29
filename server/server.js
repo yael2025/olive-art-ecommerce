@@ -7,6 +7,7 @@ const userRoutes = require("./routes/userRoutes");
 const productRoutes = require("./routes/productRoutes");
 const orderRoutes = require("./routes/orderRoutes");
 const { protect } = require("./middleware/authMiddleware");
+const aiRoutes = require("./routes/aiRoutes");
 
 const app = express();
 
@@ -72,6 +73,8 @@ app.get("/api/products/:id", (req, res) => {
 
   res.json(product);
 });
+
+app.use("/api/ai", aiRoutes);
 
 const PORT = process.env.PORT || 3001;
 
