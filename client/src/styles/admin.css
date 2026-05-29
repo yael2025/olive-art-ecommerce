@@ -121,6 +121,14 @@
   color: white;
   cursor: pointer;
 }
+.admin-form textarea {
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  resize: vertical;
+  min-height: 120px;
+  font-family: inherit;
+}
 
 /* ===== Admin Orders ===== */
 

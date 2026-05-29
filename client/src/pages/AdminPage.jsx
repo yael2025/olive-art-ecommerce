@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 import { getAllOrders } from "../services/orderService";
 import { markOrderDelivered } from "../services/orderService";
 import { markOrderPaid } from "../services/orderService";
-import { generateDescription } from "../services/aiService";
+import { generateDescription } from "../services/aiService";  
 
 function AdminPage() {
   const [products, setProducts] = useState([]);
@@ -95,7 +95,7 @@ function AdminPage() {
     setEditingProductId(product._id);
     setShowEditSection(true);
 
-    setFormData({
+    ({
       name: product.name || "",
       price: product.price || "",
       description: product.description || "",
@@ -119,7 +119,7 @@ function AdminPage() {
         fetchProducts();
       }
     }
-  };
+  };setFormData
   const deliverHandler = async (id) => {
     try {
       await markOrderDelivered(id);
@@ -152,15 +152,19 @@ function AdminPage() {
       toast.loading("Generating description...",{
         id:"ai-description"
       })
-      const description = await generateAIDescription(
+      const description = await generateDescription(
         formData.name,
         formData.category
       )
+      //console.log("Generated description:", description);
+
       setFormData((prev)=>({
         ...prev,
-        description
+        description,
       }))
-
+      setTimeout(() => {
+        console.log("formData after update:", document.querySelector('[name="description"]')?.value);
+      }, 200);
       toast.success("AI description generated ✨",{
         id:"ai-description",
       })
@@ -207,13 +211,16 @@ function AdminPage() {
                   value={formData.price}
                   onChange={handleChange}
                 />
-
-                <input
-                  name="description"
-                  placeholder="Description"
-                  value={formData.description}
-                  onChange={handleChange}
-                />
+                    {/* <p>
+                      Description length: {formData.description.length}
+                    </p> */}
+                    <textarea
+                      name="description"
+                      placeholder="Description"
+                      value={formData.description}
+                      onChange={handleChange}
+                      rows="6"
+                    />
                 <button
                 type="button"
                 onClick={generateAIDescription}

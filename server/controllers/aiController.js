@@ -9,13 +9,21 @@ const generateProductDescription = async (req, res) => {
     const { name, category } = req.body;
 
     const prompt = `
-Write a short and elegant product description for a handmade Judaica product.
+        You are writing a product description for a handmade Judaica ecommerce website.
 
-Product name: ${name}
-Category: ${category}
+        Product name: ${name}
+        Category: ${category}
 
-The style should be warm, artistic, and suitable for an ecommerce website.
-`;
+        Detect the language of the product name and category.
+        Write the product description in the same language.
+
+        Rules:
+        - If the input is Hebrew, write the description in Hebrew.
+        - If the input is English, write the description in English.
+        - Do not mention that you detected the language.
+        - Write 3-5 sentences.
+        - Use a warm, elegant, artistic style.
+        - Make it suitable for an ecommerce product page.`
 
     const response = await client.responses.create({
       model: "gpt-4.1-mini",
