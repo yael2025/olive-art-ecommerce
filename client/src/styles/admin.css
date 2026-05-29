@@ -72,7 +72,9 @@
   margin-bottom: 20px;
 }
 
-.admin-form input {
+.admin-form input,
+.admin-form select,
+.admin-form textarea {
   padding: 10px 12px;
   border: 1px solid #ccc;
   border-radius: 8px;

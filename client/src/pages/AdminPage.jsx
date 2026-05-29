@@ -19,6 +19,15 @@ function AdminPage() {
   const [showEditSection, setShowEditSection] = useState(false);
   const [showDeleteSection, setShowDeleteSection] = useState(false);
 
+  const categories = [
+    "Mezuzot",
+    "Menorahs",
+    "Jewelry",
+    "Candle Holders",
+    "Home Decor",
+    "Gift Items",
+  ];
+
   const [formData, setFormData] = useState({
     name: "",
     price: "",
@@ -244,12 +253,19 @@ function AdminPage() {
                   onChange={handleChange}
                 />
 
-                <input
+                <select
                   name="category"
-                  placeholder="Category"
                   value={formData.category}
                   onChange={handleChange}
-                />
+                >
+                  <option value="">Select Category</option>
+
+                  {categories.map((category) => (
+                    <option key={category} value={category}>
+                      {category}
+                    </option>
+                  ))}
+                </select>
 
                 <button type="submit">Add Product</button>
               </form>
@@ -306,12 +322,19 @@ function AdminPage() {
                     onChange={handleChange}
                   />
 
-                  <input
+                  <select
                     name="category"
-                    placeholder="Category"
                     value={formData.category}
                     onChange={handleChange}
-                  />
+                  >
+                    <option value="">Select Category</option>
+
+                    {categories.map((category) => (
+                      <option key={category} value={category}>
+                        {category}
+                      </option>
+                    ))}
+                  </select>
 
                   <div className="admin-form-actions">
                     <button type="submit">Update Product</button>
