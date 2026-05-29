@@ -211,23 +211,25 @@ function AdminPage() {
                   value={formData.price}
                   onChange={handleChange}
                 />
+                <label>Description</label>
+
+                  <button
+                    type="button"
+                    onClick={generateAIDescription}
+                  >
+                    ✨ Generate AI Description
+                  </button>
+
+                  <textarea
+                    name="description"
+                    value={formData.description}
+                    onChange={handleChange}
+                    rows="6"
+                    placeholder="Description"
+                  />
                     {/* <p>
                       Description length: {formData.description.length}
                     </p> */}
-                    <textarea
-                      name="description"
-                      placeholder="Description"
-                      value={formData.description}
-                      onChange={handleChange}
-                      rows="6"
-                    />
-                <button
-                type="button"
-                onClick={generateAIDescription}
-                >
-                  ✨ Generate AI Description
-                </button>
-
                 <input
                   name="image"
                   placeholder="Image URL"
