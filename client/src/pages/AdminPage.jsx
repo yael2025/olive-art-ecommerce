@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 import { getAllOrders } from "../services/orderService";
 import { markOrderDelivered } from "../services/orderService";
 import { markOrderPaid } from "../services/orderService";
+import { generateDescription } from "../services/aiService";
 
 function AdminPage() {
   const [products, setProducts] = useState([]);
@@ -142,6 +143,34 @@ function AdminPage() {
       toast.error("Something went wrong ❌");
     }
   };
+  const generateAIDescription  = async()=>{
+    try{
+      if(!formData.name || !formData.category){
+        toast.error("Please enter product name and category first")
+        return
+      }
+      toast.loading("Generating description...",{
+        id:"ai-description"
+      })
+      const description = await generateAIDescription(
+        formData.name,
+        formData.category
+      )
+      setFormData((prev)=>({
+        ...prev,
+        description
+      }))
+
+      toast.success("AI description generated ✨",{
+        id:"ai-description",
+      })
+    }catch(error){
+      console.error(error);
+      toast.error("AI generation failed ❌",{
+        id:"ai-description"
+      })
+    }
+  }
 
   if (!user) {
     return <p>Loading...</p>;
@@ -185,6 +214,12 @@ function AdminPage() {
                   value={formData.description}
                   onChange={handleChange}
                 />
+                <button
+                type="button"
+                onClick={generateAIDescription}
+                >
+                  ✨ Generate AI Description
+                </button>
 
                 <input
                   name="image"
