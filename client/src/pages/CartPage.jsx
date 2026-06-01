@@ -48,6 +48,16 @@ function CartPage() {
       setMessage("You must be logged in to place an order");
       return;
     }
+    if (
+      !shippingDetails.fullName ||
+      !shippingDetails.phone ||
+      !shippingDetails.city ||
+      !shippingDetails.address ||
+      !shippingDetails.shippingMethod
+    ) {
+      setMessage("Please fill in all shipping details");
+      return;
+    }
 
     try {
       const orderData = {

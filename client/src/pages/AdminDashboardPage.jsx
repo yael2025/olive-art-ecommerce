@@ -1,6 +1,14 @@
 import { useEffect, useState } from "react";
 import { getDashboardStats } from "../services/dashboardService";
 
+import {
+  PieChart,
+  Pie,
+  Cell,
+  Tooltip,
+  Legend,
+} from "recharts";
+
 function AdminDashboardPage() {
   const [stats, setStats] = useState(null);
 
@@ -20,26 +28,75 @@ function AdminDashboardPage() {
   if (!stats) {
     return <p>Loading dashboard...</p>;
   }
+  const orderStatusData = [
+    {
+      name: "Paid",
+      value: stats.ordersByStatus.paid,
+    },
+    {
+      name: "Not Paid",
+      value: stats.ordersByStatus.notPaid,
+    },
+    {
+      name: "Delivered",
+      value: stats.ordersByStatus.delivered,
+    },
+    {
+      name: "Pending",
+      value: stats.ordersByStatus.pendingDelivery,
+    },
+  ];
+
+  const COLORS = [
+    "#4CAF50",
+    "#F44336",
+    "#2196F3",
+    "#FFC107",
+  ];
 
   return (
     <div className="admin-page">
       <h2>Admin Dashboard</h2>
-  
+
       <div className="dashboard-cards">
         <div className="dashboard-card">
           <h3>Total Orders</h3>
           <p>{stats.totalOrders}</p>
         </div>
-  
+
         <div className="dashboard-card">
           <h3>Total Revenue</h3>
           <p>₪{stats.totalRevenue}</p>
         </div>
-  
+
         <div className="dashboard-card">
           <h3>Registered Users</h3>
           <p>{stats.registeredUsers}</p>
         </div>
+      </div>
+      <div className="dashboard-chart">
+        <h3>Orders Status</h3>
+
+        <PieChart width={500} height={300}>
+          <Pie
+            data={orderStatusData}
+            cx="50%"
+            cy="50%"
+            outerRadius={100}
+            dataKey="value"
+            label
+          >
+            {orderStatusData.map((entry, index) => (
+              <Cell
+                key={`cell-${index}`}
+                fill={COLORS[index % COLORS.length]}
+              />
+            ))}
+          </Pie>
+
+          <Tooltip />
+          <Legend />
+        </PieChart>
       </div>
     </div>
   );
