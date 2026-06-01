@@ -6,7 +6,7 @@ export const generateDescription = async (name, category) => {
     category,
   });
 
-  console.log("AI response:", data);
+  //console.log("AI response:", data);
 
   return data.description;
 };

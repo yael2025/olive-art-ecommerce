@@ -172,7 +172,7 @@ function AdminPage() {
         description,
       }))
       setTimeout(() => {
-        console.log("formData after update:", document.querySelector('[name="description"]')?.value);
+        //console.log("formData after update:", document.querySelector('[name="description"]')?.value);
       }, 200);
       toast.success("AI description generated ✨",{
         id:"ai-description",
