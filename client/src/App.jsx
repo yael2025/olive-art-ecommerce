@@ -11,6 +11,7 @@ import AdminPage from "./pages/AdminPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import OrderDetailsPage from "./pages/OrderDetailsPage";
 import ProtectedRoute from "./components/ProtectedRoute";
+import AdminDashboardPage from "./pages/AdminDashboardPage";
 
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
           <Route path="login" element={<LoginPage />} />
           <Route path="register" element={<RegisterPage />} />
           <Route path="admin" element={<AdminPage />} />
+          <Route path="/dashboard" element={<AdminDashboardPage />} />
           <Route path="*" element={<NotFoundPage />} />
           <Route
             path="admin"

@@ -57,6 +57,11 @@ function Header() {
                             Admin
                         </Link>
                     )}
+                    {user?.isAdmin && (
+                        <Link to="/dashboard">
+                            Dashboard
+                        </Link>
+                    )}
 
                     {user ? (
                         <button
