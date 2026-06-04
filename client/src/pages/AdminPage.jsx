@@ -7,6 +7,7 @@ import { getAllOrders } from "../services/orderService";
 import { markOrderDelivered } from "../services/orderService";
 import { markOrderPaid } from "../services/orderService";
 import { generateDescription } from "../services/aiService";  
+import { getCategories } from "../services/categoryService";
 
 function AdminPage() {
   const [products, setProducts] = useState([]);
@@ -18,6 +19,7 @@ function AdminPage() {
   const [showAddSection, setShowAddSection] = useState(false);
   const [showEditSection, setShowEditSection] = useState(false);
   const [showDeleteSection, setShowDeleteSection] = useState(false);
+  const [categories, setCategories] = useState([]);
 
   const categories = [
     "Mezuzot",
@@ -56,10 +58,19 @@ function AdminPage() {
       console.error("Error fetching orders", error);
     }
   };
+  const fetchCategories = async () => {
+  try {
+    const data = await getCategories();
+    setCategories(data);
+  } catch (error) {
+    console.error("Failed to load categories", error);
+  }
+};
 
   useEffect(() => {
     fetchProducts();
     fetchOrders();
+    fetchCategories();
   }, []);
 
   const handleChange = (e) => {
@@ -254,15 +265,18 @@ function AdminPage() {
                 />
 
                 <select
-                  name="category"
-                  value={formData.category}
-                  onChange={handleChange}
+                name="category"
+                value={formData.category}
+                onChange={handleChange}
                 >
-                  <option value="">Select Category</option>
+                  <option value=""> Select Category</option>
 
-                  {categories.map((category) => (
-                    <option key={category} value={category}>
-                      {category}
+                  {categories.map((category)=>(
+                    <option
+                    key={category._id}
+                    value={categories.name}
+                    >
+                      {category.name}
                     </option>
                   ))}
                 </select>
