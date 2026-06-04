@@ -20,9 +20,12 @@ const createOrder = async (req, res) =>{
         const createdOrder = await order.save();
 
         res.status(201).json(createOrder)
-    }catch(error){
-        console.error("CREATE ORDER ERROR", error);
-        res.status(500).json({message: "Server error"})
+    }catch (error) {
+      console.error("CREATE ORDER ERROR", error);
+    
+      res.status(500).json({
+        message: error.message,
+      });
     }
 }
 const getMyOrders = async (req, res) => {

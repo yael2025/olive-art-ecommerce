@@ -48,17 +48,23 @@ function CartPage() {
       setMessage("You must be logged in to place an order");
       return;
     }
+  
+    if (cartItems.length === 0) {
+      setMessage("Your cart is empty");
+      return;
+    }
+  
     if (
-      !shippingDetails.fullName ||
-      !shippingDetails.phone ||
-      !shippingDetails.city ||
-      !shippingDetails.address ||
+      !shippingDetails.fullName.trim() ||
+      !shippingDetails.phone.trim() ||
+      !shippingDetails.city.trim() ||
+      !shippingDetails.address.trim() ||
       !shippingDetails.shippingMethod
     ) {
       setMessage("Please fill in all shipping details");
       return;
     }
-
+  
     try {
       const orderData = {
         orderItems: cartItems.map((item) => ({
@@ -67,13 +73,20 @@ function CartPage() {
           image: item.product.image || "",
           price: item.product.price,
           product: item.product._id,
+          category: item.product.category,
         })),
         totalPrice,
-        shippingDetails,
+        shippingDetails: {
+          fullName: shippingDetails.fullName.trim(),
+          phone: shippingDetails.phone.trim(),
+          city: shippingDetails.city.trim(),
+          address: shippingDetails.address.trim(),
+          shippingMethod: shippingDetails.shippingMethod,
+        },
       };
-
+  
       await createOrder(orderData);
-
+  
       clearCart();
       setMessage("Order created successfully!");
       navigate("/");

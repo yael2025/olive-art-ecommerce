@@ -9,6 +9,7 @@ const orderRoutes = require("./routes/orderRoutes");
 const { protect } = require("./middleware/authMiddleware");
 const aiRoutes = require("./routes/aiRoutes");
 const dashboardRoutes = require("./routes/dashboardRoutes");
+const categoryRoutes = require("./routes/categoryRoutes");
 
 const app = express();
 
@@ -22,6 +23,7 @@ app.use("/api/products", productRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/dashboard", dashboardRoutes);
+app.use("/api/categories", categoryRoutes);
 
 app.get("/api/test-protected", protect, (req, res) => {
   res.json({

@@ -18,6 +18,10 @@ const orderItemSchema = new mongoose.Schema(
         type: Number,
         required: true,
       },
+      category: {
+        type: String,
+        default: "Unknown",
+      },
       product: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Product",
