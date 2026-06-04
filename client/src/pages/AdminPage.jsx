@@ -6,8 +6,12 @@ import toast from "react-hot-toast";
 import { getAllOrders } from "../services/orderService";
 import { markOrderDelivered } from "../services/orderService";
 import { markOrderPaid } from "../services/orderService";
-import { generateDescription } from "../services/aiService";  
-import { getCategories } from "../services/categoryService";
+import { generateDescription } from "../services/aiService";
+import {
+  getCategories,
+  createCategory,
+  deleteCategory,
+} from "../services/categoryService";
 
 function AdminPage() {
   const [products, setProducts] = useState([]);
@@ -19,16 +23,10 @@ function AdminPage() {
   const [showAddSection, setShowAddSection] = useState(false);
   const [showEditSection, setShowEditSection] = useState(false);
   const [showDeleteSection, setShowDeleteSection] = useState(false);
+  const [showCategoriesSection, setShowCategoriesSection] = useState(false);
   const [categories, setCategories] = useState([]);
+  const [newCategoryName, setNewCategoryName] = useState("");
 
-  const categories = [
-    "Mezuzot",
-    "Menorahs",
-    "Jewelry",
-    "Candle Holders",
-    "Home Decor",
-    "Gift Items",
-  ];
 
   const [formData, setFormData] = useState({
     name: "",
@@ -59,13 +57,13 @@ function AdminPage() {
     }
   };
   const fetchCategories = async () => {
-  try {
-    const data = await getCategories();
-    setCategories(data);
-  } catch (error) {
-    console.error("Failed to load categories", error);
-  }
-};
+    try {
+      const data = await getCategories();
+      setCategories(data);
+    } catch (error) {
+      console.error("Failed to load categories", error);
+    }
+  };
 
   useEffect(() => {
     fetchProducts();
@@ -139,7 +137,7 @@ function AdminPage() {
         fetchProducts();
       }
     }
-  };setFormData
+  }; setFormData
   const deliverHandler = async (id) => {
     try {
       await markOrderDelivered(id);
@@ -163,14 +161,14 @@ function AdminPage() {
       toast.error("Something went wrong ❌");
     }
   };
-  const generateAIDescription  = async()=>{
-    try{
-      if(!formData.name || !formData.category){
+  const generateAIDescription = async () => {
+    try {
+      if (!formData.name || !formData.category) {
         toast.error("Please enter product name and category first")
         return
       }
-      toast.loading("Generating description...",{
-        id:"ai-description"
+      toast.loading("Generating description...", {
+        id: "ai-description"
       })
       const description = await generateDescription(
         formData.name,
@@ -178,23 +176,57 @@ function AdminPage() {
       )
       //console.log("Generated description:", description);
 
-      setFormData((prev)=>({
+      setFormData((prev) => ({
         ...prev,
         description,
       }))
       setTimeout(() => {
         //console.log("formData after update:", document.querySelector('[name="description"]')?.value);
       }, 200);
-      toast.success("AI description generated ✨",{
-        id:"ai-description",
+      toast.success("AI description generated ✨", {
+        id: "ai-description",
       })
-    }catch(error){
+    } catch (error) {
       console.error(error);
-      toast.error("AI generation failed ❌",{
-        id:"ai-description"
+      toast.error("AI generation failed ❌", {
+        id: "ai-description"
       })
     }
   }
+
+  const addCategoryHandler = async (e) => {
+    e.preventDefault();
+
+    try {
+      if (!newCategoryName.trim()) {
+        toast.error("Category name is required");
+        return;
+      }
+
+      await createCategory(newCategoryName.trim());
+
+      toast.success("Category created successfully");
+      setNewCategoryName("");
+      fetchCategories();
+    } catch (error) {
+      console.error("Create category failed", error);
+      toast.error(error.response?.data?.message || "Create category failed");
+    }
+  };
+
+  const deleteCategoryHandler = async (id) => {
+    if (window.confirm("Are you sure you want to delete this category?")) {
+      try {
+        await deleteCategory(id);
+
+        toast.success("Category deleted");
+        fetchCategories();
+      } catch (error) {
+        console.error("Delete category failed", error);
+        toast.error(error.response?.data?.message || "Delete category failed");
+      }
+    }
+  };
 
   if (!user) {
     return <p>Loading...</p>;
@@ -233,21 +265,21 @@ function AdminPage() {
                 />
                 <label>Description</label>
 
-                  <button
-                    type="button"
-                    onClick={generateAIDescription}
-                  >
-                    ✨ Generate AI Description
-                  </button>
+                <button
+                  type="button"
+                  onClick={generateAIDescription}
+                >
+                  ✨ Generate AI Description
+                </button>
 
-                  <textarea
-                    name="description"
-                    value={formData.description}
-                    onChange={handleChange}
-                    rows="6"
-                    placeholder="Description"
-                  />
-                    {/* <p>
+                <textarea
+                  name="description"
+                  value={formData.description}
+                  onChange={handleChange}
+                  rows="6"
+                  placeholder="Description"
+                />
+                {/* <p>
                       Description length: {formData.description.length}
                     </p> */}
                 <input
@@ -265,16 +297,16 @@ function AdminPage() {
                 />
 
                 <select
-                name="category"
-                value={formData.category}
-                onChange={handleChange}
+                  name="category"
+                  value={formData.category}
+                  onChange={handleChange}
                 >
                   <option value=""> Select Category</option>
 
-                  {categories.map((category)=>(
+                  {categories.map((category) => (
                     <option
-                    key={category._id}
-                    value={categories.name}
+                      key={category._id}
+                      value={categories.name}
                     >
                       {category.name}
                     </option>
@@ -407,6 +439,47 @@ function AdminPage() {
         <div className="admin-section-card">
           <button
             className="admin-section-toggle"
+            onClick={() => setShowCategoriesSection((prev) => !prev)}
+          >
+            {showCategoriesSection ? "Hide Category Management" : "Category Management"}
+          </button>
+
+          {showCategoriesSection && (
+            <div className="admin-section-content">
+              <form className="admin-form" onSubmit={addCategoryHandler}>
+                <input
+                  type="text"
+                  placeholder="Category Name"
+                  value={newCategoryName}
+                  onChange={(e) => setNewCategoryName(e.target.value)}
+                />
+
+                <button type="submit">Add Category</button>
+              </form>
+
+              <div className="admin-products-list">
+                {categories.length === 0 ? (
+                  <p>No categories</p>
+                ) : (
+                  categories.map((category) => (
+                    <div className="admin-product-row" key={category._id}>
+                      <div>
+                        <h4>{category.name}</h4>
+                      </div>
+
+                      <button onClick={() => deleteCategoryHandler(category._id)}>
+                        Delete
+                      </button>
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
+          )}
+        </div>
+        <div className="admin-section-card">
+          <button
+            className="admin-section-toggle"
             onClick={() => setShowOrdersSection((prev) => !prev)}
           >
             {showOrdersSection ? "Hide Orders" : "View Orders"}
@@ -421,61 +494,61 @@ function AdminPage() {
                 <div className="admin-orders-list">
                   {orders.map((order) => (
                     <div className="admin-order-card" key={order._id}>
-                    <div className="admin-order-header">
-                      <span><strong>Order ID:</strong> {order._id.slice(-6)}</span>
-                      <span><strong>Total:</strong> ₪{order.totalPrice}</span>
-                    </div>
-                  
-                    {/* 👤 USER */}
-                    <p><strong>User:</strong> {order.user?.username}</p>
-                  
-                    {/* 📦 SHIPPING */}
-                    {order.shippingDetails && (
-                      <div className="admin-shipping">
-                        <p><strong>Name:</strong> {order.shippingDetails.fullName}</p>
-                        <p><strong>City:</strong> {order.shippingDetails.city}</p>
-                        <p><strong>Address:</strong> {order.shippingDetails.address}</p>
+                      <div className="admin-order-header">
+                        <span><strong>Order ID:</strong> {order._id.slice(-6)}</span>
+                        <span><strong>Total:</strong> ₪{order.totalPrice}</span>
                       </div>
-                    )}
-                  
-                    {/* 📊 STATUS */}
-                    <div className="admin-status">
-                      <span className={order.isPaid ? "status paid" : "status not-paid"}>
-                        {order.isPaid ? "Paid" : "Not Paid"}
-                      </span>
-                  
-                      <span className={order.isDelivered ? "status delivered" : "status pending"}>
-                        {order.isDelivered ? "Delivered" : "Pending"}
-                      </span>
-                    </div>
-                  
-                    {/* 🛒 ITEMS */}
-                    <div className="admin-order-items">
-                      {order.orderItems.map((item, i) => (
-                        <div key={i} className="admin-order-item">
-                          <span>{item.name}</span>
-                          <span>{item.qty} × ₪{item.price}</span>
+
+                      {/* 👤 USER */}
+                      <p><strong>User:</strong> {order.user?.username}</p>
+
+                      {/* 📦 SHIPPING */}
+                      {order.shippingDetails && (
+                        <div className="admin-shipping">
+                          <p><strong>Name:</strong> {order.shippingDetails.fullName}</p>
+                          <p><strong>City:</strong> {order.shippingDetails.city}</p>
+                          <p><strong>Address:</strong> {order.shippingDetails.address}</p>
                         </div>
-                      ))}
+                      )}
+
+                      {/* 📊 STATUS */}
+                      <div className="admin-status">
+                        <span className={order.isPaid ? "status paid" : "status not-paid"}>
+                          {order.isPaid ? "Paid" : "Not Paid"}
+                        </span>
+
+                        <span className={order.isDelivered ? "status delivered" : "status pending"}>
+                          {order.isDelivered ? "Delivered" : "Pending"}
+                        </span>
+                      </div>
+
+                      {/* 🛒 ITEMS */}
+                      <div className="admin-order-items">
+                        {order.orderItems.map((item, i) => (
+                          <div key={i} className="admin-order-item">
+                            <span>{item.name}</span>
+                            <span>{item.qty} × ₪{item.price}</span>
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* 🎛 ACTIONS */}
+                      <div className="admin-order-actions">
+                        <button
+                          onClick={() => payHandler(order._id)}
+                          disabled={order.isPaid}
+                        >
+                          Mark as Paid
+                        </button>
+
+                        <button
+                          onClick={() => deliverHandler(order._id)}
+                          disabled={!order.isPaid || order.isDelivered}
+                        >
+                          Mark as Delivered
+                        </button>
+                      </div>
                     </div>
-                  
-                    {/* 🎛 ACTIONS */}
-                    <div className="admin-order-actions">
-                      <button
-                        onClick={() => payHandler(order._id)}
-                        disabled={order.isPaid}
-                      >
-                        Mark as Paid
-                      </button>
-                  
-                      <button
-                        onClick={() => deliverHandler(order._id)}
-                        disabled={!order.isPaid || order.isDelivered}
-                      >
-                        Mark as Delivered
-                      </button>
-                    </div>
-                  </div>
                   ))}
                 </div>
               )}
