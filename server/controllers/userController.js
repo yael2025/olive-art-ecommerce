@@ -20,6 +20,8 @@ const registerUser = async (req, res) => {
       username,
       email,
       password: hashedPassword,
+      role: "customer",
+      isAdmin: false,
     });
 
     const createdUser = await user.save();

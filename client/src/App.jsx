@@ -33,9 +33,6 @@ function App() {
           />
           <Route path="login" element={<LoginPage />} />
           <Route path="register" element={<RegisterPage />} />
-          <Route path="admin" element={<AdminPage />} />
-          <Route path="/dashboard" element={<AdminDashboardPage />} />
-          <Route path="*" element={<NotFoundPage />} />
           <Route
             path="admin"
             element={
@@ -44,6 +41,16 @@ function App() {
               </ProtectedRoute>
             }
           />
+
+          <Route
+            path="dashboard"
+            element={
+              <ProtectedRoute adminOnly={true}>
+                <AdminDashboardPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="*" element={<NotFoundPage />} />
           <Route
             path="orders/:id"
             element={

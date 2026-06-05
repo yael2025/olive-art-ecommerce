@@ -49,7 +49,7 @@ function Header() {
                     </Link>
                     {user && (
                     <Link to="/my-orders" onClick={() => setIsOpen(false)}>
-                        My Orders
+                        Order History
                     </Link>
                     )}
                     {user && user.isAdmin && (
@@ -75,11 +75,11 @@ function Header() {
                     ) : (
                         <>
                             <Link to="/login" onClick={() => setIsOpen(false)}>
-                                Login
+                                Sign In
                             </Link>
 
                             <Link to="/register" onClick={() => setIsOpen(false)}>
-                                Register
+                                Sign Up
                             </Link>
                         </>
                     )}
