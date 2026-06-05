@@ -60,11 +60,13 @@ const loginUser = async (req, res) => {
       username: user.username,
       email: user.email,
       isAdmin: user.isAdmin,
+       role: user.role,
       token: jwt.sign(
         { id: user._id },
         process.env.JWT_SECRET,
         { expiresIn: "30d" }
       ),
+     
     });
   } catch (error) {
     console.error("LOGIN ERROR:", error);

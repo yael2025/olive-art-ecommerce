@@ -23,13 +23,30 @@ const protect = async (req, res, next) => {
 
   return res.status(401).json({ message: "No token" });
 };
-const admin = (req, res, next)=>{
-  if(req.user && req.user.isAdmin){
-    next()
-  }
-  else{
-    res.status(403).json({message:"Not admin"})
-  }
-}
 
-module.exports = { protect , admin};
+const admin = (req, res, next) => {
+  if (req.user && (req.user.role === "admin" || req.user.isAdmin)) {
+    next();
+  } else {
+    res.status(403).json({ message: "Admin access only" });
+  }
+};
+
+const businessManager = (req, res, next) => {
+  if (
+    req.user &&
+    (req.user.role === "business_manager" ||
+      req.user.role === "admin" ||
+      req.user.isAdmin)
+  ) {
+    next();
+  } else {
+    res.status(403).json({ message: "Business manager access only" });
+  }
+};
+
+module.exports = {
+  protect,
+  admin,
+  businessManager,
+};

@@ -1,19 +1,18 @@
-import {Navigate } from "react-router-dom"
-import {useUser} from "../context/UserContext"
+import { Navigate } from "react-router-dom";
+import { useUser } from "../context/UserContext";
 
-function ProtectedRoute({children, adminOnly = false}) {
-    const {user} = useUser()
+function ProtectedRoute({ children, allowedRoles }) {
+  const { user } = useUser();
 
-    if(!user){
-        return <Navigate to = "/login" replace />
-    }
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
 
-    if(adminOnly && !user.isAdmin){
-        return <Navigate to = "/login" replace/>
-     }
+  if (allowedRoles && !allowedRoles.includes(user.role)) {
+    return <Navigate to="/" replace />;
+  }
 
-     return children
-    
+  return children;
 }
 
-export default ProtectedRoute
+export default ProtectedRoute;

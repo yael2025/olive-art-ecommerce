@@ -18,10 +18,10 @@ function Header() {
                 <button className="menu-btn" onClick={() => setIsOpen(true)}>
                     ☰
                 </button>
-                    <Link to="/" className="logo-container">
-                        <img src="/images/logo.jpg" alt="logo" />
-                        <h2>Olive Art Creations</h2>
-                    </Link>
+                <Link to="/" className="logo-container">
+                    <img src="/images/logo.jpg" alt="logo" />
+                    <h2>Olive Art Creations</h2>
+                </Link>
             </header>
 
             {/* Overlay */}
@@ -36,8 +36,8 @@ function Header() {
                 <nav>
                     {user && (<><span>Hello, {user.username}</span></>)}
 
-                    <Link to="/" onClick={()=> setIsOpen(false)}>
-                    Home 
+                    <Link to="/" onClick={() => setIsOpen(false)}>
+                        Home
                     </Link>
 
                     <Link to="/products" onClick={() => setIsOpen(false)}>
@@ -48,17 +48,17 @@ function Header() {
                         Cart ({totalItems})
                     </Link>
                     {user && (
-                    <Link to="/my-orders" onClick={() => setIsOpen(false)}>
-                        Order History
-                    </Link>
+                        <Link to="/my-orders" onClick={() => setIsOpen(false)}>
+                            Order History
+                        </Link>
                     )}
-                    {user && user.isAdmin && (
+                    {user?.role === "admin" && (
                         <Link to="/admin" onClick={() => setIsOpen(false)}>
                             Admin
                         </Link>
                     )}
-                    {user?.isAdmin && (
-                        <Link to="/dashboard">
+                    {(user?.role === "admin" || user?.role === "business_manager") && (
+                        <Link to="/dashboard" onClick={() => setIsOpen(false)}>
                             Dashboard
                         </Link>
                     )}
