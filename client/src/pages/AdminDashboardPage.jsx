@@ -127,6 +127,29 @@ function AdminDashboardPage() {
           <Bar dataKey="quantity" name="Quantity Sold" fill="#6b4f3a" />
         </BarChart>
       </div>
+
+      <div className="dashboard-chart">
+        <h3>Sales By Category</h3>
+
+        <BarChart 
+        width={650}
+        height={320}
+        data={stats.salesByCategory}
+        >
+          <CartesianGrid strokeDasharray= "3 3"/>
+          <XAxis
+            dataKey= "category"
+            interval={0}
+            height={70}
+            tick= {{fontSize:12}}
+            />
+            <YAxis/>
+            <Tooltip/>
+            <Legend/>
+             <Bar dataKey="revenue" name="Revenue" fill="#8b6a4e" />
+        </BarChart>
+
+      </div>
     </div>
   );
 }
