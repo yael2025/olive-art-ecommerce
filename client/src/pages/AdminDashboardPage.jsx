@@ -7,6 +7,11 @@ import {
   Cell,
   Tooltip,
   Legend,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
 } from "recharts";
 
 function AdminDashboardPage() {
@@ -74,6 +79,7 @@ function AdminDashboardPage() {
           <p>{stats.registeredUsers}</p>
         </div>
       </div>
+
       <div className="dashboard-chart">
         <h3>Orders Status</h3>
 
@@ -97,6 +103,29 @@ function AdminDashboardPage() {
           <Tooltip />
           <Legend />
         </PieChart>
+      </div>
+
+      <div className="dashboard-chart">
+        <h3>Top Selling Products</h3>
+
+        <BarChart
+          width={650}
+          height={320}
+          data={stats.topSellingProducts}
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis
+            dataKey="name"
+            interval={0}
+            height={70}
+            tick={{ fontSize: 12 }}
+          />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+
+          <Bar dataKey="quantity" name="Quantity Sold" fill="#6b4f3a" />
+        </BarChart>
       </div>
     </div>
   );
