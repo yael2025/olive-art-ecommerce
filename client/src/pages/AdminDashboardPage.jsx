@@ -73,6 +73,10 @@ function AdminDashboardPage() {
           <h3>Total Revenue</h3>
           <p>₪{stats.totalRevenue}</p>
         </div>
+        <div className="dashboard-card">
+          <h3>Average Order Value</h3>
+          <p>₪{stats.averageOrderValue}</p>
+        </div>
 
         <div className="dashboard-card">
           <h3>Registered Users</h3>

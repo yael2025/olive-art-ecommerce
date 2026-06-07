@@ -16,6 +16,9 @@ const getDashboardStats = async (req, res) => {
             return order.isPaid ? sum + order.totalPrice : sum
         }, 0)
 
+        const averageOrderValue  = 
+        totalOrders >0 ? Math.round(totalRevenue /totalOrders) : 0;
+
         const paidOrders = orders.filter((order) => order.isPaid).length;
         const notPaidOrders = orders.filter((order) => !order.isPaid).length;
         const deliveredOrders = orders.filter((order) => order.isDelivered).length;
@@ -64,6 +67,7 @@ const getDashboardStats = async (req, res) => {
         res.json({
             totalOrders,
             totalRevenue,
+            averageOrderValue,
             registeredUsers,
             ordersByStatus: {
                 paid: paidOrders,
@@ -73,6 +77,7 @@ const getDashboardStats = async (req, res) => {
             },
             topSellingProducts,
             salesByCategory,
+            
         })
     } catch (error) {
         console.error("DASHBOARD STATS ERROR:", error);
