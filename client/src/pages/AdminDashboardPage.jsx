@@ -59,6 +59,8 @@ function AdminDashboardPage() {
     "#FFC107",
   ];
 
+  const bestSeller = stats.topSellingProducts?.[0]
+
   return (
     <div className="admin-page">
       <h2>Admin Dashboard</h2>
@@ -76,6 +78,10 @@ function AdminDashboardPage() {
         <div className="dashboard-card">
           <h3>Average Order Value</h3>
           <p>₪{stats.averageOrderValue}</p>
+        </div>
+        <div className="dashboard-card">
+          <h3>Best Seller</h3>
+          <p>{bestSeller ? bestSeller.name : "No sales yet"}</p>
         </div>
 
         <div className="dashboard-card">
@@ -135,22 +141,22 @@ function AdminDashboardPage() {
       <div className="dashboard-chart">
         <h3>Sales By Category</h3>
 
-        <BarChart 
-        width={650}
-        height={320}
-        data={stats.salesByCategory}
+        <BarChart
+          width={650}
+          height={320}
+          data={stats.salesByCategory}
         >
-          <CartesianGrid strokeDasharray= "3 3"/>
+          <CartesianGrid strokeDasharray="3 3" />
           <XAxis
-            dataKey= "category"
+            dataKey="category"
             interval={0}
             height={70}
-            tick= {{fontSize:12}}
-            />
-            <YAxis/>
-            <Tooltip/>
-            <Legend/>
-             <Bar dataKey="revenue" name="Revenue" fill="#8b6a4e" />
+            tick={{ fontSize: 12 }}
+          />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          <Bar dataKey="revenue" name="Revenue" fill="#8b6a4e" />
         </BarChart>
 
       </div>
