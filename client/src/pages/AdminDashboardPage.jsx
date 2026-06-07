@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { getDashboardStats } from "../services/dashboardService";
+import * as XLSX from "xlsx";
+
 
 import {
   PieChart,
@@ -61,10 +63,62 @@ function AdminDashboardPage() {
 
   const bestSeller = stats.topSellingProducts?.[0]
 
+  const exportDashboardReport = () => {
+    const summaryData = [
+      { Metric: "Orders", Value: stats.totalOrders },
+      { Metric: "Revenue", Value: stats.totalRevenue },
+      { Metric: "Average Order Value", Value: stats.averageOrderValue },
+      { Metric: "Customers", Value: stats.registeredUsers },
+      { Metric: "Top Product", Value: bestSeller ? bestSeller.name : "No sales yet" },
+    ]
+    const ordersStatusData = [
+      { Status: "Paid", Count: stats.ordersByStatus.paid },
+      { Status: "Not Paid", Count: stats.ordersByStatus.notPaid },
+      { Status: "Delivered", Count: stats.ordersByStatus.delivered },
+      { Status: "Pending Delivery", Count: stats.ordersByStatus.pendingDelivery },
+    ]
+    const topProductsData = stats.topSellingProducts.map((product) => ({
+      Product: product.name,
+      "Quantity Sold": product.quantity,
+    }))
+    const salesByCategoryData = stats.salesByCategory.map((category) => ({
+      Category: category.category,
+      Revenue: category.revenue,
+    }));
+    const workbook = XLSX.utils.book_new();
+
+    XLSX.utils.book_append_sheet(
+      workbook,
+      XLSX.utils.json_to_sheet(summaryData),
+      "Summary"
+    );
+    XLSX.utils.book_append_sheet(
+      workbook,
+      XLSX.utils.json_to_sheet(ordersStatusData),
+      "Orders Status"
+    );
+    XLSX.utils.book_append_sheet(
+      workbook,
+      XLSX.utils.json_to_sheet(topProductsData),
+      "Top Products"
+    );
+    XLSX.utils.book_append_sheet(
+      workbook,
+      XLSX.utils.json_to_sheet(salesByCategoryData),
+      "Sales By Category"
+    );
+    XLSX.writeFile(workbook, "business-dashboard-report.xlsx");
+  }
+
   return (
     <div className="admin-page">
-      <h2>Admin Dashboard</h2>
+      <div className="dashboard-title-row">
+        <h2>Business Dashboard</h2>
 
+        <button className="export-btn" onClick={exportDashboardReport}>
+          Export Excel Report
+        </button>
+      </div>
       <div className="dashboard-cards">
         <div className="dashboard-card">
           <h3>Total Orders</h3>
