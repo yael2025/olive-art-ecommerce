@@ -12,6 +12,12 @@
     z-index: 500;
   }
   
+  .topbar-greeting {
+  margin-left: auto;
+  margin-right: 20px;
+  color: white;
+  font-weight: 600;
+}
   .topbar h2 {
     font-size: 22px;
     font-weight: bold;

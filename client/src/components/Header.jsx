@@ -11,6 +11,16 @@ function Header() {
 
     const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
+    const getGreeting = () => {
+        const hour = new Date().getHours()
+
+        if (hour >= 5 && hour < 12) return "Good Morning"
+        if (hour >= 12 && hour < 17) return "Good Afternoon"
+        if (hour >= 17 && hour < 21) return "Good Evening"
+
+        return "Good Night"
+    }
+
     return (
         <>
             {/* Top Bar */}
@@ -22,6 +32,11 @@ function Header() {
                     <img src="/images/logo.jpg" alt="logo" />
                     <h2>Olive Art Creations</h2>
                 </Link>
+                {user && (
+                    <div className="topbar-greeting">
+                        {getGreeting()}, {user.username}
+                    </div>
+                )}
             </header>
 
             {/* Overlay */}
@@ -34,7 +49,11 @@ function Header() {
                 </button>
 
                 <nav>
-                    {user && (<><span>Hello, {user.username}</span></>)}
+                    {user && (
+                        <span className="user-greeting">
+                            {getGreeting()}, {user.username}
+                        </span>
+                    )}
 
                     <Link to="/" onClick={() => setIsOpen(false)}>
                         Home
