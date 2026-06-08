@@ -1,6 +1,10 @@
 import { Link } from "react-router-dom";
+import { useUser } from "../context/UserContext";
+
+
 
 function HomePage() {
+  const { user } = useUser();
   return (
     <div className="home-page">
       <section className="hero-section">
@@ -10,14 +14,16 @@ function HomePage() {
             Handmade Judaica products crafted from olive wood and colorful epoxy resin.
           </p>
 
-          <div className="hero-actions">
-            <Link to="/products" className="primary-btn">
+          <div className="home-actions">
+            <Link to="/products" className="home-btn primary">
               Shop Products
             </Link>
 
-            <Link to="/my-orders" className="secondary-btn">
-              My Orders
-            </Link>
+            {user && (
+              <Link to="/my-orders" className="home-btn secondary">
+                My Orders
+              </Link>
+            )}
           </div>
         </div>
 

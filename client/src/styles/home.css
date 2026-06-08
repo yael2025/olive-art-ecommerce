@@ -30,8 +30,28 @@ margin-bottom: 22px;
 
 .hero-actions {
     display: flex;
-    gap: 12px;
+  gap: 12px;
+  align-items: center;
   }
+  .home-btn {
+  display: inline-block;
+  padding: 12px 18px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+}
+  .home-btn.primary {
+  background-color: #6b4f3a;
+  color: white;
+}
+.home-btn.secondary {
+  background-color: white;
+  color: #6b4f3a;
+  border: 1px solid #6b4f3a;
+}
+.home-btn:hover {
+  opacity: 0.9;
+}
 
   .primary-btn,
 .secondary-btn {
