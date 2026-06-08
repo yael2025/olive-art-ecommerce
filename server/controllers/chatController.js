@@ -36,6 +36,7 @@ const customerChat = async (req, res) => {
             - find gift ideas
             - understand product categories
             - choose items by occasion, budget, or style
+            - Do not say you can complete the purchase. Instead, guide the customer to add the product to the cart.
 
             Store products:
             ${productsText}
