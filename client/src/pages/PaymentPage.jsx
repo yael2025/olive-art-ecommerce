@@ -40,32 +40,49 @@ function PaymentPage() {
     return (
         <div className="payment-page">
             <div className="payment-card">
-                <h2>Secure Payment Demo</h2>
+                <div className="payment-icon">🔒</div>
 
-                <p className="payment-note">
-                    For security reasons, credit card details are handled by an external
-                    payment provider and are not stored in Olive Art Creations.
+                <h2>Secure Payment Demo</h2>
+                <p className="payment-warning">
+                    Demo mode - no real payment will be processed.
                 </p>
 
+                <p className="payment-note">
+                    Your credit card details are handled by an 🔐 Secure Payment Gateway
+                    Sandbox Environment.
+                    Olive Art Creations does not store any payment card information.
+                </p>
 
-                <div className="payment-summery">
-                    <h3>Payment Summery</h3>
-                    <p>Total: ₪{orderData.totalPrice}</p>
-                    <p>Items: {orderData.orderItems.length}</p>
-                </div>
-
-                <div className="fake-provider-box">
+                <div className="payment-provider-box">
                     <h3>External Payment Provider</h3>
-                    <p>This is a secure sandbox payment simulation.</p>
-                    <p>No real credit card is charged.</p>
+                    <p>Secure sandbox payment simulation</p>
+                    <p>No real credit card will be charged.</p>
                 </div>
 
-                <button className="primery-btn" onClick={confirmPaymentHandler}>
+                <div className="payment-summary">
+                    <h3>Payment Summary</h3>
+
+                    <div className="payment-row">
+                        <span>Items</span>
+                        <strong>{orderData.orderItems.length}</strong>
+                    </div>
+
+                    <div className="payment-row total">
+                        <span>Total Amount</span>
+                        <strong>₪{orderData.totalPrice}</strong>
+                    </div>
+                </div>
+
+                <button className="payment-confirm-btn" onClick={confirmPaymentHandler}>
                     Confirm Demo Payment
+                </button>
+
+                <button className="payment-back-btn" onClick={() => navigate("/cart")}>
+                    Back to Cart
                 </button>
             </div>
         </div>
-    )
+    );
 }
 
 export default PaymentPage
