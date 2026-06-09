@@ -32,11 +32,20 @@ function Header() {
                     <img src="/images/logo.jpg" alt="logo" />
                     <h2>Olive Art Creations</h2>
                 </Link>
-                {user && (
-                    <div className="topbar-greeting">
-                        {getGreeting()}, {user.username}
-                    </div>
-                )}
+                <div className="topbar-actions">
+                    {user && (
+                        <div className="topbar-greeting">
+                            {getGreeting()}, {user.username}
+                        </div>
+                    )}
+
+                    <Link to="/cart" className="topbar-cart">
+                        🛒
+                        {totalItems > 0 && (
+                            <span className="topbar-cart-badge">{totalItems}</span>
+                        )}
+                    </Link>
+                </div>
             </header>
 
             {/* Overlay */}
