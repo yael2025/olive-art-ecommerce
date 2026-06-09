@@ -12,6 +12,7 @@ import NotFoundPage from "./pages/NotFoundPage";
 import OrderDetailsPage from "./pages/OrderDetailsPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AdminDashboardPage from "./pages/AdminDashboardPage";
+import PaymentPage from "./pages/PaymentPage";
 
 
 function App() {
@@ -56,6 +57,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <OrderDetailsPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="payment"
+            element={
+              <ProtectedRoute>
+                <PaymentPage />
               </ProtectedRoute>
             }
           />

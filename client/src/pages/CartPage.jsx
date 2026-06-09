@@ -29,15 +29,15 @@ function CartPage() {
   );
 
   const [shippingDetails, setShippingDetails] = useState({
-    fullName:"",
-    phone:"",
-    city:"",
-    address :"", 
-    shippingMethod :"Delivery"
+    fullName: "",
+    phone: "",
+    city: "",
+    address: "",
+    shippingMethod: "Delivery"
   })
 
-  const handleShippingChange  = (e) =>{
-    setShippingDetails((prev)=>({
+  const handleShippingChange = (e) => {
+    setShippingDetails((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
     }))
@@ -48,12 +48,12 @@ function CartPage() {
       setMessage("You must be logged in to place an order");
       return;
     }
-  
+
     if (cartItems.length === 0) {
       setMessage("Your cart is empty");
       return;
     }
-  
+
     if (
       !shippingDetails.fullName.trim() ||
       !shippingDetails.phone.trim() ||
@@ -64,7 +64,7 @@ function CartPage() {
       setMessage("Please fill in all shipping details");
       return;
     }
-  
+
     try {
       const orderData = {
         orderItems: cartItems.map((item) => ({
@@ -84,12 +84,12 @@ function CartPage() {
           shippingMethod: shippingDetails.shippingMethod,
         },
       };
-  
-      await createOrder(orderData);
-  
-      clearCart();
-      setMessage("Order created successfully!");
-      navigate("/");
+
+      navigate("/payment", {
+        state: {
+          orderData,
+        },
+      });
     } catch (error) {
       console.error("Checkout failed", error);
       setMessage(error.response?.data?.message || "Checkout failed");
@@ -131,45 +131,45 @@ function CartPage() {
               </div>
             ))}
           </div>
-            <div className="checkout-form">
-              <h3>Shipping Details</h3>
+          <div className="checkout-form">
+            <h3>Shipping Details</h3>
 
-              <input
-               name= "fullName"
-               placeholder="Full Name"
-               value={shippingDetails.fullName}
-               onChange={handleShippingChange}
-                />
+            <input
+              name="fullName"
+              placeholder="Full Name"
+              value={shippingDetails.fullName}
+              onChange={handleShippingChange}
+            />
 
-              <input
+            <input
               name="phone"
               placeholder="Phone"
               value={shippingDetails.phone}
               onChange={handleShippingChange}
-              />
+            />
 
-              <input
-                  name="city"
-                  placeholder="City"
-                  value={shippingDetails.city}
-                  onChange={handleShippingChange}
-                />
+            <input
+              name="city"
+              placeholder="City"
+              value={shippingDetails.city}
+              onChange={handleShippingChange}
+            />
 
-                <input
-                  name="address"
-                  placeholder="Address"
-                  value={shippingDetails.address}
-                  onChange={handleShippingChange}
-                />
+            <input
+              name="address"
+              placeholder="Address"
+              value={shippingDetails.address}
+              onChange={handleShippingChange}
+            />
 
-                <select name="shippingMethod" 
-                value={shippingDetails.shippingMethod}
-                onChange={handleShippingChange}
-                >
-                  <option value="Delivery">Home Delivery</option>
-                  <option value="Pickup">Pickup</option>
-                </select>
-              </div>  
+            <select name="shippingMethod"
+              value={shippingDetails.shippingMethod}
+              onChange={handleShippingChange}
+            >
+              <option value="Delivery">Home Delivery</option>
+              <option value="Pickup">Pickup</option>
+            </select>
+          </div>
           <div className="cart-summary">
             <h3>Total items: {totalItems}</h3>
             <h3>Total: {totalPrice} ₪</h3>
