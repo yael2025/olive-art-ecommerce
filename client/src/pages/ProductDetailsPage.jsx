@@ -31,7 +31,7 @@ function ProductDetailsPage() {
       <div className="product-details-card">
         <div className="product-details-image">
           {product.image ? (
-            <img src={product.image} alt={product.name} />
+            <img src={`http://localhost:3001${product.image}`} alt={product.name} />
           ) : (
             <span>No Image</span>
           )}

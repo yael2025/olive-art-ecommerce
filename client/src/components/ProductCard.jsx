@@ -17,7 +17,8 @@ function ProductCard({ product }) {
     <div className="product-card">
       <div className="product-image">
         {product.image ? (
-          <img src={product.image} alt={product.name} />
+          <img src={`http://localhost:3001${product.image}`} 
+          alt={product.name} />
         ) : (
           <div className="product-image-placeholder">No Image</div>
         )}

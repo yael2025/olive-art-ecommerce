@@ -12,6 +12,7 @@ import {
   createCategory,
   deleteCategory,
 } from "../services/categoryService";
+import { uploadImage } from "../services/uploadService";
 
 function AdminPage() {
   const [products, setProducts] = useState([]);
@@ -109,6 +110,32 @@ function AdminPage() {
       toast.error("Save product failed ❌");
     }
   };
+  const handleImageUpload = async (e) => {
+    const file = e.target.files[0];
+
+    if (!file) return;
+
+    const toastId = toast.loading("Uploading image...");
+
+    try {
+      const imageUrl = await uploadImage(file);
+
+      setFormData((prev) => ({
+        ...prev,
+        image: imageUrl,
+      }));
+
+      toast.success("Image uploaded successfully", {
+        id: toastId,
+      });
+    } catch (error) {
+      console.error("Image upload failed", error);
+
+      toast.error(error.response?.data?.message || "Image upload failed", {
+        id: toastId,
+      });
+    }
+  };
   const editHandler = (product) => {
     setEditingProductId(product._id);
     setShowEditSection(true);
@@ -122,9 +149,6 @@ function AdminPage() {
       category: product.category || "",
     });
   };
-
-
-
   const deleteHandler = async (id) => {
     if (window.confirm("Are you sure?")) {
       try {
@@ -283,11 +307,15 @@ function AdminPage() {
                       Description length: {formData.description.length}
                     </p> */}
                 <input
-                  name="image"
-                  placeholder="Image URL"
-                  value={formData.image}
-                  onChange={handleChange}
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageUpload}
                 />
+                {formData.image && (
+                  <small>
+                    Uploaded ✔
+                  </small>
+                )}
 
                 <input
                   name="countInStock"
@@ -355,11 +383,12 @@ function AdminPage() {
                   />
 
                   <input
-                    name="image"
-                    placeholder="Image URL"
-                    value={formData.image}
-                    onChange={handleChange}
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageUpload}
                   />
+
+                  {formData.image && <small>Uploaded ✔</small>}
 
                   <input
                     name="countInStock"
@@ -376,8 +405,8 @@ function AdminPage() {
                     <option value="">Select Category</option>
 
                     {categories.map((category) => (
-                      <option key={category} value={category}>
-                        {category}
+                      <option key={category._id} value={category.name}>
+                        {category.name}
                       </option>
                     ))}
                   </select>
