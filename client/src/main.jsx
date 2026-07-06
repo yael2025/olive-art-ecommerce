@@ -5,13 +5,15 @@ import "./styles/index.css";
 import { UserProvider } from "./context/UserContext";
 import { CartProvider } from "./context/CartContext";
 import { Toaster } from "react-hot-toast";
+import { WishlistProvider } from "./context/WishlistContext";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <UserProvider>
       <CartProvider>
-        <App />
-        <Toaster position="top-right" />
+        <WishlistProvider>
+          <App />
+        </WishlistProvider>
       </CartProvider>
     </UserProvider>
   </React.StrictMode>

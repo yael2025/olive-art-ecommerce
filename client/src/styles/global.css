@@ -207,3 +207,12 @@
 .payment-back-btn:hover {
   opacity: 0.9;
 }
+
+a:focus-visiblem,
+button :focus-visible,
+input :focus-visible,
+select:focus-visible,
+textarea:focus-visible{
+  outline: 3px solid #d6b98c;
+  outline-offset: 3px;
+}

@@ -22,10 +22,16 @@ const app = express()
 connectDB()
 
 app.use(cors())
-app.use(helmet())
+app.use(
+  helmet({
+    crossOriginResourcePolicy: {
+      policy: "cross-origin",
+    },
+  })
+);
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, //15 minutes
-  limit:100, // Max 100 requests per IP
+  limit:1000, // Max 100 requests per IP
   message:{
     message:"Too many requests. Please try again later.",
   },

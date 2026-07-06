@@ -60,21 +60,62 @@ const loginUser = async (req, res) => {
       username: user.username,
       email: user.email,
       isAdmin: user.isAdmin,
-       role: user.role,
+      role: user.role,
       token: jwt.sign(
         { id: user._id },
         process.env.JWT_SECRET,
         { expiresIn: "30d" }
       ),
-     
+
     });
   } catch (error) {
     console.error("LOGIN ERROR:", error);
     res.status(500).json({ message: "Server error" });
   }
 };
+const getWishlist = async (req, res) => {
+  const user = await User.findById(req.user._id).populate("wishlist")
+
+  res.json(user.wishlist)
+}
+
+const addToWishlist = async (req, res) => {
+  const { productId } = req.params;
+
+  const user = await User.findById(req.user._id)
+
+  if (user.wishlist.includes(productId)) {
+    return res.status(400).json({
+      message: "Product already in wishlist"
+    })
+  }
+
+  user.wishlist.push(productId)
+  await user.save()
+
+  const updateUser = await User.findById(req.user._id).populate("wishlist")
+  res.json(updateUser.wishlist)
+}
+
+const removeFromWishlist = async (req, res) => {
+  const { productId } = req.params
+
+  const user = await User.findById(req.user._id)
+
+  user.wishlist = user.wishlist.filter(
+    (id) => id.toString() !== productId
+  )
+
+  await user.save()
+
+  const updateUser = await User.findById(req.user._id).populate("wishlist")
+  res.json(updateUser.wishlist)
+}
 
 module.exports = {
   registerUser,
   loginUser,
+  getWishlist,
+  addToWishlist,
+  removeFromWishlist,
 };
