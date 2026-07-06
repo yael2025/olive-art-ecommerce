@@ -2,6 +2,7 @@ const express = require("express")
 const path = require("path")
 const cors = require("cors")
 const helmet = require("helmet")
+const  rateLimit = require("express-rate-limit")
 require("dotenv").config()
 
 const connectDB = require("./config/db")
@@ -22,6 +23,16 @@ connectDB()
 
 app.use(cors())
 app.use(helmet())
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, //15 minutes
+  limit:100, // Max 100 requests per IP
+  message:{
+    message:"Too many requests. Please try again later.",
+  },
+  standardHeaders: true,
+  legacyHeaders: false,
+})
+app.use(limiter)
 app.use(express.json())
 app.use("/uploads", express.static(path.join(__dirname,"uploads")))
 
