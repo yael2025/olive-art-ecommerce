@@ -1,6 +1,7 @@
 const express = require("express")
 const path = require("path")
 const cors = require("cors")
+const helmet = require("helmet")
 require("dotenv").config()
 
 const connectDB = require("./config/db")
@@ -20,6 +21,7 @@ const app = express()
 connectDB()
 
 app.use(cors())
+app.use(helmet())
 app.use(express.json())
 app.use("/uploads", express.static(path.join(__dirname,"uploads")))
 
