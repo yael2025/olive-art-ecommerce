@@ -2,12 +2,15 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { useUser } from "../context/UserContext";
+import { FaHeart } from "react-icons/fa";
+import { useWishlist } from "../context/WishlistContext";
 
 function Header() {
     const [isOpen, setIsOpen] = useState(false);
 
     const { cartItems } = useCart();
     const { user, logout } = useUser();
+    const { wishlistItems } = useWishlist();
 
     const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
@@ -39,6 +42,14 @@ function Header() {
                         </div>
                     )}
 
+                    <Link to="/wishlist" className="wishlist-link">
+                        <FaHeart />
+                        {wishlistItems.length > 0 && (
+                            <span className="wishlist-count">
+                                {wishlistItems.length}
+                            </span>
+                        )}
+                    </Link>
                     <Link to="/cart" className="topbar-cart">
                         🛒
                         {totalItems > 0 && (

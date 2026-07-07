@@ -63,11 +63,13 @@
 .wishlist-actions button:first-child {
     background: #6d4c41;
     color: white;
+    border-radius: 5px;
 }
 
 .wishlist-actions button:last-child {
     background: #d32f2f;
     color: white;
+    border-radius: 5px;
 }
 .empty-wishlist {
     text-align: center;
