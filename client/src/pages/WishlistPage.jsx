@@ -41,11 +41,11 @@ function WishlistPage() {
                             </div>
 
                             <div className="wishlist-actions">
-                                <button on onClick={() => handleAddToCart(product)}>
+                                <button onClick={() => handleAddToCart(product)}>
                                     Add To Cart
                                 </button>
 
-                                <button on onClick={() => removeItemFromWishlist(product._id)}>
+                                <button onClick={() => removeItemFromWishlist(product._id)}>
                                     Remove
                                 </button>
                             </div>

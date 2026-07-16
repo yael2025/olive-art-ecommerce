@@ -91,6 +91,9 @@ function Header() {
                             Order History
                         </Link>
                     )}
+                    <Link to="/about" onClick={() => setIsOpen(false)}>
+                        About
+                    </Link>
                     {user?.role === "admin" && (
                         <Link to="/admin" onClick={() => setIsOpen(false)}>
                             Admin
