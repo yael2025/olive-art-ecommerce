@@ -5,18 +5,62 @@
 }
 
 .contact-hero {
-    background: linear-gradient(135deg,
-            rgba(90, 62, 43, 0.97),
-            rgba(139, 106, 78, 0.92));
-    color: white;
+    position: relative;
+
+    background-image: url("/images/contact-hero.jpg");
+    background-size: cover;
+    background-position: center;
+
     border-radius: 24px;
-    padding: 72px 54px;
+    overflow: hidden;
+
+    min-height: 500px;
+
+    display: flex;
+    align-items: center;
+
     margin-bottom: 36px;
-    box-shadow: 0 8px 26px rgba(0, 0, 0, 0.14);
+}
+
+.contact-hero::before {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    background: rgba(0, 0, 0, 0.55);
 }
 
 .contact-hero-content {
-    max-width: 780px;
+    position: relative;
+    z-index: 2;
+
+    padding: 60px;
+    max-width: 700px;
+
+    color: white;
+    padding-top: 90px;
+}
+
+.contact-hero h1 {
+    text-shadow: 0 3px 10px rgba(0, 0, 0, .6);
+}
+
+.contact-hero p {
+    text-shadow: 0 2px 8px rgba(0, 0, 0, .6);
+}
+
+.contact-handmade-note {
+    display: inline-block;
+    margin-top: 16px;
+    padding: 9px 14px;
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.25);
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    backdrop-filter: blur(4px);
 }
 
 .contact-label,
@@ -240,7 +284,7 @@
 
 .contact-closing {
     margin-top: 36px;
-    padding: 30px;
+    padding: 32px;
     border-radius: 18px;
     background: #6b4f3a;
     color: white;
@@ -248,11 +292,17 @@
 }
 
 .contact-closing p {
-    margin: 0;
-    font-size: 22px;
-    font-weight: 600;
-    line-height: 1.5;
+    margin: 0 0 10px;
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.5;
 }
+.contact-closing span {
+    display: block;
+    color: #f1dfc6;
+    font-size: 14px;
+    line-height: 1.5;
+  }
 
 @media (max-width: 850px) {
     .contact-hero {
