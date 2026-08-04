@@ -91,9 +91,7 @@ function Header() {
                             Order History
                         </Link>
                     )}
-                    <Link to="/about" onClick={() => setIsOpen(false)}>
-                        About
-                    </Link>
+
                     {user?.role === "admin" && (
                         <Link to="/admin" onClick={() => setIsOpen(false)}>
                             Admin
@@ -123,8 +121,14 @@ function Header() {
                             <Link to="/register" onClick={() => setIsOpen(false)}>
                                 Sign Up
                             </Link>
+
                         </>
+
                     )}
+                    <Link to="/about" onClick={() => setIsOpen(false)}>
+                        About
+                    </Link>
+                    <Link to="/contact">Contact</Link>
                 </nav>
             </div>
         </>
