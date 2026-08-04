@@ -141,7 +141,10 @@ function CartPage() {
                     </div>
 
                     <div className="cart-item-actions">
-                      <button onClick={() => increaseQuantity(item.product._id)}>
+                      <button
+                        onClick={() => increaseQuantity(item.product._id)}
+                        disabled={item.quantity >= item.product.countInStock}
+                      >
                         +
                       </button>
 

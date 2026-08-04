@@ -31,26 +31,52 @@ export function CartProvider({ children }) {
       const existingItem = prev.find(
         (item) => item.product._id === product._id
       );
-
+  
       if (existingItem) {
+        if (existingItem.quantity >= product.countInStock) {
+          return prev;
+        }
+  
         return prev.map((item) =>
           item.product._id === product._id
             ? { ...item, quantity: item.quantity + 1 }
             : item
         );
       }
-
+  
+      if (product.countInStock <= 0) {
+        return prev;
+      }
+  
       return [...prev, { product, quantity: 1 }];
     });
   };
 
   const increaseQuantity = (productId) => {
     setCartItems((prev) =>
-      prev.map((item) =>
-        item.product._id === productId
-          ? { ...item, quantity: item.quantity + 1 }
-          : item
-      )
+      prev.map((item) => {
+        if (item.product._id !== productId) {
+          return item;
+        }
+  
+        if (item.quantity >= item.product.countInStock) {
+
+          setMessage(
+              `Only ${item.product.countInStock} units are available in stock.`
+          );
+      
+          setTimeout(() => {
+              setMessage("");
+          }, 3000);
+      
+          return item;
+      }
+  
+        return {
+          ...item,
+          quantity: item.quantity + 1,
+        };
+      })
     );
   };
 

@@ -185,3 +185,7 @@
   outline-offset: 2px;
   border-color: #8b6a4e;
 }
+button:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
