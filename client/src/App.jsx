@@ -15,6 +15,7 @@ import AdminDashboardPage from "./pages/AdminDashboardPage";
 import PaymentPage from "./pages/PaymentPage";
 import WishlistPage from "./pages/WishlistPage";
 import AboutPage from "./pages/AboutPage";
+import ContactPage from "./pages/ContactPage";
 
 
 function App() {
@@ -80,6 +81,7 @@ function App() {
             }
           />
           <Route path="about" element={<AboutPage/>} />
+          <Route path="contact" element={<ContactPage />} />
         </Route>
       </Routes>
     </BrowserRouter>
