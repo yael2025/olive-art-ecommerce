@@ -127,3 +127,47 @@
   color: #6b4f3a;
   font-weight: bold;
 }
+.order-customization-summary {
+  margin-top: 16px;
+  padding: 14px 16px;
+  background: #fcf7f2;
+  border-left: 4px solid #8b6a4e;
+  border-radius: 8px;
+}
+.order-customization-summary strong {
+  display: block;
+  margin-bottom: 6px;
+  color: #5f432f;
+}
+.order-customization-summary p {
+  margin: 0;
+  color: #555;
+  line-height: 1.5;
+}
+
+.personalization-card {
+  margin: 28px 0;
+  padding: 22px;
+  background: #fff8f1;
+  border-left: 5px solid #8b6a4e;
+  border-radius: 14px;
+  box-shadow: 0 4px 12px rgba(0,0,0,.06);
+}
+.personalization-card h3 {
+  margin: 0 0 10px;
+  color: #5f432f;
+}
+.personalization-subtitle {
+  margin-bottom: 18px;
+
+  color: #777;
+}
+.personalization-content {
+  background: white;
+  padding: 18px;
+  border-radius: 10px;
+  border: 1px solid #e5d9ce;
+  white-space: pre-wrap;
+  line-height: 1.8;
+  color: #444;
+}

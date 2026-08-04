@@ -87,6 +87,7 @@ function CartPage() {
           address: shippingDetails.address.trim(),
           shippingMethod: shippingDetails.shippingMethod,
         },
+        customizationRequest: customizationRequest.trim(),
       };
 
       navigate("/payment", {

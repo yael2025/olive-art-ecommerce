@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import api from "../services/api";
 import { useUser } from "../context/UserContext";
 import toast from "react-hot-toast";
+import { Link } from "react-router-dom";
 
 import { getAllOrders } from "../services/orderService";
 import { markOrderDelivered } from "../services/orderService";
@@ -524,44 +525,44 @@ function AdminPage() {
                   {orders.map((order) => (
                     <div className="admin-order-card" key={order._id}>
                       <div className="admin-order-header">
-                        <span><strong>Order ID:</strong> {order._id.slice(-6)}</span>
-                        <span><strong>Total:</strong> ₪{order.totalPrice}</span>
+                        <span>
+                          <strong>Order #{order._id.slice(-6)}</strong>
+                        </span>
+
+                        <span>
+                          <strong>Total:</strong> ₪{order.totalPrice}
+                        </span>
                       </div>
 
-                      {/* 👤 USER */}
-                      <p><strong>User:</strong> {order.user?.username}</p>
+                      <p>
+                        <strong>User:</strong> {order.user?.username}
+                      </p>
+                      <p>
+                        <strong>Date:</strong>{" "}
+                        {new Date(order.createdAt).toLocaleDateString()}
+                      </p>
 
-                      {/* 📦 SHIPPING */}
-                      {order.shippingDetails && (
-                        <div className="admin-shipping">
-                          <p><strong>Name:</strong> {order.shippingDetails.fullName}</p>
-                          <p><strong>City:</strong> {order.shippingDetails.city}</p>
-                          <p><strong>Address:</strong> {order.shippingDetails.address}</p>
-                        </div>
-                      )}
-
-                      {/* 📊 STATUS */}
                       <div className="admin-status">
                         <span className={order.isPaid ? "status paid" : "status not-paid"}>
                           {order.isPaid ? "Paid" : "Not Paid"}
                         </span>
 
-                        <span className={order.isDelivered ? "status delivered" : "status pending"}>
+                        <span
+                          className={
+                            order.isDelivered ? "status delivered" : "status pending"
+                          }
+                        >
                           {order.isDelivered ? "Delivered" : "Pending"}
                         </span>
                       </div>
 
-                      {/* 🛒 ITEMS */}
-                      <div className="admin-order-items">
-                        {order.orderItems.map((item, i) => (
-                          <div key={i} className="admin-order-item">
-                            <span>{item.name}</span>
-                            <span>{item.qty} × ₪{item.price}</span>
-                          </div>
-                        ))}
-                      </div>
+                      <Link
+                        to={`/orders/${order._id}`}
+                        className="admin-order-details-link"
+                      >
+                        View Details
+                      </Link>
 
-                      {/* 🎛 ACTIONS */}
                       <div className="admin-order-actions">
                         <button
                           onClick={() => payHandler(order._id)}

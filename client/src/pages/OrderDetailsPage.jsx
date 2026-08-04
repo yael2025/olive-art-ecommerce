@@ -46,6 +46,20 @@ function OrderDetailsPage() {
         </p>
       </div>
 
+      {order.customizationRequest && (
+        <div className="personalization-card">
+          <h3>✨ Personalization Request</h3>
+
+          <p className="personalization-subtitle">
+            The customer requested the following customizations:
+          </p>
+
+          <div className="personalization-content">
+            {order.customizationRequest}
+          </div>
+        </div>
+      )}
+
       <h3>Items</h3>
 
       <div className="order-details-items">

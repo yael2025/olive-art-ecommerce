@@ -62,6 +62,15 @@ function MyOrdersPage() {
                   </div>
                 ))}
               </div>
+              {order.customizationRequest && (
+                <div className="order-customization-summary">
+                  <strong>✨ Personalization Request Included</strong>
+
+                  <p>
+                    View the order details to see the full personalization request.
+                  </p>
+                </div>
+              )}
             </div>
           ))}
         </div>

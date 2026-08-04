@@ -82,6 +82,11 @@ const orderItemSchema = new mongoose.Schema(
       deliveredAt: {
         type: Date,
       },
+      customizationRequest: {
+        type: String,
+        default: "",
+        trim: true,
+      },
       
     },
     {
