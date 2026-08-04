@@ -195,7 +195,7 @@ function CartPage() {
                   <option value="Pickup">Pickup</option>
                 </select>
               </div>
-              
+
             </div>
             <div className="cart-summary">
               <h3>Total items: {totalItems}</h3>

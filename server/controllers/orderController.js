@@ -1,52 +1,88 @@
 const Order = require("../models/orderModel")
+//const asyncHandler = require("express-async-handler");
+const Product = require("../models/productModel");
 
-const createOrder = async (req, res) =>{
-    try{
-        const {orderItems, totalPrice ,shippingDetails  } = req.body
+const createOrder = async (req, res) => {
+  try {
+    const {
+      orderItems,
+      totalPrice,
+      shippingDetails,
+      customizationRequest,
+    } = req.body;
 
-        if(!orderItems || orderItems.length===0){
-            return res.status(400).json ({ message: "No order items" })
-        }
-
-        const order = new Order({
-          user: req.user._id,
-          orderItems,
-          totalPrice,
-          shippingDetails,
-          isPaid: true,
-          paidAt: Date.now(),
-        })
-
-        const createdOrder = await order.save();
-
-        res.status(201).json(createOrder)
-    }catch (error) {
-      console.error("CREATE ORDER ERROR", error);
-    
-      res.status(500).json({
-        message: error.message,
+    if (!orderItems || orderItems.length === 0) {
+      return res.status(400).json({
+        message: "No order items",
       });
     }
-}
-const getMyOrders = async (req, res) => {
-    try {
-      const orders = await Order.find({ user: req.user._id });
-      res.json(orders);
-    } catch (error) {
-      console.error("GET MY ORDERS ERROR:", error);
-      res.status(500).json({ message: "Server error" });
-    }
-  };
 
-const getOrders = async (req , res) =>{
-  try{
+    // Validate stock before creating the order
+    for (const item of orderItems) {
+      const product = await Product.findById(item.product);
+
+      if (!product) {
+        return res.status(404).json({
+          message: `Product not found: ${item.name}`,
+        });
+      }
+
+      if (product.countInStock < item.qty) {
+        return res.status(400).json({
+          message: `Not enough stock for ${product.name}`,
+        });
+      }
+    }
+
+    const order = new Order({
+      user: req.user._id,
+      orderItems,
+      totalPrice,
+      shippingDetails,
+      customizationRequest,
+      isPaid: true,
+      paidAt: Date.now(),
+    });
+
+    const createdOrder = await order.save();
+
+    // Reduce stock after the order is created
+    for (const item of orderItems) {
+      await Product.findByIdAndUpdate(item.product, {
+        $inc: {
+          countInStock: -item.qty,
+        },
+      });
+    }
+
+    res.status(201).json(createdOrder);
+  } catch (error) {
+    console.error("CREATE ORDER ERROR:", error);
+
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+const getMyOrders = async (req, res) => {
+  try {
+    const orders = await Order.find({ user: req.user._id });
+    res.json(orders);
+  } catch (error) {
+    console.error("GET MY ORDERS ERROR:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+const getOrders = async (req, res) => {
+  try {
     const orders = await Order.find({}).populate(
       "user",
       "username email"
-    ).sort({createdAt:-1})
+    ).sort({ createdAt: -1 })
     res.json(orders)
   }
-  catch(error){
+  catch (error) {
     console.error("GET ORDERS ERROR:", error);
     res.status(500).json({ message: "Server error" });
   }
