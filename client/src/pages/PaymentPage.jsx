@@ -8,6 +8,8 @@ function PaymentPage() {
     const location = useLocation()
     const navigate = useNavigate()
 
+    const {clearCart} = useCart();
+
     const orderData = location.state?.orderData
 
     if (!orderData) {
@@ -19,7 +21,7 @@ function PaymentPage() {
             </div>
         )
     }
-    const { clearCart } = useCart();
+    
 
     const confirmPaymentHandler = async () => {
         try {
