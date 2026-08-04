@@ -35,6 +35,7 @@ function CartPage() {
     address: "",
     shippingMethod: "Delivery"
   })
+  const [customizationRequest, setCustomizationRequest] = useState("");
 
   const handleShippingChange = (e) => {
     setShippingDetails((prev) => ({
@@ -42,6 +43,9 @@ function CartPage() {
       [e.target.name]: e.target.value,
     }))
   }
+  const handleCustomizationChange = (e) => {
+    setCustomizationRequest(e.target.value);
+  };
 
   const checkoutHandler = async () => {
     if (!user) {
@@ -106,75 +110,118 @@ function CartPage() {
         <p>Your cart is empty</p>
       ) : (
         <>
-          <div className="cart-list">
-            {cartItems.map((item) => (
-              <div className="cart-item" key={item.product._id}>
-                <div>
-                  <h3>{item.product.name}</h3>
-                  <p>{item.product.price} ₪</p>
-                  <p>Quantity: {item.quantity}</p>
-                </div>
+          <div className="cart-layout">
+            <div className="cart-main">
+              <div className="cart-list">
+                {cartItems.map((item) => (
+                  <div className="cart-item" key={item.product._id}>
+                    <div className="cart-item-info">
+                      <div className="cart-item-image">
+                        {item.product.image ? (
+                          <img
+                            src={
+                              item.product.image.startsWith("/uploads")
+                                ? `http://localhost:3001${item.product.image}`
+                                : item.product.image
+                            }
+                            alt={item.product.name}
+                          />
+                        ) : (
+                          <div className="cart-image-placeholder">
+                            No Image
+                          </div>
+                        )}
+                      </div>
 
-                <div className="cart-item-actions">
-                  <button onClick={() => increaseQuantity(item.product._id)}>
-                    +
-                  </button>
+                      <div className="cart-item-details">
+                        <h3>{item.product.name}</h3>
+                        <p>₪{item.product.price}</p>
+                        <p>Quantity: {item.quantity}</p>
+                      </div>
+                    </div>
 
-                  <button onClick={() => decreaseQuantity(item.product._id)}>
-                    -
-                  </button>
+                    <div className="cart-item-actions">
+                      <button onClick={() => increaseQuantity(item.product._id)}>
+                        +
+                      </button>
 
-                  <button onClick={() => removeFromCart(item.product._id)}>
-                    Remove
-                  </button>
-                </div>
+                      <button onClick={() => decreaseQuantity(item.product._id)}>
+                        -
+                      </button>
+
+                      <button onClick={() => removeFromCart(item.product._id)}>
+                        Remove
+                      </button>
+                    </div>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-          <div className="checkout-form">
-            <h3>Shipping Details</h3>
+              <div className="checkout-form">
+                <h3>Shipping Details</h3>
 
-            <input
-              name="fullName"
-              placeholder="Full Name"
-              value={shippingDetails.fullName}
-              onChange={handleShippingChange}
-            />
+                <input
+                  name="fullName"
+                  placeholder="Full Name"
+                  value={shippingDetails.fullName}
+                  onChange={handleShippingChange}
+                />
 
-            <input
-              name="phone"
-              placeholder="Phone"
-              value={shippingDetails.phone}
-              onChange={handleShippingChange}
-            />
+                <input
+                  name="phone"
+                  placeholder="Phone"
+                  value={shippingDetails.phone}
+                  onChange={handleShippingChange}
+                />
 
-            <input
-              name="city"
-              placeholder="City"
-              value={shippingDetails.city}
-              onChange={handleShippingChange}
-            />
+                <input
+                  name="city"
+                  placeholder="City"
+                  value={shippingDetails.city}
+                  onChange={handleShippingChange}
+                />
 
-            <input
-              name="address"
-              placeholder="Address"
-              value={shippingDetails.address}
-              onChange={handleShippingChange}
-            />
+                <input
+                  name="address"
+                  placeholder="Address"
+                  value={shippingDetails.address}
+                  onChange={handleShippingChange}
+                />
 
-            <select name="shippingMethod"
-              value={shippingDetails.shippingMethod}
-              onChange={handleShippingChange}
-            >
-              <option value="Delivery">Home Delivery</option>
-              <option value="Pickup">Pickup</option>
-            </select>
-          </div>
-          <div className="cart-summary">
-            <h3>Total items: {totalItems}</h3>
-            <h3>Total: {totalPrice} ₪</h3>
-            <button onClick={clearCart}>Clear Cart</button>
-            <button onClick={checkoutHandler}>Checkout</button>
+                <select name="shippingMethod"
+                  value={shippingDetails.shippingMethod}
+                  onChange={handleShippingChange}
+                >
+                  <option value="Delivery">Home Delivery</option>
+                  <option value="Pickup">Pickup</option>
+                </select>
+              </div>
+              
+            </div>
+            <div className="cart-summary">
+              <h3>Total items: {totalItems}</h3>
+              <h3>Total: {totalPrice} ₪</h3>
+              <div className="customization-card">
+                <h3>Customization Requests</h3>
+
+                <p className="customization-text">
+                  Tell us how you'd like to personalize your order.
+                </p>
+
+                <textarea
+                  placeholder={`Examples:
+                    • Engraving text
+                    • Preferred epoxy color
+                    • Gift wrapping
+                    • Special dimensions
+                    • Any other custom request`}
+                  value={customizationRequest}
+                  onChange={handleCustomizationChange}
+                  rows={6}
+                />
+              </div>
+              <button onClick={clearCart}>Clear Cart</button>
+              <button onClick={checkoutHandler}>Checkout</button>
+            </div>
           </div>
         </>
       )}
