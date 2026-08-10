@@ -90,7 +90,7 @@ function CartPage() {
         customizationRequest: customizationRequest.trim(),
       };
 
-      navigate("/payment", {
+      navigate("/order-confirmation", {
         state: {
           orderData,
         },

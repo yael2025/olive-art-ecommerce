@@ -40,8 +40,7 @@ const createOrder = async (req, res) => {
       totalPrice,
       shippingDetails,
       customizationRequest,
-      isPaid: true,
-      paidAt: Date.now(),
+      isPaid: false,
     });
 
     const createdOrder = await order.save();
@@ -92,7 +91,21 @@ const markAsDelivered = async (req, res) => {
     const order = await Order.findById(req.params.id);
 
     if (!order) {
-      return res.status(404).json({ message: "Order not found" });
+      return res.status(404).json({
+        message: "Order not found",
+      });
+    }
+
+    if (!order.isPaid) {
+      return res.status(400).json({
+        message: "Order must be paid before it can be delivered",
+      });
+    }
+
+    if (order.isDelivered) {
+      return res.status(400).json({
+        message: "Order is already delivered",
+      });
     }
 
     order.isDelivered = true;
@@ -103,34 +116,44 @@ const markAsDelivered = async (req, res) => {
     res.json(updatedOrder);
   } catch (error) {
     console.error("DELIVER ORDER ERROR:", error);
-    res.status(500).json({ message: "Server error" });
+
+    res.status(500).json({
+      message: "Server error",
+    });
   }
 };
 
-const markAsPaid = async (req, res) => {
-  try {
-    const order = await Order.findById(req.params.id);
+const markAsPaid = async (req, res) =>{
+  try{
+    const order = await Order.findById(req.params.id)
 
-    if (!order) {
-      return res.status(404).json({ message: "Order not found" });
+    if(!order){
+      return res.status(404).json({
+        message:"Order not found"
+      })
     }
-    if (!order.isPaid) {
+
+    if(order.isPaid){
       return res.status(400).json({
-        message: "Order must be paid before it can be delivered",
-      });
+        message:"Order is already paid"
+      })
     }
 
-    order.isPaid = true;
-    order.paidAt = Date.now();
+    order.isPaid = true
+    order.paidAt = Date.now()
 
-    const updatedOrder = await order.save();
+    const updatedOrder  = await order.save()
 
-    res.json(updatedOrder);
-  } catch (error) {
-    console.error("PAY ORDER ERROR:", error);
-    res.status(500).json({ message: "Server error" });
+    res.json(updatedOrder)
   }
-};
+  catch(error){
+    console.error("PAY ORDER ERROR:", error);
+
+    res.status(500).json({
+      message: "Server error",
+    });
+  }
+}
 
 const getOrderById = async (req, res) => {
   try {

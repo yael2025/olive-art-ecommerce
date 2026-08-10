@@ -1,38 +1,41 @@
 * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
-  
-  body {
-    font-family: Arial, sans-serif;
-    background-color: #f8f5f0;
-    color: #2f2f2f;
-  }
-  
-  a {
-    text-decoration: none;
-    color: inherit;
-  }
-  
-  button,
-  input,
-  select,
-  textarea {
-    font: inherit;
-  }
-  
-  main {
-    min-height: 80vh;
-    padding: 20px;
-  }
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-  .ai-chat-widget {
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f8f5f0;
+  color: #2f2f2f;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+main {
+  min-height: 80vh;
+  padding: 20px;
+}
+
+/* AI Chat Widget */
+
+.ai-chat-widget {
   position: fixed;
   right: 24px;
   bottom: 24px;
   z-index: 1000;
 }
+
 .ai-chat-toggle {
   width: 56px;
   height: 56px;
@@ -44,7 +47,7 @@
   cursor: pointer;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
 }
-  
+
 .ai-chat-window {
   position: absolute;
   right: 0;
@@ -58,6 +61,7 @@
   flex-direction: column;
   overflow: hidden;
 }
+
 .ai-chat-header {
   background-color: #6b4f3a;
   color: white;
@@ -67,6 +71,7 @@
   align-items: center;
   font-weight: bold;
 }
+
 .ai-chat-header button {
   background: none;
   border: none;
@@ -74,6 +79,7 @@
   font-size: 22px;
   cursor: pointer;
 }
+
 .ai-chat-messages {
   flex: 1;
   padding: 14px;
@@ -82,6 +88,7 @@
   flex-direction: column;
   gap: 10px;
 }
+
 .ai-message {
   padding: 10px 12px;
   border-radius: 12px;
@@ -89,25 +96,30 @@
   font-size: 14px;
   line-height: 1.4;
 }
+
 .bot-message {
   background-color: #f1ede7;
   align-self: flex-start;
 }
+
 .user-message {
   background-color: #6b4f3a;
   color: white;
   align-self: flex-end;
 }
+
 .ai-chat-form {
   display: flex;
   border-top: 1px solid #ddd;
 }
+
 .ai-chat-form input {
   flex: 1;
   border: none;
   padding: 12px;
   outline: none;
 }
+
 .ai-chat-form button {
   border: none;
   background-color: #6b4f3a;
@@ -116,103 +128,13 @@
   cursor: pointer;
 }
 
-/* ####### payment page ####### */
+/* Accessibility */
 
-.payment-page {
-  min-height: calc(100vh - 80px);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 40px 16px;
-}
-.payment-warning {
-  color: #8b6a4e;
-  font-size: 13px;
-  font-style: italic;
-  margin-top: 8px;
-}
-.payment-card {
-  width: 100%;
-  max-width: 520px;
-  background: white;
-  border-radius: 18px;
-  padding: 28px;
-  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.12);
-  text-align: center;
-}
-.payment-icon {
-  font-size: 42px;
-  margin-bottom: 10px;
-}
-.payment-card h2 {
-  color: #6b4f3a;
-  margin-bottom: 12px;
-}
-.payment-note {
-  font-size: 14px;
-  line-height: 1.5;
-  color: #444;
-  margin-bottom: 20px;
-}
-.payment-provider-box {
-  background-color: #f8f5f0;
-  border: 1px solid #e0d6c9;
-  border-radius: 14px;
-  padding: 16px;
-  margin-bottom: 20px;
-}
-.payment-provider-box h3 {
-  color: #6b4f3a;
-  margin-bottom: 8px;
-}
-.payment-summary {
-  text-align: left;
-  margin-bottom: 22px;
-}
-.payment-summary h3 {
-  color: #6b4f3a;
-  margin-bottom: 12px;
-}
-.payment-row {
-  display: flex;
-  justify-content: space-between;
-  padding: 10px 0;
-  border-bottom: 1px solid #eee;
-}
-.payment-row.total {
-  font-size: 18px;
-  color: #6b4f3a;
-  border-bottom: none;
-}
-.payment-confirm-btn,
-.payment-back-btn {
-  width: 100%;
-  padding: 12px;
-  border-radius: 10px;
-  font-weight: bold;
-  cursor: pointer;
-  margin-top: 10px;
-}
-.payment-confirm-btn {
-  border: none;
-  background-color: #6b4f3a;
-  color: white;
-}
-.payment-back-btn {
-  border: 1px solid #6b4f3a;
-  background: white;
-  color: #6b4f3a;
-}
-.payment-confirm-btn:hover,
-.payment-back-btn:hover {
-  opacity: 0.9;
-}
-
-a:focus-visiblem,
-button :focus-visible,
-input :focus-visible,
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
 select:focus-visible,
-textarea:focus-visible{
+textarea:focus-visible {
   outline: 3px solid #d6b98c;
   outline-offset: 3px;
 }

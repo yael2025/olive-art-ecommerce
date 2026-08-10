@@ -12,7 +12,7 @@ import NotFoundPage from "./pages/NotFoundPage";
 import OrderDetailsPage from "./pages/OrderDetailsPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AdminDashboardPage from "./pages/AdminDashboardPage";
-import PaymentPage from "./pages/PaymentPage";
+import OrderConfirmationPage from "./pages/OrderConfirmationPage";
 import WishlistPage from "./pages/WishlistPage";
 import AboutPage from "./pages/AboutPage";
 import ContactPage from "./pages/ContactPage";
@@ -65,10 +65,10 @@ function App() {
             }
           />
           <Route
-            path="payment"
+            path="order-confirmation"
             element={
               <ProtectedRoute>
-                <PaymentPage />
+                <OrderConfirmationPage />
               </ProtectedRoute>
             }
           />
