@@ -1,6 +1,8 @@
 const request = require("supertest");
 const app = require("../app");
 const Product = require("../models/productModel");
+const User = require("../models/userModel");
+const bcrypt = require("bcryptjs");
 
 describe("Products", () => {
 
@@ -36,4 +38,56 @@ describe("Products", () => {
         expect(productNames).toContain("Epoxy Menorah");
     });
 
+    // Test #9 - Return 404 when requesting a product that does not exist
+    test("should return 404 for a non-existing product", async () => {
+        const fakeId = "64b000000000000000000000";
+
+        const response = await request(app)
+            .get(`/api/products/${fakeId}`);
+
+        expect(response.statusCode).toBe(404);
+        expect(response.body.message).toBe("Product not found");
+    });
+
+    // Test #10 - Allow an admin to create a new product
+    test("should allow an admin to create a product", async () => {
+        const admin = await User.create({
+            username: "Admin",
+            email: "admin@test.com",
+            password: await bcrypt.hash("123456", 10),
+            role: "admin",
+            isAdmin: true,
+        });
+
+        const loginResponse = await request(app)
+            .post("/api/users/login")
+            .send({
+                email: "admin@test.com",
+                password: "123456",
+            });
+
+        const token = loginResponse.body.token;
+
+        const response = await request(app)
+            .post("/api/products")
+            .set("Authorization", `Bearer ${token}`)
+            .send({
+                name: "Olive Wood Candlesticks",
+                price: 180,
+                description: "Handmade olive wood candlesticks",
+                image: "",
+                countInStock: 4,
+                category: "Candlesticks",
+            });
+
+        expect(response.statusCode).toBe(201);
+        expect(response.body.name).toBe("Olive Wood Candlesticks");
+        expect(response.body.price).toBe(180);
+        expect(response.body.countInStock).toBe(4);
+
+        const productInDb = await Product.findById(response.body._id);
+
+        expect(productInDb).not.toBeNull();
+        expect(productInDb.name).toBe("Olive Wood Candlesticks");
+    });
 });
