@@ -13,6 +13,6 @@ router.get("/", getCategories)
 
 router.post("/", protect, admin, createCategory)
 
-router.delete(":id", protect, admin, deleteCategory)
+router.delete("/:id", protect, admin, deleteCategory)
 
 module.exports = router
