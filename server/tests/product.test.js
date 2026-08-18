@@ -90,4 +90,44 @@ describe("Products", () => {
         expect(productInDb).not.toBeNull();
         expect(productInDb.name).toBe("Olive Wood Candlesticks");
     });
+
+    // Test #11 - Allow an admin to delete an existing product
+    test("should allow an admin to delete an existing product", async () => {
+        const admin = await User.create({
+            username: "Admin",
+            email: "admin@test.com",
+            password: await bcrypt.hash("123456", 10),
+            role: "admin",
+            isAdmin: true,
+        });
+
+        const product = await Product.create({
+            name: "Test Product",
+            price: 100,
+            description: "Product for delete test",
+            image: "",
+            countInStock: 2,
+            category: "Test",
+        });
+
+        const loginResponse = await request(app)
+            .post("/api/users/login")
+            .send({
+                email: "admin@test.com",
+                password: "123456",
+            });
+
+        const token = loginResponse.body.token;
+
+        const response = await request(app)
+            .delete(`/api/products/${product._id}`)
+            .set("Authorization", `Bearer ${token}`);
+
+        expect(response.statusCode).toBe(200);
+        expect(response.body.message).toBe("Product removed");
+
+        const deletedProduct = await Product.findById(product._id);
+
+        expect(deletedProduct).toBeNull();
+    });
 });
