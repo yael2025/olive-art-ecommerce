@@ -107,7 +107,7 @@ describe("Authentication Middleware", () => {
     // Test #5 - Allow access to a protected route with a valid token
     test("should allow access with a valid token", async () => {
 
-        const registerResponse = await request(app)
+        await request(app)
             .post("/api/users/register")
             .send({
                 username: "Yael",
@@ -146,40 +146,40 @@ describe("Authentication Middleware", () => {
 
 describe("Admin Authorization", () => {
 
-  // Test #7 - Reject a regular customer from accessing an admin-only route
-  test("should reject a customer from creating a product", async () => {
+    // Test #7 - Reject a regular customer from accessing an admin-only route
+    test("should reject a customer from creating a product", async () => {
 
-    await request(app)
-      .post("/api/users/register")
-      .send({
-        username: "Yael",
-        email: "yael@test.com",
-        password: "123456",
-      });
+        await request(app)
+            .post("/api/users/register")
+            .send({
+                username: "Yael",
+                email: "yael@test.com",
+                password: "123456",
+            });
 
-    const loginResponse = await request(app)
-      .post("/api/users/login")
-      .send({
-        email: "yael@test.com",
-        password: "123456",
-      });
+        const loginResponse = await request(app)
+            .post("/api/users/login")
+            .send({
+                email: "yael@test.com",
+                password: "123456",
+            });
 
-    const token = loginResponse.body.token;
+        const token = loginResponse.body.token;
 
-    const response = await request(app)
-      .post("/api/products")
-      .set("Authorization", `Bearer ${token}`)
-      .send({
-        name: "Test Mezuzah",
-        price: 120,
-        description: "Test product",
-        image: "",
-        countInStock: 5,
-        category: "Mezuzah",
-      });
+        const response = await request(app)
+            .post("/api/products")
+            .set("Authorization", `Bearer ${token}`)
+            .send({
+                name: "Test Mezuzah",
+                price: 120,
+                description: "Test product",
+                image: "",
+                countInStock: 5,
+                category: "Mezuzah",
+            });
 
-    expect(response.statusCode).toBe(403);
-    expect(response.body.message).toBe("Admin access only");
-  });
+        expect(response.statusCode).toBe(403);
+        expect(response.body.message).toBe("Admin access only");
+    });
 
 });

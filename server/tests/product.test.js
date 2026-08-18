@@ -51,7 +51,7 @@ describe("Products", () => {
 
     // Test #10 - Allow an admin to create a new product
     test("should allow an admin to create a product", async () => {
-        const admin = await User.create({
+        await User.create({
             username: "Admin",
             email: "admin@test.com",
             password: await bcrypt.hash("123456", 10),
@@ -93,7 +93,7 @@ describe("Products", () => {
 
     // Test #11 - Allow an admin to delete an existing product
     test("should allow an admin to delete an existing product", async () => {
-        const admin = await User.create({
+         await User.create({
             username: "Admin",
             email: "admin@test.com",
             password: await bcrypt.hash("123456", 10),
