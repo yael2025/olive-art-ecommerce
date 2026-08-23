@@ -9,7 +9,12 @@ function MyOrdersPage() {
     const fetchOrders = async () => {
       try {
         const data = await getMyOrders();
-        setOrders(data);
+
+        const sortedOrders = [...data].sort(
+          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+        );
+
+        setOrders(sortedOrders);
       } catch (error) {
         console.error("Error fetching orders", error);
       }
@@ -42,14 +47,14 @@ function MyOrdersPage() {
                   </p>
                 </div>
               </div>
+              <Link to={`/orders/${order._id}`} className="details-link">
+                View Details
+              </Link>
 
               <div className="order-items">
                 {order.orderItems.map((item, index) => (
                   <div className="order-item" key={index}>
                     <div className="order-item-info">
-                      <Link to={`/orders/${order._id}`} className="details-link">
-                        View Details
-                      </Link>
                       <p className="item-name">{item.name}</p>
                       <p className="item-details">
                         Qty: {item.qty} | {item.price} ₪
