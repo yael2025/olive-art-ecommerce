@@ -5,10 +5,11 @@ import toast from "react-hot-toast"
 
 
 function WishlistPage() {
+    const backendUrl = import.meta.env.VITE_API_URL.replace("/api", "");
     const { wishlistItems, removeItemFromWishlist } = useWishlist()
     const { addToCart } = useCart()
 
-    const handleAddToCart  = (product) => {
+    const handleAddToCart = (product) => {
         addToCart(product)
         toast.success("Product added to cart")
     }
@@ -30,7 +31,11 @@ function WishlistPage() {
                     {wishlistItems.map((product) => (
                         <div className="wishlist-item" key={product._id}>
                             <img
-                                src={`http://localhost:3001${product.image}`}
+                                src={
+                                    product.image.startsWith("/uploads")
+                                        ? `${backendUrl}${product.image}`
+                                        : product.image
+                                }
                                 alt={product.name}
                             />
 

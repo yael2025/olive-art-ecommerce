@@ -5,6 +5,7 @@ import { createOrder } from "../services/orderService";
 import { useNavigate } from "react-router-dom";
 
 function CartPage() {
+  const backendUrl = import.meta.env.VITE_API_URL.replace("/api", "");
   const {
     cartItems,
     clearCart,
@@ -122,7 +123,7 @@ function CartPage() {
                           <img
                             src={
                               item.product.image.startsWith("/uploads")
-                                ? `http://localhost:3001${item.product.image}`
+                                ? `${backendUrl}${item.product.image}`
                                 : item.product.image
                             }
                             alt={item.product.name}

@@ -5,6 +5,7 @@ import { useCart } from "../context/CartContext";
 import toast from "react-hot-toast";
 
 function ProductDetailsPage() {
+  const backendUrl = import.meta.env.VITE_API_URL.replace("/api", "");
   const { id } = useParams();
   const { addToCart } = useCart();
   const [product, setProduct] = useState(null);
@@ -31,7 +32,14 @@ function ProductDetailsPage() {
       <div className="product-details-card">
         <div className="product-details-image">
           {product.image ? (
-            <img src={`http://localhost:3001${product.image}`} alt={product.name} />
+            <img
+              src={
+                product.image.startsWith("/uploads")
+                  ? `${backendUrl}${product.image}`
+                  : product.image
+              }
+              alt={product.name}
+            />
           ) : (
             <span>No Image</span>
           )}
