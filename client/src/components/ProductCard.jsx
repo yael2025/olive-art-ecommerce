@@ -7,6 +7,8 @@ import { FaHeart, FaRegHeart } from "react-icons/fa";
 
 
 function ProductCard({ product }) {
+  const backendUrl = import.meta.env.VITE_API_URL.replace("/api", "");
+
   const { addToCart } = useCart();
 
   const handleAddToCart = () => {
@@ -54,8 +56,10 @@ function ProductCard({ product }) {
           {inWishlist ? <FaHeart /> : <FaRegHeart />}
         </button>
         {product.image ? (
-          <img src={`http://localhost:3001${product.image}`}
-            alt={product.name} />
+          <img
+            src={`${backendUrl}${product.image}`}
+            alt={product.name}
+          />
         ) : (
           <div className="product-image-placeholder">No Image</div>
         )}
