@@ -136,24 +136,88 @@
     "remove": "Remove"
   },
   "loginPage": {
-  "title": "Welcome Back",
-  "email": "Email",
-  "password": "Password",
-  "signIn": "Sign In",
-  "noAccount": "Don't have an account?",
-  "signUp": "Sign Up",
-  "loginFailed": "Login failed"
-},
-"registerPage": {
-  "title": "Join Olive Art Creations",
-  "username": "Username",
-  "email": "Email",
-  "password": "Password",
-  "signUp": "Sign Up",
-  "alreadyHaveAccount": "Already have an account?",
-  "signIn": "Sign In",
-  "fillAllFields": "Please fill in all fields",
-  "registrationSuccessful": "Registration successful",
-  "registerFailed": "Registration failed"
+    "title": "Welcome Back",
+    "email": "Email",
+    "password": "Password",
+    "signIn": "Sign In",
+    "noAccount": "Don't have an account?",
+    "signUp": "Sign Up",
+    "loginFailed": "Login failed"
+  },
+  "registerPage": {
+    "title": "Join Olive Art Creations",
+    "username": "Username",
+    "email": "Email",
+    "password": "Password",
+    "signUp": "Sign Up",
+    "alreadyHaveAccount": "Already have an account?",
+    "signIn": "Sign In",
+    "fillAllFields": "Please fill in all fields",
+    "registrationSuccessful": "Registration successful",
+    "registerFailed": "Registration failed"
+  },
+  "aboutPage": {
+    "storyLabel": "Our Story",
+    "heroTitle": "Handmade Judaica, Created with Meaning",
+    "heroText": "Olive Art Creations is a small family business born from a love of craftsmanship, tradition, and creativity.",
+    "journeyTitle": "From Years of Craftsmanship to a New Creative Journey",
+    "journeyText1": "After more than 30 years of hands-on work, I retired and began looking for a meaningful way to fill the new time in my life. Through a relative who worked with olive wood and epoxy resin, I discovered a craft that immediately captured my interest.",
+    "journeyText2": "What began as curiosity slowly became a passion. Over time, I continued learning, experimenting, and improving both the creative and technical sides of the work.",
+    "familyTitle": "A Family Business",
+    "familyText1": "Olive Art Creations is truly a family effort. I create each product by hand, while my daughter Yael manages the digital side of the business, including the website, technology, and online presence.",
+    "familyText2": "Together, we combine traditional craftsmanship with modern tools to create meaningful products that are personal, unique, and made with care."
+  },
+  "contactPage": {
+  "heroLabel": "Let's Create Together",
+  "heroTitle": "Let's Create Something Meaningful Together",
+  "heroText1": "Looking for a personalized Judaica gift, a custom laser engraving, or a unique handmade creation? We would love to hear your ideas and help you create something truly special.",
+  "heroText2": "Every piece is handcrafted with care using natural olive wood, premium epoxy resin, and attention to every detail.",
+  "handmadeNote": "Handcrafted in Israel using natural olive wood and premium epoxy resin.",
+
+  "customCreations": "Custom Creations",
+  "whyContactUs": "Why Contact Us?",
+  "whyContactText": "We specialize in handmade Judaica products that can be customized for meaningful occasions, personal gifts, and unique requests.",
+
+  "feature1": "Personalized laser engravings",
+  "feature2": "Custom epoxy color combinations",
+  "feature3": "Wedding and Bar or Bat Mitzvah gifts",
+  "feature4": "Family and business gifts",
+  "feature5": "Custom sizes and special requests",
+  "feature6": "One-of-a-kind handmade Judaica creations",
+
+  "getInTouch": "Get in Touch",
+  "contactMethodsTitle": "Choose the Most Convenient Way to Reach Us",
+  "contactMethodsText": "We will be happy to answer questions, discuss custom orders, and help you choose the right product.",
+
+  "whatsappText": "The fastest way to ask questions and discuss personalized orders.",
+  "whatsappAction": "Chat on WhatsApp",
+
+  "emailTitle": "Email",
+  "emailText": "For detailed inquiries, custom requests, and order information.",
+
+  "instagramText": "See our newest creations, behind-the-scenes work, and customer favorites.",
+  "instagramAction": "Follow us on Instagram",
+
+  "facebookText": "Stay updated with new collections, handmade products, and special offers.",
+  "facebookAction": "Visit our Facebook page",
+
+  "businessHours": "Business Hours",
+  "sundayThursday": "Sunday – Thursday",
+  "friday": "Friday",
+  "saturday": "Saturday",
+  "closed": "Closed",
+
+  "personalizedOrders": "Personalized Orders",
+  "personalizedOrdersText": "Many of our products can be customized according to your preferences.",
+  "personalized1": "Personal names and family blessings",
+  "personalized2": "Custom laser engravings",
+  "personalized3": "Different epoxy colors",
+  "personalized4": "Special dimensions and shapes",
+  "personalized5": "Gift packaging",
+  "personalized6": "Unique design requests",
+  "additionalCharges": "Additional charges may apply depending on the requested customization.",
+
+  "closingText": "Every handmade piece tells a story. We'd be honored to create yours.",
+  "replyTime": "We usually reply within a few hours during business days."
 }
 }
