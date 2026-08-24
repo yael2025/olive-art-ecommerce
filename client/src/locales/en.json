@@ -77,5 +77,25 @@
     "customizationPlaceholder": "Examples:\n• Engraving text\n• Preferred epoxy color\n• Gift wrapping\n• Special dimensions\n• Any other custom request",
     "clearCart": "Clear Cart",
     "checkout": "Checkout"
-  }
+  },
+  "orderConfirmationPage": {
+  "orderError": "Order Error",
+  "noOrderData": "No order data found.",
+  "backToCart": "Back to Cart",
+  "orderSubmittedSuccessfully": "Order submitted successfully",
+  "submitFailed": "Failed to submit order",
+  "title": "Review Your Order",
+  "intro": "Please review the details below before submitting your order.",
+  "orderSummary": "Order Summary",
+  "items": "Items",
+  "estimatedTotal": "Estimated Total",
+  "finalPriceNote": "* Final price may vary depending on personalization requests and design complexity.",
+  "personalizationRequest": "Personalization Request",
+  "personalizationNote": "Your customization request will be reviewed before production and may affect the final price.",
+  "whatHappensNext": "What Happens Next?",
+  "step1": "We review your order and personalization request.",
+  "step2": "If needed, we will contact you to confirm the final design and pricing.",
+  "step3": "Once everything is confirmed, production begins and your order will be prepared for delivery.",
+  "submitOrder": "Submit Order"
+}
 }
