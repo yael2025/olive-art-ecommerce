@@ -126,5 +126,13 @@
     "items": "פריטים",
     "quantity": "כמות",
     "total": "סה״כ"
+  },
+  "wishlistPage": {
+    "title": "המועדפים שלי",
+    "empty": "רשימת המועדפים שלך ריקה.",
+    "browseProducts": "לצפייה במוצרים",
+    "addedToCart": "המוצר נוסף לסל",
+    "addToCart": "הוספה לסל",
+    "remove": "הסרה"
   }
 }

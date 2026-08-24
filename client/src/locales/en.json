@@ -126,5 +126,13 @@
     "items": "Items",
     "quantity": "Qty",
     "total": "Total"
+  },
+  "wishlistPage": {
+    "title": "My Wishlist",
+    "empty": "Your wishlist is empty.",
+    "browseProducts": "Browse Products",
+    "addedToCart": "Product added to cart",
+    "addToCart": "Add To Cart",
+    "remove": "Remove"
   }
 }
