@@ -134,5 +134,26 @@
     "addedToCart": "המוצר נוסף לסל",
     "addToCart": "הוספה לסל",
     "remove": "הסרה"
-  }
+  },
+  "loginPage": {
+  "title": "ברוכים השבים",
+  "email": "אימייל",
+  "password": "סיסמה",
+  "signIn": "התחברות",
+  "noAccount": "עדיין אין לך חשבון?",
+  "signUp": "הרשמה",
+  "loginFailed": "ההתחברות נכשלה"
+},
+"registerPage": {
+  "title": "הצטרפות ל-Olive Art Creations",
+  "username": "שם משתמש",
+  "email": "אימייל",
+  "password": "סיסמה",
+  "signUp": "הרשמה",
+  "alreadyHaveAccount": "כבר יש לך חשבון?",
+  "signIn": "התחברות",
+  "fillAllFields": "יש למלא את כל השדות",
+  "registrationSuccessful": "ההרשמה הושלמה בהצלחה",
+  "registerFailed": "ההרשמה נכשלה"
+}
 }

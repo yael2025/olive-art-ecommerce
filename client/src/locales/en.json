@@ -134,5 +134,26 @@
     "addedToCart": "Product added to cart",
     "addToCart": "Add To Cart",
     "remove": "Remove"
-  }
+  },
+  "loginPage": {
+  "title": "Welcome Back",
+  "email": "Email",
+  "password": "Password",
+  "signIn": "Sign In",
+  "noAccount": "Don't have an account?",
+  "signUp": "Sign Up",
+  "loginFailed": "Login failed"
+},
+"registerPage": {
+  "title": "Join Olive Art Creations",
+  "username": "Username",
+  "email": "Email",
+  "password": "Password",
+  "signUp": "Sign Up",
+  "alreadyHaveAccount": "Already have an account?",
+  "signIn": "Sign In",
+  "fillAllFields": "Please fill in all fields",
+  "registrationSuccessful": "Registration successful",
+  "registerFailed": "Registration failed"
+}
 }
