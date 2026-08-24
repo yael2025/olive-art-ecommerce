@@ -53,5 +53,29 @@
     "outOfStock": "Out of stock",
     "addedToCart": "{{productName}} added to cart 🛒",
     "addToCart": "Add to Cart"
+  },
+  "cartPage": {
+    "title": "Cart",
+    "mustBeLoggedIn": "You must be logged in to place an order",
+    "emptyCart": "Your cart is empty",
+    "fillShippingDetails": "Please fill in all shipping details",
+    "checkoutFailed": "Checkout failed",
+    "noImage": "No Image",
+    "quantity": "Quantity",
+    "remove": "Remove",
+    "shippingDetails": "Shipping Details",
+    "fullName": "Full Name",
+    "phone": "Phone",
+    "city": "City",
+    "address": "Address",
+    "homeDelivery": "Home Delivery",
+    "pickup": "Pickup",
+    "totalItems": "Total items",
+    "total": "Total",
+    "customizationRequests": "Customization Requests",
+    "customizationText": "Tell us how you'd like to personalize your order.",
+    "customizationPlaceholder": "Examples:\n• Engraving text\n• Preferred epoxy color\n• Gift wrapping\n• Special dimensions\n• Any other custom request",
+    "clearCart": "Clear Cart",
+    "checkout": "Checkout"
   }
 }

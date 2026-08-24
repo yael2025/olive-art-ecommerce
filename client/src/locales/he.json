@@ -53,5 +53,29 @@
     "outOfStock": "אזל מהמלאי",
     "addedToCart": "{{productName}} נוסף לסל 🛒",
     "addToCart": "הוספה לסל"
+  },
+  "cartPage": {
+    "title": "סל קניות",
+    "mustBeLoggedIn": "יש להתחבר כדי לבצע הזמנה",
+    "emptyCart": "סל הקניות שלך ריק",
+    "fillShippingDetails": "יש למלא את כל פרטי המשלוח",
+    "checkoutFailed": "המעבר לאישור ההזמנה נכשל",
+    "noImage": "אין תמונה",
+    "quantity": "כמות",
+    "remove": "הסרה",
+    "shippingDetails": "פרטי משלוח",
+    "fullName": "שם מלא",
+    "phone": "טלפון",
+    "city": "עיר",
+    "address": "כתובת",
+    "homeDelivery": "משלוח עד הבית",
+    "pickup": "איסוף עצמי",
+    "totalItems": "סה״כ פריטים",
+    "total": "סה״כ לתשלום",
+    "customizationRequests": "בקשות להתאמה אישית",
+    "customizationText": "ספרו לנו כיצד תרצו להתאים אישית את ההזמנה.",
+    "customizationPlaceholder": "לדוגמה:\n• טקסט לחריטה\n• צבע אפוקסי מועדף\n• אריזת מתנה\n• מידות מיוחדות\n• כל בקשה מיוחדת אחרת",
+    "clearCart": "ריקון הסל",
+    "checkout": "המשך לאישור ההזמנה"
   }
 }

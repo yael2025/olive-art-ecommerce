@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { useCart } from "../context/CartContext";
 import { useUser } from "../context/UserContext";
-import { createOrder } from "../services/orderService";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 function CartPage() {
   const backendUrl = import.meta.env.VITE_API_URL.replace("/api", "");
+
   const {
     cartItems,
     clearCart,
@@ -16,6 +17,7 @@ function CartPage() {
 
   const { user } = useUser();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const [message, setMessage] = useState("");
 
@@ -34,28 +36,30 @@ function CartPage() {
     phone: "",
     city: "",
     address: "",
-    shippingMethod: "Delivery"
-  })
+    shippingMethod: "Delivery",
+  });
+
   const [customizationRequest, setCustomizationRequest] = useState("");
 
   const handleShippingChange = (e) => {
     setShippingDetails((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
-    }))
-  }
+    }));
+  };
+
   const handleCustomizationChange = (e) => {
     setCustomizationRequest(e.target.value);
   };
 
   const checkoutHandler = async () => {
     if (!user) {
-      setMessage("You must be logged in to place an order");
+      setMessage(t("cartPage.mustBeLoggedIn"));
       return;
     }
 
     if (cartItems.length === 0) {
-      setMessage("Your cart is empty");
+      setMessage(t("cartPage.emptyCart"));
       return;
     }
 
@@ -66,7 +70,7 @@ function CartPage() {
       !shippingDetails.address.trim() ||
       !shippingDetails.shippingMethod
     ) {
-      setMessage("Please fill in all shipping details");
+      setMessage(t("cartPage.fillShippingDetails"));
       return;
     }
 
@@ -98,140 +102,162 @@ function CartPage() {
       });
     } catch (error) {
       console.error("Checkout failed", error);
-      setMessage(error.response?.data?.message || "Checkout failed");
+      setMessage(
+        error.response?.data?.message || t("cartPage.checkoutFailed")
+      );
     }
   };
 
   return (
     <div className="cart-page">
-      <h2>Cart Page</h2>
+      <h2>{t("cartPage.title")}</h2>
 
       {message && <p>{message}</p>}
 
       {cartItems.length === 0 ? (
-        <p>Your cart is empty</p>
+        <p>{t("cartPage.emptyCart")}</p>
       ) : (
-        <>
-          <div className="cart-layout">
-            <div className="cart-main">
-              <div className="cart-list">
-                {cartItems.map((item) => (
-                  <div className="cart-item" key={item.product._id}>
-                    <div className="cart-item-info">
-                      <div className="cart-item-image">
-                        {item.product.image ? (
-                          <img
-                            src={
-                              item.product.image.startsWith("/uploads")
-                                ? `${backendUrl}${item.product.image}`
-                                : item.product.image
-                            }
-                            alt={item.product.name}
-                          />
-                        ) : (
-                          <div className="cart-image-placeholder">
-                            No Image
-                          </div>
-                        )}
-                      </div>
-
-                      <div className="cart-item-details">
-                        <h3>{item.product.name}</h3>
-                        <p>₪{item.product.price}</p>
-                        <p>Quantity: {item.quantity}</p>
-                      </div>
+        <div className="cart-layout">
+          <div className="cart-main">
+            <div className="cart-list">
+              {cartItems.map((item) => (
+                <div className="cart-item" key={item.product._id}>
+                  <div className="cart-item-info">
+                    <div className="cart-item-image">
+                      {item.product.image ? (
+                        <img
+                          src={
+                            item.product.image.startsWith("/uploads")
+                              ? `${backendUrl}${item.product.image}`
+                              : item.product.image
+                          }
+                          alt={item.product.name}
+                        />
+                      ) : (
+                        <div className="cart-image-placeholder">
+                          {t("cartPage.noImage")}
+                        </div>
+                      )}
                     </div>
 
-                    <div className="cart-item-actions">
-                      <button
-                        onClick={() => increaseQuantity(item.product._id)}
-                        disabled={item.quantity >= item.product.countInStock}
-                      >
-                        +
-                      </button>
+                    <div className="cart-item-details">
+                      <h3>{item.product.name}</h3>
 
-                      <button onClick={() => decreaseQuantity(item.product._id)}>
-                        -
-                      </button>
+                      <p>₪{item.product.price}</p>
 
-                      <button onClick={() => removeFromCart(item.product._id)}>
-                        Remove
-                      </button>
+                      <p>
+                        {t("cartPage.quantity")}: {item.quantity}
+                      </p>
                     </div>
                   </div>
-                ))}
-              </div>
-              <div className="checkout-form">
-                <h3>Shipping Details</h3>
 
-                <input
-                  name="fullName"
-                  placeholder="Full Name"
-                  value={shippingDetails.fullName}
-                  onChange={handleShippingChange}
-                />
+                  <div className="cart-item-actions">
+                    <button
+                      onClick={() => increaseQuantity(item.product._id)}
+                      disabled={item.quantity >= item.product.countInStock}
+                    >
+                      +
+                    </button>
 
-                <input
-                  name="phone"
-                  placeholder="Phone"
-                  value={shippingDetails.phone}
-                  onChange={handleShippingChange}
-                />
+                    <button
+                      onClick={() => decreaseQuantity(item.product._id)}
+                    >
+                      -
+                    </button>
 
-                <input
-                  name="city"
-                  placeholder="City"
-                  value={shippingDetails.city}
-                  onChange={handleShippingChange}
-                />
-
-                <input
-                  name="address"
-                  placeholder="Address"
-                  value={shippingDetails.address}
-                  onChange={handleShippingChange}
-                />
-
-                <select name="shippingMethod"
-                  value={shippingDetails.shippingMethod}
-                  onChange={handleShippingChange}
-                >
-                  <option value="Delivery">Home Delivery</option>
-                  <option value="Pickup">Pickup</option>
-                </select>
-              </div>
-
+                    <button
+                      onClick={() => removeFromCart(item.product._id)}
+                    >
+                      {t("cartPage.remove")}
+                    </button>
+                  </div>
+                </div>
+              ))}
             </div>
-            <div className="cart-summary">
-              <h3>Total items: {totalItems}</h3>
-              <h3>Total: {totalPrice} ₪</h3>
-              <div className="customization-card">
-                <h3>Customization Requests</h3>
 
-                <p className="customization-text">
-                  Tell us how you'd like to personalize your order.
-                </p>
+            <div className="checkout-form">
+              <h3>{t("cartPage.shippingDetails")}</h3>
 
-                <textarea
-                  placeholder={`Examples:
-                    • Engraving text
-                    • Preferred epoxy color
-                    • Gift wrapping
-                    • Special dimensions
-                    • Any other custom request`}
-                  value={customizationRequest}
-                  onChange={handleCustomizationChange}
-                  rows={6}
-                />
-              </div>
-              <button onClick={clearCart}>Clear Cart</button>
-              <button onClick={checkoutHandler}>Checkout</button>
+              <input
+                name="fullName"
+                placeholder={t("cartPage.fullName")}
+                value={shippingDetails.fullName}
+                onChange={handleShippingChange}
+              />
+
+              <input
+                name="phone"
+                placeholder={t("cartPage.phone")}
+                value={shippingDetails.phone}
+                onChange={handleShippingChange}
+              />
+
+              <input
+                name="city"
+                placeholder={t("cartPage.city")}
+                value={shippingDetails.city}
+                onChange={handleShippingChange}
+              />
+
+              <input
+                name="address"
+                placeholder={t("cartPage.address")}
+                value={shippingDetails.address}
+                onChange={handleShippingChange}
+              />
+
+              <select
+                name="shippingMethod"
+                value={shippingDetails.shippingMethod}
+                onChange={handleShippingChange}
+              >
+                <option value="Delivery">
+                  {t("cartPage.homeDelivery")}
+                </option>
+
+                <option value="Pickup">
+                  {t("cartPage.pickup")}
+                </option>
+              </select>
             </div>
           </div>
-        </>
+
+          <div className="cart-summary">
+            <h3>
+              {t("cartPage.totalItems")}: {totalItems}
+            </h3>
+
+            <h3>
+              {t("cartPage.total")}: {totalPrice} ₪
+            </h3>
+
+            <div className="customization-card">
+              <h3>{t("cartPage.customizationRequests")}</h3>
+
+              <p className="customization-text">
+                {t("cartPage.customizationText")}
+              </p>
+
+              <textarea
+                placeholder={t("cartPage.customizationPlaceholder")}
+                value={customizationRequest}
+                onChange={handleCustomizationChange}
+                rows={6}
+              />
+            </div>
+
+            <button onClick={clearCart}>
+              {t("cartPage.clearCart")}
+            </button>
+
+            <button onClick={checkoutHandler}>
+              {t("cartPage.checkout")}
+            </button>
+          </div>
+        </div>
       )}
     </div>
   );
 }
 
-export default CartPage
+export default CartPage;
