@@ -4,9 +4,19 @@ import { useCart } from "../context/CartContext";
 import { useUser } from "../context/UserContext";
 import { FaHeart } from "react-icons/fa";
 import { useWishlist } from "../context/WishlistContext";
+import { useTranslation } from "react-i18next";
 
 function Header() {
     const [isOpen, setIsOpen] = useState(false);
+
+    const { t, i18n } = useTranslation();
+
+    const changeLanguage = (lang) => {
+        i18n.changeLanguage(lang);
+
+        document.documentElement.lang = lang;
+        document.documentElement.dir = lang === "he" ? "rtl" : "ltr";
+    };
 
     const { cartItems } = useCart();
     const { user, logout } = useUser();
@@ -15,14 +25,14 @@ function Header() {
     const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
     const getGreeting = () => {
-        const hour = new Date().getHours()
+        const hour = new Date().getHours();
 
-        if (hour >= 5 && hour < 12) return "Good Morning"
-        if (hour >= 12 && hour < 18) return "Good Afternoon"
-        if (hour >= 18 && hour < 21) return "Good Evening"
+        if (hour >= 5 && hour < 12) return t("goodMorning");
+        if (hour >= 12 && hour < 18) return t("goodAfternoon");
+        if (hour >= 18 && hour < 21) return t("goodEvening");
 
-        return "Good Night"
-    }
+        return t("goodNight");
+    };
 
     return (
         <>
@@ -76,30 +86,30 @@ function Header() {
                     )}
 
                     <Link to="/" onClick={() => setIsOpen(false)}>
-                        Home
+                        {t("home")}
                     </Link>
 
                     <Link to="/products" onClick={() => setIsOpen(false)}>
-                        Products
+                        {t("products")}
                     </Link>
 
                     <Link to="/cart" onClick={() => setIsOpen(false)}>
-                        Cart ({totalItems})
+                        {t("cart")} ({totalItems})
                     </Link>
                     {user && (
                         <Link to="/my-orders" onClick={() => setIsOpen(false)}>
-                            Order History
+                            {t("orderHistory")}
                         </Link>
                     )}
 
                     {user?.role === "admin" && (
                         <Link to="/admin" onClick={() => setIsOpen(false)}>
-                            Admin
+                            {t("admin")}
                         </Link>
                     )}
                     {(user?.role === "admin" || user?.role === "business_manager") && (
                         <Link to="/dashboard" onClick={() => setIsOpen(false)}>
-                            Dashboard
+                            {t("dashboard")}
                         </Link>
                     )}
 
@@ -110,25 +120,35 @@ function Header() {
                                 setIsOpen(false);
                             }}
                         >
-                            Logout
+                            {t("logout")}
                         </button>
                     ) : (
                         <>
                             <Link to="/login" onClick={() => setIsOpen(false)}>
-                                Sign In
+                                {t("signIn")}
                             </Link>
 
                             <Link to="/register" onClick={() => setIsOpen(false)}>
-                                Sign Up
+                                {t("signUp")}
                             </Link>
-
                         </>
-
                     )}
                     <Link to="/about" onClick={() => setIsOpen(false)}>
-                        About
+                        {t("about")}
                     </Link>
-                    <Link to="/contact">Contact</Link>
+                    <Link to="/contact" onClick={() => setIsOpen(false)}>
+                        {t("contact")}
+                    </Link>
+
+                    <div className="language-switcher">
+                        <button onClick={()=> changeLanguage("he")}>
+                            עברית 
+                        </button>
+
+                        <button onClick={()=> changeLanguage("en")}>
+                            English
+                        </button>
+                    </div>
                 </nav>
             </div>
         </>
