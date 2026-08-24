@@ -3,12 +3,14 @@ import { useParams } from "react-router-dom";
 import { getProductById } from "../services/productsService";
 import { useCart } from "../context/CartContext";
 import toast from "react-hot-toast";
+import { useTranslation } from "react-i18next";
 
 function ProductDetailsPage() {
   const backendUrl = import.meta.env.VITE_API_URL.replace("/api", "");
   const { id } = useParams();
   const { addToCart } = useCart();
   const [product, setProduct] = useState(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -24,7 +26,7 @@ function ProductDetailsPage() {
   }, [id]);
 
   if (!product) {
-    return <p>Loading product...</p>;
+    return <p>{t("productDetailsPage.loading")}</p>;
   }
 
   return (
@@ -41,7 +43,7 @@ function ProductDetailsPage() {
               alt={product.name}
             />
           ) : (
-            <span>No Image</span>
+            <span>{t("productDetailsPage.noImage")}</span>
           )}
         </div>
 
@@ -54,19 +56,26 @@ function ProductDetailsPage() {
 
           <p className="product-stock">
             {product.countInStock > 0
-              ? `In stock: ${product.countInStock}`
-              : "Out of stock"}
+              ? t("productDetailsPage.inStock", {
+                  count: product.countInStock,
+                })
+              : t("productDetailsPage.outOfStock")}
           </p>
 
           <button
             className="primary-btn"
             onClick={() => {
               addToCart(product);
-              toast.success(`${product.name} added to cart 🛒`);
+
+              toast.success(
+                t("productDetailsPage.addedToCart", {
+                  productName: product.name,
+                })
+              );
             }}
             disabled={product.countInStock <= 0}
           >
-            Add to Cart
+            {t("productDetailsPage.addToCart")}
           </button>
         </div>
       </div>

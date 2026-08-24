@@ -1,18 +1,57 @@
 {
-  "home": "דף הבית",
-  "products": "מוצרים",
-  "wishlist": "מועדפים",
-  "cart": "סל קניות",
-  "orderHistory": "ההזמנות שלי",
-  "admin": "ניהול",
-  "dashboard": "לוח בקרה",
-  "logout": "התנתקות",
-  "signIn": "התחברות",
-  "signUp": "הרשמה",
-  "about": "אודות",
-  "contact": "צור קשר",
-  "goodMorning": "בוקר טוב",
-  "goodAfternoon": "צהריים טובים",
-  "goodEvening": "ערב טוב",
-  "goodNight": "לילה טוב"
+  "header": {
+    "home": "דף הבית",
+    "products": "מוצרים",
+    "wishlist": "מועדפים",
+    "cart": "סל קניות",
+    "orderHistory": "ההזמנות שלי",
+    "admin": "ניהול",
+    "dashboard": "לוח בקרה",
+    "logout": "התנתקות",
+    "signIn": "התחברות",
+    "signUp": "הרשמה",
+    "about": "אודות",
+    "contact": "צור קשר",
+    "goodMorning": "בוקר טוב",
+    "goodAfternoon": "צהריים טובים",
+    "goodEvening": "ערב טוב",
+    "goodNight": "לילה טוב"
+  },
+  "homePage": {
+    "heroText": "מוצרי יודאיקה בעבודת יד, מעץ זית בשילוב אפוקסי צבעוני.",
+    "shopProducts": "למוצרים",
+    "myOrders": "ההזמנות שלי",
+    "handmadeProducts": "מוצרים בעבודת יד",
+    "handmadeProductsText": "מזוזות, חנוכיות, תכשיטים, פמוטים ומוצרי נוי ייחודיים לבית.",
+    "naturalMaterials": "חומרים טבעיים",
+    "naturalMaterialsText": "מוצרים המיוצרים מעץ זית, אפוקסי וגימורים אמנותיים בעבודת יד.",
+    "personalGifts": "מתנות אישיות",
+    "personalGiftsText": "מתאים לחגים, חתונות, חנוכת בית ואירועים מיוחדים."
+  },
+  "productsPage": {
+    "title": "מוצרים",
+    "searchPlaceholder": "חיפוש מוצרים...",
+    "allCategories": "הכל",
+    "minPrice": "מחיר מינימום",
+    "maxPrice": "מחיר מקסימום",
+    "noProducts": "לא נמצאו מוצרים"
+  },
+  "productCard": {
+    "addedToCart": "{{productName}} נוסף לסל 🛒",
+    "signInWishlist": "יש להתחבר כדי להשתמש במועדפים",
+    "removedFromWishlist": "המוצר הוסר מהמועדפים",
+    "addedToWishlist": "המוצר נוסף למועדפים ❤️",
+    "wishlistUpdateFailed": "עדכון המועדפים נכשל",
+    "noImage": "אין תמונה",
+    "viewDetails": "לפרטי המוצר",
+    "addToCart": "הוספה לסל"
+  },
+  "productDetailsPage": {
+    "loading": "טוען מוצר...",
+    "noImage": "אין תמונה",
+    "inStock": "במלאי: {{count}}",
+    "outOfStock": "אזל מהמלאי",
+    "addedToCart": "{{productName}} נוסף לסל 🛒",
+    "addToCart": "הוספה לסל"
+  }
 }

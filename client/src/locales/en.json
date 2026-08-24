@@ -1,18 +1,57 @@
 {
-  "home": "Home",
-  "products": "Products",
-  "wishlist": "Wishlist",
-  "cart": "Cart",
-  "orderHistory": "Order History",
-  "admin": "Admin",
-  "dashboard": "Dashboard",
-  "logout": "Logout",
-  "signIn": "Sign In",
-  "signUp": "Sign Up",
-  "about": "About",
-  "contact": "Contact",
-  "goodMorning": "Good Morning",
-  "goodAfternoon": "Good Afternoon",
-  "goodEvening": "Good Evening",
-  "goodNight": "Good Night"
+  "header": {
+    "home": "Home",
+    "products": "Products",
+    "wishlist": "Wishlist",
+    "cart": "Cart",
+    "orderHistory": "Order History",
+    "admin": "Admin",
+    "dashboard": "Dashboard",
+    "logout": "Logout",
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "about": "About",
+    "contact": "Contact",
+    "goodMorning": "Good Morning",
+    "goodAfternoon": "Good Afternoon",
+    "goodEvening": "Good Evening",
+    "goodNight": "Good Night"
+  },
+  "homePage": {
+    "heroText": "Handmade Judaica products crafted from olive wood and colorful epoxy resin.",
+    "shopProducts": "Shop Products",
+    "myOrders": "My Orders",
+    "handmadeProducts": "Handmade Products",
+    "handmadeProductsText": "Unique mezuzot, menorahs, jewelry, candle holders and home decor.",
+    "naturalMaterials": "Natural Materials",
+    "naturalMaterialsText": "Products made with olive wood, resin, and artistic handmade finishes.",
+    "personalGifts": "Personal Gifts",
+    "personalGiftsText": "Perfect for holidays, weddings, housewarming gifts and special occasions."
+  },
+  "productsPage": {
+    "title": "Products",
+    "searchPlaceholder": "Search products...",
+    "allCategories": "All",
+    "minPrice": "Min price",
+    "maxPrice": "Max price",
+    "noProducts": "No products found"
+  },
+  "productCard": {
+    "addedToCart": "{{productName}} added to cart 🛒",
+    "signInWishlist": "Please sign in to use wishlist",
+    "removedFromWishlist": "Removed from wishlist",
+    "addedToWishlist": "Added to wishlist ❤️",
+    "wishlistUpdateFailed": "Wishlist update failed",
+    "noImage": "No Image",
+    "viewDetails": "View Details",
+    "addToCart": "Add to Cart"
+  },
+  "productDetailsPage": {
+    "loading": "Loading product...",
+    "noImage": "No Image",
+    "inStock": "In stock: {{count}}",
+    "outOfStock": "Out of stock",
+    "addedToCart": "{{productName}} added to cart 🛒",
+    "addToCart": "Add to Cart"
+  }
 }

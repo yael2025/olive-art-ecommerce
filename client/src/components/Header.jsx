@@ -27,9 +27,9 @@ function Header() {
     const getGreeting = () => {
         const hour = new Date().getHours();
 
-        if (hour >= 5 && hour < 12) return t("goodMorning");
-        if (hour >= 12 && hour < 18) return t("goodAfternoon");
-        if (hour >= 18 && hour < 21) return t("goodEvening");
+        if (hour >= 5 && hour < 12) return t("header.goodMorning");
+        if (hour >= 12 && hour < 18) return t("header.goodAfternoon");
+        if (hour >= 18 && hour < 21) return t("header.goodEvening");
 
         return t("goodNight");
     };
@@ -86,30 +86,30 @@ function Header() {
                     )}
 
                     <Link to="/" onClick={() => setIsOpen(false)}>
-                        {t("home")}
+                        {t("header.home")}
                     </Link>
 
                     <Link to="/products" onClick={() => setIsOpen(false)}>
-                        {t("products")}
+                        {t("header.products")}
                     </Link>
 
                     <Link to="/cart" onClick={() => setIsOpen(false)}>
-                        {t("cart")} ({totalItems})
+                        {t("header.cart")} ({totalItems})
                     </Link>
                     {user && (
                         <Link to="/my-orders" onClick={() => setIsOpen(false)}>
-                            {t("orderHistory")}
+                            {t("header.orderHistory")}
                         </Link>
                     )}
 
                     {user?.role === "admin" && (
                         <Link to="/admin" onClick={() => setIsOpen(false)}>
-                            {t("admin")}
+                            {t("header.admin")}
                         </Link>
                     )}
                     {(user?.role === "admin" || user?.role === "business_manager") && (
                         <Link to="/dashboard" onClick={() => setIsOpen(false)}>
-                            {t("dashboard")}
+                            {t("header.dashboard")}
                         </Link>
                     )}
 
@@ -120,24 +120,24 @@ function Header() {
                                 setIsOpen(false);
                             }}
                         >
-                            {t("logout")}
+                            {t("header.logout")}
                         </button>
                     ) : (
                         <>
                             <Link to="/login" onClick={() => setIsOpen(false)}>
-                                {t("signIn")}
+                                {t("header.signIn")}
                             </Link>
 
                             <Link to="/register" onClick={() => setIsOpen(false)}>
-                                {t("signUp")}
+                                {t("header.signUp")}
                             </Link>
                         </>
                     )}
                     <Link to="/about" onClick={() => setIsOpen(false)}>
-                        {t("about")}
+                        {t("header.about")}
                     </Link>
                     <Link to="/contact" onClick={() => setIsOpen(false)}>
-                        {t("contact")}
+                        {t("header.contact")}
                     </Link>
 
                     <div className="language-switcher">
