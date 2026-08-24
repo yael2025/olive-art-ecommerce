@@ -272,5 +272,37 @@
     "viewDetails": "View Details",
     "markAsPaid": "Mark as Paid",
     "markAsDelivered": "Mark as Delivered"
-  }
+  },
+  "dashboardPage": {
+  "loading": "Loading dashboard...",
+  "title": "Business Dashboard",
+  "exportExcel": "Export Excel Report",
+
+  "totalOrders": "Total Orders",
+  "totalRevenue": "Total Revenue",
+  "averageOrderValue": "Average Order Value",
+  "bestSeller": "Best Seller",
+  "registeredUsers": "Registered Users",
+  "noSalesYet": "No sales yet",
+
+  "ordersStatus": "Orders Status",
+  "paid": "Paid",
+  "notPaid": "Not Paid",
+  "delivered": "Delivered",
+  "pending": "Pending",
+  "pendingDelivery": "Pending Delivery",
+
+  "topSellingProducts": "Top Selling Products",
+  "quantitySold": "Quantity Sold",
+
+  "salesByCategory": "Sales By Category",
+  "revenue": "Revenue",
+
+  "excelMetric": "Metric",
+  "excelValue": "Value",
+  "excelStatus": "Status",
+  "excelCount": "Count",
+  "excelProduct": "Product",
+  "excelCategory": "Category"
+}
 }
