@@ -274,35 +274,41 @@
     "markAsDelivered": "סימון כנמסר"
   },
   "dashboardPage": {
-  "loading": "טוען נתוני לוח בקרה...",
-  "title": "לוח בקרה עסקי",
-  "exportExcel": "ייצוא דוח Excel",
-
-  "totalOrders": "סה״כ הזמנות",
-  "totalRevenue": "סה״כ הכנסות",
-  "averageOrderValue": "ממוצע להזמנה",
-  "bestSeller": "המוצר הנמכר ביותר",
-  "registeredUsers": "משתמשים רשומים",
-  "noSalesYet": "עדיין אין מכירות",
-
-  "ordersStatus": "סטטוס הזמנות",
-  "paid": "שולם",
-  "notPaid": "לא שולם",
-  "delivered": "נמסר",
-  "pending": "ממתין",
-  "pendingDelivery": "ממתין למשלוח",
-
-  "topSellingProducts": "המוצרים הנמכרים ביותר",
-  "quantitySold": "כמות שנמכרה",
-
-  "salesByCategory": "מכירות לפי קטגוריה",
-  "revenue": "הכנסות",
-
-  "excelMetric": "מדד",
-  "excelValue": "ערך",
-  "excelStatus": "סטטוס",
-  "excelCount": "כמות",
-  "excelProduct": "מוצר",
-  "excelCategory": "קטגוריה"
-}
+    "loading": "טוען נתוני לוח בקרה...",
+    "title": "לוח בקרה עסקי",
+    "exportExcel": "ייצוא דוח Excel",
+    "totalOrders": "סה״כ הזמנות",
+    "totalRevenue": "סה״כ הכנסות",
+    "averageOrderValue": "ממוצע להזמנה",
+    "bestSeller": "המוצר הנמכר ביותר",
+    "registeredUsers": "משתמשים רשומים",
+    "noSalesYet": "עדיין אין מכירות",
+    "ordersStatus": "סטטוס הזמנות",
+    "paid": "שולם",
+    "notPaid": "לא שולם",
+    "delivered": "נמסר",
+    "pending": "ממתין",
+    "pendingDelivery": "ממתין למשלוח",
+    "topSellingProducts": "המוצרים הנמכרים ביותר",
+    "quantitySold": "כמות שנמכרה",
+    "salesByCategory": "מכירות לפי קטגוריה",
+    "revenue": "הכנסות",
+    "excelMetric": "מדד",
+    "excelValue": "ערך",
+    "excelStatus": "סטטוס",
+    "excelCount": "כמות",
+    "excelProduct": "מוצר",
+    "excelCategory": "קטגוריה"
+  },
+  "notFoundPage": {
+    "title": "404 - העמוד לא נמצא"
+  },
+  "aiChat": {
+    "welcome": "היי! אשמח לעזור לך לבחור מוצר יודאיקה בעבודת יד.",
+    "error": "מצטערים, לא הצלחתי לענות כרגע. נסו שוב מאוחר יותר.",
+    "title": "עוזר הקניות החכם",
+    "thinking": "חושב...",
+    "placeholder": "שאלו אותי על המוצרים...",
+    "send": "שליחה"
+  }
 }
