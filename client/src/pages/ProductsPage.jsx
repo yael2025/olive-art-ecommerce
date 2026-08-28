@@ -11,7 +11,9 @@ function ProductsPage() {
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
 
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+
+  const isHebrew = i18n.language === "he";
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -38,9 +40,19 @@ function ProductsPage() {
   const filteredProducts = products.filter((product) => {
     const text = searchText.toLowerCase();
 
+    const productName =
+      isHebrew && product.nameHe
+        ? product.nameHe
+        : product.name;
+
+    const productDescription =
+      isHebrew && product.descriptionHe
+        ? product.descriptionHe
+        : product.description;
+
     const matchesSearch =
-      product.name.toLowerCase().includes(text) ||
-      product.description?.toLowerCase().includes(text);
+      productName?.toLowerCase().includes(text) ||
+      productDescription?.toLowerCase().includes(text);
 
     const matchesCategory =
       selectedCategory === "All" ||
@@ -82,7 +94,11 @@ function ProductsPage() {
             <option key={category} value={category}>
               {category === "All"
                 ? t("productsPage.allCategories")
-                : category}
+                : isHebrew
+                  ? products.find(
+                    (product) => product.category === category
+                  )?.categoryHe || category
+                  : category}
             </option>
           ))}
         </select>

@@ -9,7 +9,9 @@ function WishlistPage() {
 
   const { wishlistItems, removeItemFromWishlist } = useWishlist();
   const { addToCart } = useCart();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+
+  const isHebrew = i18n.language === "he";
 
   const handleAddToCart = (product) => {
     addToCart(product);
@@ -17,20 +19,31 @@ function WishlistPage() {
   };
 
   return (
-    <div className="wishlist-page">
-      <h2>{t("wishlistPage.title")}</h2>
+  <div className="wishlist-page">
+    <h2>{t("wishlistPage.title")}</h2>
 
-      {wishlistItems.length === 0 ? (
-        <div className="empty-wishlist">
-          <p>{t("wishlistPage.empty")}</p>
+    {wishlistItems.length === 0 ? (
+      <div className="empty-wishlist">
+        <p>{t("wishlistPage.empty")}</p>
 
-          <Link to="/products" className="primary-btn">
-            {t("wishlistPage.browseProducts")}
-          </Link>
-        </div>
-      ) : (
-        <div className="wishlist-list">
-          {wishlistItems.map((product) => (
+        <Link to="/products" className="primary-btn">
+          {t("wishlistPage.browseProducts")}
+        </Link>
+      </div>
+    ) : (
+      <div className="wishlist-list">
+        {wishlistItems.map((product) => {
+          const productName =
+            isHebrew && product.nameHe
+              ? product.nameHe
+              : product.name;
+
+          const productCategory =
+            isHebrew && product.categoryHe
+              ? product.categoryHe
+              : product.category;
+
+          return (
             <div className="wishlist-item" key={product._id}>
               <img
                 src={
@@ -38,13 +51,15 @@ function WishlistPage() {
                     ? `${backendUrl}${product.image}`
                     : product.image
                 }
-                alt={product.name}
+                alt={productName}
               />
 
               <div className="wishlist-info">
-                <h3>{product.name}</h3>
+                <h3>{productName}</h3>
+
                 <p>₪ {product.price}</p>
-                <p>{product.category}</p>
+
+                <p>{productCategory}</p>
               </div>
 
               <div className="wishlist-actions">
@@ -53,17 +68,20 @@ function WishlistPage() {
                 </button>
 
                 <button
-                  onClick={() => removeItemFromWishlist(product._id)}
+                  onClick={() =>
+                    removeItemFromWishlist(product._id)
+                  }
                 >
                   {t("wishlistPage.remove")}
                 </button>
               </div>
             </div>
-          ))}
-        </div>
-      )}
-    </div>
-  );
+          );
+        })}
+      </div>
+    )}
+  </div>
+);
 }
 
 export default WishlistPage;

@@ -1,5 +1,9 @@
 const Product = require("../models/productModel");
 
+const {
+  translateProductToHebrew,
+} = require("../services/translationService");
+
 // GET all products
 const getProducts = async (req, res) => {
   try {
@@ -28,28 +32,65 @@ const getProductById = async (req, res) => {
 // CREATE product
 const createProduct = async (req, res) => {
   try {
-    const { name, price, description, image, countInStock, category } = req.body;
-
-    const product = new Product({
+    const {
       name,
       price,
       description,
       image,
       countInStock,
       category,
+    } = req.body;
+
+    let translation = {
+      nameHe: "",
+      descriptionHe: "",
+      categoryHe: "",
+    };
+
+    try {
+      translation = await translateProductToHebrew({
+        name,
+        description,
+        category,
+      });
+    } catch (translationError) {
+      console.error(
+        "Product translation failed:",
+        translationError.message
+      );
+    }
+
+    const product = new Product({
+      name,
+      nameHe: translation.nameHe,
+
+      price,
+
+      description,
+      descriptionHe: translation.descriptionHe,
+
+      image,
+      countInStock,
+
+      category,
+      categoryHe: translation.categoryHe,
     });
 
     const createdProduct = await product.save();
 
     res.status(201).json(createdProduct);
   } catch (error) {
-    res.status(500).json({ message: "Server error" });
+    console.error("Create product error:", error.message);
+
+    res.status(500).json({
+      message: "Server error",
+    });
   }
 };
 
 // UPDATE product
-const updateProduct = async (req, res) =>{
-  try{
+const updateProduct = async (req, res) => {
+  try {
     const { name, price, description, image, countInStock, category } = req.body;
 
     const product = await Product.findById(req.params.id);
@@ -73,8 +114,8 @@ const updateProduct = async (req, res) =>{
 }
 
 // DELETE product
-const deleteProduct = async (req, res)=>{
-  try{
+const deleteProduct = async (req, res) => {
+  try {
     const product = await Product.findById(req.params.id)
 
     if (!product) {
@@ -83,7 +124,7 @@ const deleteProduct = async (req, res)=>{
     await product.deleteOne();
 
     res.json({ message: "Product removed" });
-  }catch (error) {
+  } catch (error) {
     res.status(500).json({ message: "Server error" });
   }
 }

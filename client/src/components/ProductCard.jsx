@@ -11,7 +11,14 @@ function ProductCard({ product }) {
 
   const { addToCart } = useCart();
   const { user } = useUser();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+
+  const isHebrew = i18n.language === "he";
+
+  const productName =
+    isHebrew && product.nameHe
+      ? product.nameHe
+      : product.name;
 
   const {
     addItemToWishlist,
@@ -26,7 +33,7 @@ function ProductCard({ product }) {
 
     toast.success(
       t("productCard.addedToCart", {
-        productName: product.name,
+        productName,
       })
     );
   };
@@ -55,7 +62,7 @@ function ProductCard({ product }) {
             } catch (error) {
               toast.error(
                 error.response?.data?.message ||
-                  t("productCard.wishlistUpdateFailed")
+                t("productCard.wishlistUpdateFailed")
               );
             }
           }}
@@ -65,8 +72,12 @@ function ProductCard({ product }) {
 
         {product.image ? (
           <img
-            src={`${backendUrl}${product.image}`}
-            alt={product.name}
+            src={
+              product.image.startsWith("/uploads")
+                ? `${backendUrl}${product.image}`
+                : product.image
+            }
+            alt={productName}
           />
         ) : (
           <div className="product-image-placeholder">
@@ -75,7 +86,7 @@ function ProductCard({ product }) {
         )}
       </div>
 
-      <h3>{product.name}</h3>
+      <h3>{productName}</h3>
 
       <p>{product.price} ₪</p>
 

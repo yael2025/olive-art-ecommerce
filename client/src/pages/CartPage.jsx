@@ -17,7 +17,9 @@ function CartPage() {
 
   const { user } = useUser();
   const navigate = useNavigate();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+
+  const isHebrew = i18n.language === "he";
 
   const [message, setMessage] = useState("");
 
@@ -118,61 +120,84 @@ function CartPage() {
         <p>{t("cartPage.emptyCart")}</p>
       ) : (
         <div className="cart-layout">
+
           <div className="cart-main">
+
             <div className="cart-list">
-              {cartItems.map((item) => (
-                <div className="cart-item" key={item.product._id}>
-                  <div className="cart-item-info">
-                    <div className="cart-item-image">
-                      {item.product.image ? (
-                        <img
-                          src={
-                            item.product.image.startsWith("/uploads")
-                              ? `${backendUrl}${item.product.image}`
-                              : item.product.image
-                          }
-                          alt={item.product.name}
-                        />
-                      ) : (
-                        <div className="cart-image-placeholder">
-                          {t("cartPage.noImage")}
-                        </div>
-                      )}
+              {cartItems.map((item) => {
+                const productName =
+                  isHebrew && item.product.nameHe
+                    ? item.product.nameHe
+                    : item.product.name;
+
+                return (
+                  <div className="cart-item" key={item.product._id}>
+
+                    <div className="cart-item-info">
+
+                      <div className="cart-item-image">
+                        {item.product.image ? (
+                          <img
+                            src={
+                              item.product.image.startsWith("/uploads")
+                                ? `${backendUrl}${item.product.image}`
+                                : item.product.image
+                            }
+                            alt={productName}
+                          />
+                        ) : (
+                          <div className="cart-image-placeholder">
+                            {t("cartPage.noImage")}
+                          </div>
+                        )}
+                      </div>
+
+                      <div className="cart-item-details">
+                        <h3>{productName}</h3>
+
+                        <p>₪{item.product.price}</p>
+
+                        <p>
+                          {t("cartPage.quantity")}: {item.quantity}
+                        </p>
+                      </div>
+
                     </div>
 
-                    <div className="cart-item-details">
-                      <h3>{item.product.name}</h3>
+                    <div className="cart-item-actions">
 
-                      <p>₪{item.product.price}</p>
+                      <button
+                        onClick={() =>
+                          increaseQuantity(item.product._id)
+                        }
+                        disabled={
+                          item.quantity >= item.product.countInStock
+                        }
+                      >
+                        +
+                      </button>
 
-                      <p>
-                        {t("cartPage.quantity")}: {item.quantity}
-                      </p>
+                      <button
+                        onClick={() =>
+                          decreaseQuantity(item.product._id)
+                        }
+                      >
+                        -
+                      </button>
+
+                      <button
+                        onClick={() =>
+                          removeFromCart(item.product._id)
+                        }
+                      >
+                        {t("cartPage.remove")}
+                      </button>
+
                     </div>
+
                   </div>
-
-                  <div className="cart-item-actions">
-                    <button
-                      onClick={() => increaseQuantity(item.product._id)}
-                      disabled={item.quantity >= item.product.countInStock}
-                    >
-                      +
-                    </button>
-
-                    <button
-                      onClick={() => decreaseQuantity(item.product._id)}
-                    >
-                      -
-                    </button>
-
-                    <button
-                      onClick={() => removeFromCart(item.product._id)}
-                    >
-                      {t("cartPage.remove")}
-                    </button>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
 
             <div className="checkout-form">
@@ -220,9 +245,11 @@ function CartPage() {
                 </option>
               </select>
             </div>
+
           </div>
 
           <div className="cart-summary">
+
             <h3>
               {t("cartPage.totalItems")}: {totalItems}
             </h3>
@@ -239,7 +266,9 @@ function CartPage() {
               </p>
 
               <textarea
-                placeholder={t("cartPage.customizationPlaceholder")}
+                placeholder={t(
+                  "cartPage.customizationPlaceholder"
+                )}
                 value={customizationRequest}
                 onChange={handleCustomizationChange}
                 rows={6}
@@ -253,7 +282,9 @@ function CartPage() {
             <button onClick={checkoutHandler}>
               {t("cartPage.checkout")}
             </button>
+
           </div>
+
         </div>
       )}
     </div>
