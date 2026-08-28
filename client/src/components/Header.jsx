@@ -31,7 +31,7 @@ function Header() {
         if (hour >= 12 && hour < 18) return t("header.goodAfternoon");
         if (hour >= 18 && hour < 21) return t("header.goodEvening");
 
-        return t("goodNight");
+        return t("header.goodNight");
     };
 
     return (

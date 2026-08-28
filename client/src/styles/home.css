@@ -1,121 +1,167 @@
+/*
+  home.css
+  --------
+  Styles for the Home page.
+
+  Responsibilities:
+  - Home page container
+  - Hero section
+  - Hero content and image
+  - Home page action buttons
+  - Informational feature cards
+  - Responsive Home page layout
+
+  Shared buttons and global styles should be placed
+  in their dedicated CSS files.
+*/
+
+
 /* ===== Home Page ===== */
 
 .home-page {
-    max-width: 1100px;
-    margin: 0 auto;
+  max-width: 1100px;
+  margin: 0 auto;
 }
 
+
+/* ===== Hero Section ===== */
+
 .hero-section {
-display: grid;
-grid-template-columns: 1.3fr 1fr;
-gap: 28px;
-align-items: center;
-background: white;
-border-radius: 18px;
-padding: 32px;
-box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 28px;
+  align-items: center;
+
+  background: white;
+
+  border-radius: 18px;
+
+  padding: 32px;
+
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
 }
 
 .hero-content h1 {
-font-size: 38px;
-color: #6b4f3a;
-margin-bottom: 14px;
+  font-size: 38px;
+  color: #6b4f3a;
+
+  margin-bottom: 14px;
 }
 
 .hero-content p {
-font-size: 18px;
-line-height: 1.6;
-margin-bottom: 22px;
+  font-size: 18px;
+  line-height: 1.6;
+
+  margin-bottom: 22px;
 }
 
+
+/* ===== Hero Actions ===== */
+
 .hero-actions {
-    display: flex;
-  gap: 12px;
+  display: flex;
   align-items: center;
-  }
-  .home-btn {
+  gap: 12px;
+}
+
+.home-btn {
   display: inline-block;
+
   padding: 12px 18px;
+
   border-radius: 8px;
+
   text-decoration: none;
   font-weight: bold;
 }
-  .home-btn.primary {
+
+.home-btn.primary {
   background-color: #6b4f3a;
   color: white;
 }
+
 .home-btn.secondary {
   background-color: white;
   color: #6b4f3a;
+
   border: 1px solid #6b4f3a;
 }
+
 .home-btn:hover {
   opacity: 0.9;
 }
 
-  .primary-btn,
-.secondary-btn {
-  padding: 12px 18px;
-  border-radius: 10px;
-  font-weight: bold;
-}
 
-.primary-btn {
-    background-color: #6b4f3a;
-    color: white;
-  }
+/* ===== Hero Image ===== */
 
-  .secondary-btn {
-    border: 1px solid #6b4f3a;
-    color: #6b4f3a;
-  }
+.hero-image {
+  height: 280px;
 
-  .hero-image-placeholder {
-    height: 260px;
-    background: #efe7db;
-    border-radius: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #6b4f3a;
-    font-weight: bold;
-  }
-  .home-info {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 18px;
-    margin-top: 24px;
-  }
-
-  .info-card {
-    background: white;
-    border-radius: 14px;
-    padding: 18px;
-    border: 1px solid #e4d9cb;
-  }
-
-  .info-card h3 {
-    color: #6b4f3a;
-    margin-bottom: 8px;
-  }
-
-  @media (max-width: 800px) {
-    .hero-section,
-    .home-info {
-      grid-template-columns: 1fr;
-    }
-  }
-  .hero-image{
-    height: 280px;
   border-radius: 16px;
+
   overflow: hidden;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
   background: #efe7db;
+}
+
+.hero-image img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+}
+
+.hero-image-placeholder {
+  height: 260px;
+
+  background: #efe7db;
+
+  border-radius: 16px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #6b4f3a;
+  font-weight: bold;
+}
+
+
+/* ===== Home Information Cards ===== */
+
+.home-info {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+
+  margin-top: 24px;
+}
+
+.info-card {
+  background: white;
+
+  border: 1px solid #e4d9cb;
+  border-radius: 14px;
+
+  padding: 18px;
+}
+
+.info-card h3 {
+  color: #6b4f3a;
+
+  margin-bottom: 8px;
+}
+
+
+/* ===== Responsive ===== */
+
+@media (max-width: 800px) {
+  .hero-section,
+  .home-info {
+    grid-template-columns: 1fr;
   }
-  .hero-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
+}

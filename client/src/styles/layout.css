@@ -1,202 +1,130 @@
+/*
+  layout.css
+  ----------
+  Styles for the shared application layout.
+
+  Responsibilities:
+  - Top navigation bar
+  - Logo and site title
+  - User greeting
+  - Wishlist and cart icons in the header
+  - Hamburger menu
+  - Sidebar navigation
+  - Overlay
+  - Shared RTL/LTR behavior for header and sidebar
+
+  Page-specific styles such as Login, Register, Products, Cart
+  and Admin should be placed in their dedicated CSS files.
+*/
+
+
 /* ===== Topbar ===== */
+
 .topbar {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    background: linear-gradient(90deg, #6b4f3a, #8b6a4e);
-    color: white;
-    padding: 16px 20px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
-    position: sticky;
-    top: 0;
-    z-index: 500;
-  }
-  
-  .topbar-greeting {
-  margin-left: auto;
-  margin-right: 20px;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+
+  direction: ltr;
+
+  background: linear-gradient(90deg, #6b4f3a, #8b6a4e);
+  color: white;
+
+  padding: 10px 20px;
+
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+
+  position: sticky;
+  top: 0;
+  z-index: 500;
+}
+
+.topbar h2 {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.topbar-greeting {
   color: white;
   font-weight: 600;
 }
+
 .topbar-actions {
-  margin-left: auto;
-  margin-right: 20px;
+  grid-column: 3;
+  justify-self: end;
+
   display: flex;
   align-items: center;
   gap: 18px;
+
+  direction: ltr;
 }
-.topbar-cart {
-  position: relative;
-  color: white;
-  text-decoration: none;
-  font-size: 22px;
-}
-.topbar-cart-badge {
-  position: absolute;
-  top: -8px;
-  right: -12px;
-  background-color: #ffffff;
-  color: #6b4f3a;
-  border-radius: 999px;
-  padding: 2px 7px;
-  font-size: 12px;
-  font-weight: bold;
-}
-  .topbar h2 {
-    font-size: 22px;
-    font-weight: bold;
-  }
-  
-  .menu-btn {
-    font-size: 24px;
-    background: none;
-    border: none;
-    color: white;
-    cursor: pointer;
-  }
-  
-  /* ===== Sidebar ===== */
-  .sidebar {
-    position: fixed;
-    top: 0;
-    left: -280px;
-    width: 260px;
-    height: 100%;
-    background-color: #fff;
-    box-shadow: 2px 0 12px rgba(0, 0, 0, 0.2);
-    padding: 20px 16px;
-    transition: left 0.3s ease;
-    z-index: 1000;
-  }
-  
-  .sidebar.open {
-    left: 0;
-  }
-  
-  .sidebar nav {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-  
-  .sidebar nav a,
-  .sidebar nav button,
-  .sidebar nav span {
-    display: block;
-    padding: 10px 12px;
-    border-radius: 8px;
-    font-size: 16px;
-  }
-  
-  .sidebar nav a:hover,
-  .sidebar nav button:hover {
-    background-color: #f3ece3;
-  }
-  
-  .sidebar nav button {
-    border: 1px solid #c8b6a6;
-    background-color: white;
-    cursor: pointer;
-    text-align: left;
-  }
-  
-  .sidebar nav span {
-    font-weight: bold;
-    color: #6b4f3a;
-    background-color: #f8f5f0;
-  }
-  
-  .close-btn {
-    background: none;
-    border: none;
-    font-size: 20px;
-    cursor: pointer;
-    margin-bottom: 20px;
-  }
-  
-  /* ===== Overlay ===== */
-  .overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.35);
-    z-index: 999;
-  }
-  .logo-container {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    color: white;
-    text-decoration: none;
-  }
-  .logo-container img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    object-fit: cover;
-  }
-  .auth-page {
-  max-width: 420px;
-  margin: 40px auto;
-}
-.auth-form {
-  background: white;
-  padding: 24px;
-  border-radius: 14px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-.auth-form h2 {
-  text-align: center;
-  color: #6b4f3a;
-  margin-bottom: 8px;
-  font-size: 30px;
-}
-.auth-form input {
-  padding: 10px 12px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-}
-.auth-form button {
-  padding: 12px;
+
+
+/* ===== Menu Button ===== */
+
+.menu-btn {
+  grid-column: 1;
+  justify-self: start;
+
+  font-size: 24px;
+
+  background: none;
   border: none;
-  border-radius: 10px;
-  background-color: #6b4f3a;
+
   color: white;
-  font-weight: bold;
+
   cursor: pointer;
 }
-.auth-form button:hover {
-  background-color: #8b6a4e;
+
+
+/* ===== Logo ===== */
+
+.logo-container {
+  grid-column: 2;
+  justify-self: center;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  color: white;
+  text-decoration: none;
 }
-.auth-form p {
-  text-align: center;
-  font-size: 14px;
+
+.logo-container img {
+  width: 40px;
+  height: 40px;
+
+  border-radius: 50%;
+
+  object-fit: cover;
 }
-.auth-form a {
-  color: #6b4f3a;
-  font-weight: bold;
-}
+
+
+/* ===== Wishlist ===== */
+
 .wishlist-link {
-    position: relative;
-    color: white;
-    font-size: 22px;
-    text-decoration: none;
-    margin-right: 20px;
+  position: relative;
+
+  color: white;
+  font-size: 22px;
+  text-decoration: none;
 }
-.wishlist-count{
+
+.wishlist-count {
   position: absolute;
+
   top: -8px;
   right: -10px;
-
-  background: #e53935;
-  color: white;
 
   width: 18px;
   height: 18px;
 
   border-radius: 50%;
+
+  background: #e53935;
+  color: white;
 
   display: flex;
   align-items: center;
@@ -204,4 +132,173 @@
 
   font-size: 11px;
   font-weight: bold;
+}
+
+
+/* ===== Cart ===== */
+
+.topbar-cart {
+  position: relative;
+
+  color: white;
+  text-decoration: none;
+  font-size: 22px;
+}
+
+.topbar-cart-badge {
+  position: absolute;
+
+  top: -8px;
+  right: -12px;
+
+  background-color: #ffffff;
+  color: #6b4f3a;
+
+  border-radius: 999px;
+
+  padding: 2px 7px;
+
+  font-size: 12px;
+  font-weight: bold;
+}
+
+
+/* ===== Sidebar ===== */
+
+.sidebar {
+  position: fixed;
+  top: 0;
+
+  width: 260px;
+  height: 100%;
+
+  background-color: #fff;
+
+  padding: 20px 16px;
+
+  z-index: 1000;
+}
+
+.sidebar nav {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sidebar nav a,
+.sidebar nav button,
+.sidebar nav span {
+  display: block;
+
+  padding: 10px 12px;
+
+  border-radius: 8px;
+
+  font-size: 16px;
+}
+
+.sidebar nav a:hover,
+.sidebar nav button:hover {
+  background-color: #f3ece3;
+}
+
+.sidebar nav button {
+  border: 1px solid #c8b6a6;
+
+  background-color: white;
+
+  cursor: pointer;
+  text-align: left;
+}
+
+.sidebar nav span {
+  font-weight: bold;
+
+  color: #6b4f3a;
+  background-color: #f8f5f0;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+
+  font-size: 20px;
+
+  cursor: pointer;
+
+  margin-bottom: 20px;
+}
+
+
+/* ===== Overlay ===== */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+
+  background: rgba(0, 0, 0, 0.35);
+
+  z-index: 999;
+}
+
+
+/* =========================================
+   LTR - English
+   ========================================= */
+
+html[dir="ltr"] .sidebar {
+  left: -280px;
+  right: auto;
+
+  transition: left 0.3s ease;
+
+  box-shadow: 2px 0 12px rgba(0, 0, 0, 0.2);
+}
+
+html[dir="ltr"] .sidebar.open {
+  left: 0;
+}
+
+html[dir="ltr"] .menu-btn {
+  justify-self: start;
+}
+
+html[dir="ltr"] .topbar-actions {
+  justify-self: end;
+}
+
+
+/* =========================================
+   RTL - Hebrew
+   ========================================= */
+
+html[dir="rtl"] .sidebar {
+  right: -280px;
+  left: auto;
+
+  transition: right 0.3s ease;
+
+  box-shadow: -2px 0 12px rgba(0, 0, 0, 0.2);
+}
+
+html[dir="rtl"] .sidebar.open {
+  right: 0;
+}
+
+html[dir="rtl"] .sidebar nav a,
+html[dir="rtl"] .sidebar nav button,
+html[dir="rtl"] .sidebar nav span {
+  text-align: right;
+}
+
+html[dir="rtl"] .menu-btn {
+  grid-column: 3;
+  justify-self: end;
+}
+
+html[dir="rtl"] .topbar-actions {
+  grid-column: 1;
+  justify-self: start;
+
+  direction: rtl;
 }
