@@ -12,6 +12,8 @@ function Header() {
     const { t, i18n } = useTranslation();
 
     const changeLanguage = (lang) => {
+        localStorage.setItem("language", lang);
+
         i18n.changeLanguage(lang);
 
         document.documentElement.lang = lang;
@@ -41,10 +43,32 @@ function Header() {
                 <button className="menu-btn" onClick={() => setIsOpen(true)}>
                     ☰
                 </button>
-                <Link to="/" className="logo-container">
-                    <img src="/images/logo.jpg" alt="logo" />
-                    <h2>Olive Art Creations</h2>
-                </Link>
+                <div className="topbar-center">
+
+                    <Link to="/" className="logo-container">
+                        <img src="/images/logo.jpg" alt="logo" />
+                        <h2>Olive Art Creations</h2>
+                    </Link>
+
+                    <div className="header-language-switcher">
+                        <button
+                            className={i18n.language === "he" ? "active" : ""}
+                            onClick={() => changeLanguage("he")}
+                        >
+                            עב
+                        </button>
+
+                        <span>|</span>
+
+                        <button
+                            className={i18n.language === "en" ? "active" : ""}
+                            onClick={() => changeLanguage("en")}
+                        >
+                            EN
+                        </button>
+                    </div>
+
+                </div>
                 <div className="topbar-actions">
                     {user && (
                         <div className="topbar-greeting">
@@ -66,7 +90,9 @@ function Header() {
                             <span className="topbar-cart-badge">{totalItems}</span>
                         )}
                     </Link>
+                    
                 </div>
+
             </header>
 
             {/* Overlay */}
@@ -140,15 +166,6 @@ function Header() {
                         {t("header.contact")}
                     </Link>
 
-                    <div className="language-switcher">
-                        <button onClick={()=> changeLanguage("he")}>
-                            עברית 
-                        </button>
-
-                        <button onClick={()=> changeLanguage("en")}>
-                            English
-                        </button>
-                    </div>
                 </nav>
             </div>
         </>

@@ -27,10 +27,11 @@
 
   direction: ltr;
 
+  min-height: 56px;
+  padding: 6px 20px;
+
   background: linear-gradient(90deg, #6b4f3a, #8b6a4e);
   color: white;
-
-  padding: 10px 20px;
 
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
 
@@ -77,13 +78,22 @@
   cursor: pointer;
 }
 
+/* ===== Topbar Center ===== */
+
+.topbar-center {
+  grid-column: 2;
+  justify-self: center;
+
+  display: flex;
+  align-items: center;
+  gap: 14px;
+
+  direction: ltr;
+}
 
 /* ===== Logo ===== */
 
 .logo-container {
-  grid-column: 2;
-  justify-self: center;
-
   display: flex;
   align-items: center;
   gap: 10px;
@@ -93,14 +103,64 @@
 }
 
 .logo-container img {
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
 
   border-radius: 50%;
 
   object-fit: cover;
 }
 
+.topbar-actions,
+.topbar-center,
+.topbar-greeting {
+  white-space: nowrap;
+}
+
+/* ===== Language Switcher ===== */
+
+.header-language-switcher {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  padding: 3px 7px;
+
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 999px;
+
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.header-language-switcher button {
+  border: none;
+  background: transparent;
+
+  color: rgba(255, 255, 255, 0.75);
+
+  font-size: 12px;
+  font-weight: 700;
+
+  padding: 3px 5px;
+
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.header-language-switcher button:hover {
+  color: white;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.header-language-switcher button.active {
+  background: white;
+  color: #6b4f3a;
+}
+
+.header-language-switcher span {
+  color: rgba(255, 255, 255, 0.35);
+  font-size: 11px;
+}
 
 /* ===== Wishlist ===== */
 
@@ -169,6 +229,9 @@
   position: fixed;
   top: 0;
 
+  left: -280px;
+  right: auto;
+
   width: 260px;
   height: 100%;
 
@@ -176,7 +239,15 @@
 
   padding: 20px 16px;
 
+  transition: left 0.3s ease;
+
+  box-shadow: 2px 0 12px rgba(0, 0, 0, 0.2);
+
   z-index: 1000;
+}
+
+.sidebar.open {
+  left: 0;
 }
 
 .sidebar nav {
@@ -246,18 +317,6 @@
    LTR - English
    ========================================= */
 
-html[dir="ltr"] .sidebar {
-  left: -280px;
-  right: auto;
-
-  transition: left 0.3s ease;
-
-  box-shadow: 2px 0 12px rgba(0, 0, 0, 0.2);
-}
-
-html[dir="ltr"] .sidebar.open {
-  left: 0;
-}
 
 html[dir="ltr"] .menu-btn {
   justify-self: start;
@@ -301,4 +360,52 @@ html[dir="rtl"] .topbar-actions {
   justify-self: start;
 
   direction: rtl;
+}
+
+.header-language-switcher {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  padding: 3px 7px;
+
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 999px;
+
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.header-language-switcher button {
+  border: none;
+  background: transparent;
+
+  color: rgba(255, 255, 255, 0.75);
+
+  font-size: 12px;
+  font-weight: 700;
+
+  padding: 3px 5px;
+
+  cursor: pointer;
+
+  border-radius: 6px;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.header-language-switcher button:hover {
+  color: white;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.header-language-switcher button.active {
+  background: white;
+  color: #6b4f3a;
+}
+
+.header-language-switcher span {
+  color: rgba(255, 255, 255, 0.35);
+  font-size: 11px;
 }

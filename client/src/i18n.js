@@ -4,6 +4,11 @@ import { initReactI18next } from "react-i18next";
 import en from "./locales/en.json";
 import he from "./locales/he.json";
 
+const savedLanguage = localStorage.getItem("language") || "he";
+
+document.documentElement.lang = savedLanguage;
+document.documentElement.dir = savedLanguage === "he" ? "rtl" : "ltr";
+
 i18n
   .use(initReactI18next)
   .init({
@@ -15,8 +20,10 @@ i18n
         translation: he,
       },
     },
-    lng: "en",
+
+    lng: savedLanguage,
     fallbackLng: "en",
+
     interpolation: {
       escapeValue: false,
     },
