@@ -44,7 +44,8 @@
     "wishlistUpdateFailed": "Wishlist update failed",
     "noImage": "No Image",
     "viewDetails": "View Details",
-    "addToCart": "Add to Cart"
+    "addToCart": "Add to Cart",
+    "outOfStock": "Out of stock"
   },
   "productDetailsPage": {
     "loading": "Loading product...",

@@ -44,7 +44,8 @@
     "wishlistUpdateFailed": "עדכון המועדפים נכשל",
     "noImage": "אין תמונה",
     "viewDetails": "לפרטי המוצר",
-    "addToCart": "הוספה לסל"
+    "addToCart": "הוספה לסל",
+    "outOfStock": "אזל מהמלאי"
   },
   "productDetailsPage": {
     "loading": "טוען מוצר...",
