@@ -271,7 +271,16 @@
     "pending": "ממתין",
     "viewDetails": "לפרטי ההזמנה",
     "markAsPaid": "סימון כשולם",
-    "markAsDelivered": "סימון כנמסר"
+    "markAsDelivered": "סימון כנמסר",
+    "userManagement": "ניהול משתמשים",
+    "hideUserManagement": "הסתר ניהול משתמשים",
+    "noUsers": "לא נמצאו משתמשים",
+    "customer": "לקוח",
+    "businessManager": "מנהל עסק",
+    "adminRole": "מנהל מערכת",
+    "userRoleUpdated": "הרשאת המשתמש עודכנה בהצלחה",
+    "updateUserRoleFailed": "עדכון הרשאת המשתמש נכשל",
+    "loadUsersFailed": "טעינת המשתמשים נכשלה"
   },
   "dashboardPage": {
     "loading": "טוען נתוני לוח בקרה...",

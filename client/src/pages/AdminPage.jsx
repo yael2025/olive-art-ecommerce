@@ -31,6 +31,9 @@ function AdminPage() {
   const [newCategoryName, setNewCategoryName] = useState("");
   const [isUploadingImage, setIsUploadingImage] = useState(false);
 
+  const [users, setUsers] = useState([]);
+  const [showUsersSection, setShowUsersSection] = useState(false);
+
 
   const [formData, setFormData] = useState({
     name: "",
@@ -69,10 +72,21 @@ function AdminPage() {
     }
   };
 
+  const fetchUsers = async () => {
+    try {
+      const { data } = await api.get("/users");
+      setUsers(data);
+    } catch (error) {
+      console.error("Error fetching users", error);
+      toast.error(t("adminPage.loadUsersFailed"));
+    }
+  };
+
   useEffect(() => {
     fetchProducts();
     fetchOrders();
     fetchCategories();
+    fetchUsers();
   }, []);
 
   const handleChange = (e) => {
@@ -280,6 +294,23 @@ function AdminPage() {
           t("adminPage.deleteCategoryFailed")
         );
       }
+    }
+  };
+  const updateUserRoleHandler = async (userId, newRole) => {
+    try {
+      await api.put(`/users/${userId}/role`, {
+        role: newRole,
+      });
+
+      toast.success(t("adminPage.userRoleUpdated"));
+      fetchUsers();
+    } catch (error) {
+      console.error("Update user role failed", error);
+
+      toast.error(
+        error.response?.data?.message ||
+        t("adminPage.updateUserRoleFailed")
+      );
     }
   };
 
@@ -567,6 +598,63 @@ function AdminPage() {
                   ))
                 )}
               </div>
+            </div>
+          )}
+        </div>
+        <div className="admin-section-card">
+          <button
+            className="admin-section-toggle"
+            onClick={() => setShowUsersSection((prev) => !prev)}
+          >
+            {showUsersSection
+              ? t("adminPage.hideUserManagement")
+              : t("adminPage.userManagement")}
+          </button>
+
+          {showUsersSection && (
+            <div className="admin-section-content">
+              <h3>{t("adminPage.userManagement")}</h3>
+
+              {users.length === 0 ? (
+                <p>{t("adminPage.noUsers")}</p>
+              ) : (
+                <div className="admin-products-list">
+                  {users.map((currentUser) => (
+                    <div
+                      className="admin-product-row"
+                      key={currentUser._id}
+                    >
+                      <div>
+                        <h4>{currentUser.username}</h4>
+                        <p>{currentUser.email}</p>
+                      </div>
+
+                      <select
+                        value={currentUser.role || "customer"}
+                        disabled={currentUser._id === user._id}
+                        onChange={(e) =>
+                          updateUserRoleHandler(
+                            currentUser._id,
+                            e.target.value
+                          )
+                        }
+                      >
+                        <option value="customer">
+                          {t("adminPage.customer")}
+                        </option>
+
+                        <option value="business_manager">
+                          {t("adminPage.businessManager")}
+                        </option>
+
+                        <option value="admin">
+                          {t("adminPage.adminRole")}
+                        </option>
+                      </select>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           )}
         </div>
