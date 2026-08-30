@@ -1,5 +1,6 @@
 import "../styles/orderConfirmation.css";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useState } from "react";
 import { createOrder } from "../services/orderService";
 import { useCart } from "../context/CartContext";
 import toast from "react-hot-toast";
@@ -11,6 +12,8 @@ function OrderConfirmationPage() {
 
   const { clearCart } = useCart();
   const { t } = useTranslation();
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const orderData = location.state?.orderData;
 
@@ -26,8 +29,11 @@ function OrderConfirmationPage() {
       </div>
     );
   }
-
   const confirmOrderHandler = async () => {
+    if (isSubmitting) return;
+
+    setIsSubmitting(true);
+
     try {
       await createOrder(orderData);
 
@@ -45,6 +51,8 @@ function OrderConfirmationPage() {
         error.response?.data?.message ||
         t("orderConfirmationPage.submitFailed")
       );
+
+      setIsSubmitting(false);
     }
   };
 
@@ -118,8 +126,11 @@ function OrderConfirmationPage() {
         <button
           className="order-confirm-btn"
           onClick={confirmOrderHandler}
+          disabled={isSubmitting}
         >
-          {t("orderConfirmationPage.submitOrder")}
+          {isSubmitting
+            ? t("orderConfirmationPage.submittingOrder")
+            : t("orderConfirmationPage.submitOrder")}
         </button>
 
         <button
