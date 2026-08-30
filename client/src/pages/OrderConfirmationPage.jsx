@@ -43,7 +43,7 @@ function OrderConfirmationPage() {
 
       toast.error(
         error.response?.data?.message ||
-          t("orderConfirmationPage.submitFailed")
+        t("orderConfirmationPage.submitFailed")
       );
     }
   };
@@ -108,6 +108,10 @@ function OrderConfirmationPage() {
           <div className="next-step">
             <span>3</span>
             <p>{t("orderConfirmationPage.step3")}</p>
+          </div>
+          <div className="order-email-notice">
+            <p>{t("orderConfirmationPage.emailConfirmationSent")}</p>
+            <p>{t("orderConfirmationPage.emailStatusUpdates")}</p>
           </div>
         </div>
 

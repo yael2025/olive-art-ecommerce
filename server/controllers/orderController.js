@@ -1,6 +1,8 @@
 const Order = require("../models/orderModel")
 //const asyncHandler = require("express-async-handler");
 const Product = require("../models/productModel");
+const User = require("../models/userModel");
+const { sendEmail } = require("../services/emailService");
 
 const createOrder = async (req, res) => {
   try {
@@ -44,6 +46,45 @@ const createOrder = async (req, res) => {
     });
 
     const createdOrder = await order.save();
+
+    const customer = await User.findById(req.user._id);
+
+    if (customer?.email) {
+      try {
+        await sendEmail({
+          to: customer.email,
+          subject: "Olive Art Creations - Order Confirmation",
+          html: `
+        <h2>Thank you for your order!</h2>
+
+        <p>Hi ${customer.username},</p>
+
+        <p>Your order has been received successfully.</p>
+
+        <p>
+          <strong>Order number:</strong>
+          ${createdOrder._id}
+        </p>
+
+        <p>
+          <strong>Total:</strong>
+          ₪${createdOrder.totalPrice}
+        </p>
+
+        <p>We will update you when the order status changes.</p>
+
+        <br />
+
+        <p>Olive Art Creations</p>
+      `,
+        });
+      } catch (emailError) {
+        console.error(
+          "ORDER CONFIRMATION EMAIL ERROR:",
+          emailError.message
+        );
+      }
+    }
 
     // Reduce stock after the order is created
     for (const item of orderItems) {
@@ -123,30 +164,30 @@ const markAsDelivered = async (req, res) => {
   }
 };
 
-const markAsPaid = async (req, res) =>{
-  try{
+const markAsPaid = async (req, res) => {
+  try {
     const order = await Order.findById(req.params.id)
 
-    if(!order){
+    if (!order) {
       return res.status(404).json({
-        message:"Order not found"
+        message: "Order not found"
       })
     }
 
-    if(order.isPaid){
+    if (order.isPaid) {
       return res.status(400).json({
-        message:"Order is already paid"
+        message: "Order is already paid"
       })
     }
 
     order.isPaid = true
     order.paidAt = Date.now()
 
-    const updatedOrder  = await order.save()
+    const updatedOrder = await order.save()
 
     res.json(updatedOrder)
   }
-  catch(error){
+  catch (error) {
     console.error("PAY ORDER ERROR:", error);
 
     res.status(500).json({
