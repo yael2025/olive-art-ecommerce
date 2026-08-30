@@ -29,6 +29,11 @@ function ProductCard({ product }) {
   const inWishlist = isInWishlist(product._id);
 
   const handleAddToCart = () => {
+    if (product.countInStock <= 0) {
+      toast.error(t("productCard.outOfStock"));
+      return;
+    }
+
     addToCart(product);
 
     toast.success(
@@ -97,8 +102,13 @@ function ProductCard({ product }) {
       <br />
       <br />
 
-      <button onClick={handleAddToCart}>
-        {t("productCard.addToCart")}
+      <button
+        onClick={handleAddToCart}
+        disabled={product.countInStock <= 0}
+      >
+        {product.countInStock <= 0
+          ? t("productCard.outOfStock")
+          : t("productCard.addToCart")}
       </button>
     </div>
   );
