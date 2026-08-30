@@ -156,6 +156,38 @@ const markAsDelivered = async (req, res) => {
 
     const updatedOrder = await order.save();
 
+    const customer = await User.findById(order.user);
+
+    if (customer?.email) {
+      sendEmail({
+        to: customer.email,
+        subject: "Olive Art Creations - Order Delivered",
+        html: `
+      <h2>Your order has been delivered</h2>
+
+      <p>Hi ${customer.username},</p>
+
+      <p>Your order has been marked as delivered.</p>
+
+      <p>
+        <strong>Order number:</strong>
+        ${updatedOrder._id}
+      </p>
+
+      <p>Thank you for choosing Olive Art Creations.</p>
+
+      <br />
+
+      <p>Olive Art Creations</p>
+    `,
+      }).catch((emailError) => {
+        console.error(
+          "DELIVERY EMAIL ERROR:",
+          emailError.message
+        );
+      });
+    }
+
     res.json(updatedOrder);
   } catch (error) {
     console.error("DELIVER ORDER ERROR:", error);
@@ -186,6 +218,38 @@ const markAsPaid = async (req, res) => {
     order.paidAt = Date.now()
 
     const updatedOrder = await order.save()
+
+    const customer = await User.findById(order.user);
+
+    if (customer?.email) {
+      sendEmail({
+        to: customer.email,
+        subject: "Olive Art Creations - Payment Confirmed",
+        html: `
+      <h2>Payment confirmed</h2>
+
+      <p>Hi ${customer.username},</p>
+
+      <p>Your payment has been confirmed successfully.</p>
+
+      <p>
+        <strong>Order number:</strong>
+        ${updatedOrder._id}
+      </p>
+
+      <p>We will notify you again when your order is delivered.</p>
+
+      <br />
+
+      <p>Olive Art Creations</p>
+    `,
+      }).catch((emailError) => {
+        console.error(
+          "PAYMENT EMAIL ERROR:",
+          emailError.message
+        );
+      });
+    }
 
     res.json(updatedOrder)
   }
