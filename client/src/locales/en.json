@@ -96,7 +96,9 @@
     "step1": "We review your order and personalization request.",
     "step2": "If needed, we will contact you to confirm the final design and pricing.",
     "step3": "Once everything is confirmed, production begins and your order will be prepared for delivery.",
-    "submitOrder": "Submit Order"
+    "submitOrder": "Submit Order",
+    "emailConfirmationSent": "A confirmation email has been sent to your email address.",
+    "emailStatusUpdates": "You will also receive email updates when your payment is confirmed and when your order is delivered."
   },
   "myOrdersPage": {
     "title": "My Orders",
