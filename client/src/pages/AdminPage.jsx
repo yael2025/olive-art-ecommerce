@@ -200,29 +200,29 @@ function AdminPage() {
       }
 
     }
-  }; 
+  };
   const deliverHandler = async (id) => {
-  try {
-    await markOrderDelivered(id);
-    fetchOrders();
+    try {
+      await markOrderDelivered(id);
+      fetchOrders();
 
-    toast.success(t("adminPage.orderDelivered"));
-  } catch (error) {
-    console.error("Deliver failed", error);
-    toast.error(t("adminPage.somethingWentWrong"));
-  }
-};
+      toast.success(t("adminPage.orderDelivered"));
+    } catch (error) {
+      console.error("Deliver failed", error);
+      toast.error(t("adminPage.somethingWentWrong"));
+    }
+  };
   const payHandler = async (id) => {
-  try {
-    await markOrderPaid(id);
-    fetchOrders();
+    try {
+      await markOrderPaid(id);
+      fetchOrders();
 
-    toast.success(t("adminPage.orderMarkedPaid"));
-  } catch (error) {
-    console.error("Payment failed", error);
-    toast.error(t("adminPage.somethingWentWrong"));
-  }
-};
+      toast.success(t("adminPage.orderMarkedPaid"));
+    } catch (error) {
+      console.error("Payment failed", error);
+      toast.error(t("adminPage.somethingWentWrong"));
+    }
+  };
   const generateAIDescription = async () => {
     try {
       if (!formData.name || !formData.category) {
@@ -450,6 +450,14 @@ function AdminPage() {
                     value={formData.price}
                     onChange={handleChange}
                   />
+                  <label>{t("adminPage.description")}</label>
+
+                  <button
+                    type="button"
+                    onClick={generateAIDescription}
+                  >
+                    ✨ {t("adminPage.generateAIDescription")}
+                  </button>
 
                   <textarea
                     name="description"
