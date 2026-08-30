@@ -47,45 +47,6 @@ const createOrder = async (req, res) => {
 
     const createdOrder = await order.save();
 
-    const customer = await User.findById(req.user._id);
-
-    if (customer?.email) {
-      try {
-        await sendEmail({
-          to: customer.email,
-          subject: "Olive Art Creations - Order Confirmation",
-          html: `
-        <h2>Thank you for your order!</h2>
-
-        <p>Hi ${customer.username},</p>
-
-        <p>Your order has been received successfully.</p>
-
-        <p>
-          <strong>Order number:</strong>
-          ${createdOrder._id}
-        </p>
-
-        <p>
-          <strong>Total:</strong>
-          ₪${createdOrder.totalPrice}
-        </p>
-
-        <p>We will update you when the order status changes.</p>
-
-        <br />
-
-        <p>Olive Art Creations</p>
-      `,
-        });
-      } catch (emailError) {
-        console.error(
-          "ORDER CONFIRMATION EMAIL ERROR:",
-          emailError.message
-        );
-      }
-    }
-
     // Reduce stock after the order is created
     for (const item of orderItems) {
       await Product.findByIdAndUpdate(item.product, {
@@ -95,13 +56,54 @@ const createOrder = async (req, res) => {
       });
     }
 
+    // Send the response immediately
     res.status(201).json(createdOrder);
+
+    // Send confirmation email without blocking the order response
+    const customer = await User.findById(req.user._id);
+
+    if (customer?.email) {
+      sendEmail({
+        to: customer.email,
+        subject: "Olive Art Creations - Order Confirmation",
+        html: `
+          <h2>Thank you for your order!</h2>
+
+          <p>Hi ${customer.username},</p>
+
+          <p>Your order has been received successfully.</p>
+
+          <p>
+            <strong>Order number:</strong>
+            ${createdOrder._id}
+          </p>
+
+          <p>
+            <strong>Total:</strong>
+            ₪${createdOrder.totalPrice}
+          </p>
+
+          <p>We will update you when the order status changes.</p>
+
+          <br />
+
+          <p>Olive Art Creations</p>
+        `,
+      }).catch((emailError) => {
+        console.error(
+          "ORDER CONFIRMATION EMAIL ERROR:",
+          emailError.message
+        );
+      });
+    }
   } catch (error) {
     console.error("CREATE ORDER ERROR:", error);
 
-    res.status(500).json({
-      message: error.message,
-    });
+    if (!res.headersSent) {
+      res.status(500).json({
+        message: error.message,
+      });
+    }
   }
 };
 const getMyOrders = async (req, res) => {
