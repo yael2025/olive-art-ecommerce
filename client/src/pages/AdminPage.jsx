@@ -200,30 +200,29 @@ function AdminPage() {
       }
 
     }
-  }; setFormData
+  }; 
   const deliverHandler = async (id) => {
-    try {
-      await markOrderDelivered(id);
-      fetchOrders();
-      await markOrderDelivered(id);
+  try {
+    await markOrderDelivered(id);
+    fetchOrders();
 
-      toast.success(t("adminPage.orderDelivered"));
-    } catch (error) {
-      console.error("Deliver failed", error);
-      toast.error(t("adminPage.somethingWentWrong"));
-    }
-  };
+    toast.success(t("adminPage.orderDelivered"));
+  } catch (error) {
+    console.error("Deliver failed", error);
+    toast.error(t("adminPage.somethingWentWrong"));
+  }
+};
   const payHandler = async (id) => {
-    try {
-      await markOrderPaid(id);
-      fetchOrders();
-      await markOrderPaid(id);
-      toast.success(t("adminPage.orderMarkedPaid"));
-    } catch (error) {
-      console.error("Payment failed", error);
-      toast.error(t("adminPage.somethingWentWrong"));
-    }
-  };
+  try {
+    await markOrderPaid(id);
+    fetchOrders();
+
+    toast.success(t("adminPage.orderMarkedPaid"));
+  } catch (error) {
+    console.error("Payment failed", error);
+    toast.error(t("adminPage.somethingWentWrong"));
+  }
+};
   const generateAIDescription = async () => {
     try {
       if (!formData.name || !formData.category) {
