@@ -143,12 +143,12 @@ function AdminPage() {
     setEditingProductId(product._id);
     setShowEditSection(true);
 
-    ({
+    setFormData({
       name: product.name || "",
-      price: product.price || "",
+      price: product.price ?? "",
       description: product.description || "",
       image: product.image || "",
-      countInStock: product.countInStock || "",
+      countInStock: product.countInStock ?? "",
       category: product.category || "",
     });
   };
@@ -348,7 +348,7 @@ function AdminPage() {
                   {categories.map((category) => (
                     <option
                       key={category._id}
-                      value={categories.name}
+                      value={category.name}
                     >
                       {category.name}
                     </option>
@@ -397,11 +397,12 @@ function AdminPage() {
                     onChange={handleChange}
                   />
 
-                  <input
+                  <textarea
                     name="description"
                     placeholder={t("adminPage.description")}
                     value={formData.description}
                     onChange={handleChange}
+                    rows="8"
                   />
 
                   <input

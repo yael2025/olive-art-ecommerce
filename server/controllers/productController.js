@@ -88,30 +88,88 @@ const createProduct = async (req, res) => {
   }
 };
 
+
+// UPDATE product
 // UPDATE product
 const updateProduct = async (req, res) => {
   try {
-    const { name, price, description, image, countInStock, category } = req.body;
-
     const product = await Product.findById(req.params.id);
 
     if (!product) {
-      return res.status(404).json({ message: "Product not found" });
+      return res.status(404).json({
+        message: "Product not found",
+      });
     }
 
-    product.name = name || product.name;
-    product.price = price || product.price;
-    product.description = description || product.description;
-    product.image = image || product.image;
-    product.countInStock = countInStock || product.countInStock;
-    product.category = category || product.category;
+    const oldName = product.name;
+    const oldDescription = product.description;
+    const oldCategory = product.category;
+
+    if (req.body.name !== undefined) {
+      product.name = req.body.name;
+    }
+
+    if (req.body.price !== undefined) {
+      product.price = req.body.price;
+    }
+
+    if (req.body.description !== undefined) {
+      product.description = req.body.description;
+    }
+
+    if (req.body.image !== undefined) {
+      product.image = req.body.image;
+    }
+
+    if (req.body.countInStock !== undefined) {
+      product.countInStock = req.body.countInStock;
+    }
+
+    if (req.body.category !== undefined) {
+      product.category = req.body.category;
+    }
+
+    const textChanged =
+      product.name !== oldName ||
+      product.description !== oldDescription ||
+      product.category !== oldCategory;
+
+    if (textChanged) {
+      try {
+        const translation =
+          await translateProductToHebrew({
+            name: product.name,
+            description: product.description,
+            category: product.category,
+          });
+
+        product.nameHe = translation.nameHe;
+        product.descriptionHe =
+          translation.descriptionHe;
+        product.categoryHe =
+          translation.categoryHe;
+      } catch (translationError) {
+        console.error(
+          "Product translation update failed:",
+          translationError.message
+        );
+      }
+    }
 
     const updatedProduct = await product.save();
+
     res.json(updatedProduct);
   } catch (error) {
-    res.status(500).json({ message: "Server error" });
+    console.error(
+      "Update product error:",
+      error.message
+    );
+
+    res.status(500).json({
+      message: "Server error",
+    });
   }
-}
+};
 
 // DELETE product
 const deleteProduct = async (req, res) => {

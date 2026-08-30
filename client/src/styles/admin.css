@@ -103,6 +103,11 @@
 }
 
 .admin-form textarea {
+  min-height: 160px;
+  resize: vertical;
+}
+
+.admin-form textarea {
   min-height: 120px;
 
   resize: vertical;
