@@ -98,7 +98,8 @@
     "step3": "Once everything is confirmed, production begins and your order will be prepared for delivery.",
     "submitOrder": "Submit Order",
     "emailConfirmationSent": "A confirmation email has been sent to your email address.",
-    "emailStatusUpdates": "You will also receive email updates when your payment is confirmed and when your order is delivered."
+    "emailStatusUpdates": "You will also receive email updates when your payment is confirmed and when your order is delivered.",
+    "submittingOrder": "Submitting order..."
   },
   "myOrdersPage": {
     "title": "My Orders",
