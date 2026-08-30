@@ -4,9 +4,21 @@ import { useCart } from "../context/CartContext";
 import { useUser } from "../context/UserContext";
 import { FaHeart } from "react-icons/fa";
 import { useWishlist } from "../context/WishlistContext";
+import { useTranslation } from "react-i18next";
 
 function Header() {
     const [isOpen, setIsOpen] = useState(false);
+
+    const { t, i18n } = useTranslation();
+
+    const changeLanguage = (lang) => {
+        localStorage.setItem("language", lang);
+
+        i18n.changeLanguage(lang);
+
+        document.documentElement.lang = lang;
+        document.documentElement.dir = lang === "he" ? "rtl" : "ltr";
+    };
 
     const { cartItems } = useCart();
     const { user, logout } = useUser();
@@ -15,14 +27,14 @@ function Header() {
     const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
     const getGreeting = () => {
-        const hour = new Date().getHours()
+        const hour = new Date().getHours();
 
-        if (hour >= 5 && hour < 12) return "Good Morning"
-        if (hour >= 12 && hour < 18) return "Good Afternoon"
-        if (hour >= 18 && hour < 21) return "Good Evening"
+        if (hour >= 5 && hour < 12) return t("header.goodMorning");
+        if (hour >= 12 && hour < 18) return t("header.goodAfternoon");
+        if (hour >= 18 && hour < 21) return t("header.goodEvening");
 
-        return "Good Night"
-    }
+        return t("header.goodNight");
+    };
 
     return (
         <>
@@ -31,10 +43,32 @@ function Header() {
                 <button className="menu-btn" onClick={() => setIsOpen(true)}>
                     ☰
                 </button>
-                <Link to="/" className="logo-container">
-                    <img src="/images/logo.jpg" alt="logo" />
-                    <h2>Olive Art Creations</h2>
-                </Link>
+                <div className="topbar-center">
+
+                    <Link to="/" className="logo-container">
+                        <img src="/images/logo.jpg" alt="logo" />
+                        <h2>Olive Art Creations</h2>
+                    </Link>
+
+                    <div className="header-language-switcher">
+                        <button
+                            className={i18n.language === "he" ? "active" : ""}
+                            onClick={() => changeLanguage("he")}
+                        >
+                            עב
+                        </button>
+
+                        <span>|</span>
+
+                        <button
+                            className={i18n.language === "en" ? "active" : ""}
+                            onClick={() => changeLanguage("en")}
+                        >
+                            EN
+                        </button>
+                    </div>
+
+                </div>
                 <div className="topbar-actions">
                     {user && (
                         <div className="topbar-greeting">
@@ -56,7 +90,9 @@ function Header() {
                             <span className="topbar-cart-badge">{totalItems}</span>
                         )}
                     </Link>
+                    
                 </div>
+
             </header>
 
             {/* Overlay */}
@@ -76,30 +112,30 @@ function Header() {
                     )}
 
                     <Link to="/" onClick={() => setIsOpen(false)}>
-                        Home
+                        {t("header.home")}
                     </Link>
 
                     <Link to="/products" onClick={() => setIsOpen(false)}>
-                        Products
+                        {t("header.products")}
                     </Link>
 
                     <Link to="/cart" onClick={() => setIsOpen(false)}>
-                        Cart ({totalItems})
+                        {t("header.cart")} ({totalItems})
                     </Link>
                     {user && (
                         <Link to="/my-orders" onClick={() => setIsOpen(false)}>
-                            Order History
+                            {t("header.orderHistory")}
                         </Link>
                     )}
 
                     {user?.role === "admin" && (
                         <Link to="/admin" onClick={() => setIsOpen(false)}>
-                            Admin
+                            {t("header.admin")}
                         </Link>
                     )}
                     {(user?.role === "admin" || user?.role === "business_manager") && (
                         <Link to="/dashboard" onClick={() => setIsOpen(false)}>
-                            Dashboard
+                            {t("header.dashboard")}
                         </Link>
                     )}
 
@@ -110,25 +146,26 @@ function Header() {
                                 setIsOpen(false);
                             }}
                         >
-                            Logout
+                            {t("header.logout")}
                         </button>
                     ) : (
                         <>
                             <Link to="/login" onClick={() => setIsOpen(false)}>
-                                Sign In
+                                {t("header.signIn")}
                             </Link>
 
                             <Link to="/register" onClick={() => setIsOpen(false)}>
-                                Sign Up
+                                {t("header.signUp")}
                             </Link>
-
                         </>
-
                     )}
                     <Link to="/about" onClick={() => setIsOpen(false)}>
-                        About
+                        {t("header.about")}
                     </Link>
-                    <Link to="/contact">Contact</Link>
+                    <Link to="/contact" onClick={() => setIsOpen(false)}>
+                        {t("header.contact")}
+                    </Link>
+
                 </nav>
             </div>
         </>

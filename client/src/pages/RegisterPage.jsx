@@ -2,9 +2,11 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import api from "../services/api";
 import toast from "react-hot-toast";
+import { useTranslation } from "react-i18next";
 
 function RegisterPage() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const [formData, setFormData] = useState({
     username: "",
@@ -24,29 +26,33 @@ function RegisterPage() {
 
     try {
       if (!formData.username || !formData.email || !formData.password) {
-        toast.error("Please fill in all fields");
+        toast.error(t("registerPage.fillAllFields"));
         return;
       }
 
       await api.post("/users/register", formData);
 
-      toast.success("Registration successful");
+      toast.success(t("registerPage.registrationSuccessful"));
       navigate("/login");
     } catch (error) {
       console.error("Register failed", error);
-      toast.error(error.response?.data?.message || "Register failed");
+
+      toast.error(
+        error.response?.data?.message ||
+        t("registerPage.registerFailed")
+      );
     }
   };
 
   return (
     <div className="auth-page">
       <form className="auth-form" onSubmit={submitHandler}>
-        <h2>Join Olive Art Creations</h2>
+        <h2>{t("registerPage.title")}</h2>
 
         <input
           type="text"
           name="username"
-          placeholder="Username"
+          placeholder={t("registerPage.username")}
           value={formData.username}
           onChange={handleChange}
         />
@@ -54,7 +60,7 @@ function RegisterPage() {
         <input
           type="email"
           name="email"
-          placeholder="Email"
+          placeholder={t("registerPage.email")}
           value={formData.email}
           onChange={handleChange}
         />
@@ -62,15 +68,20 @@ function RegisterPage() {
         <input
           type="password"
           name="password"
-          placeholder="Password"
+          placeholder={t("registerPage.password")}
           value={formData.password}
           onChange={handleChange}
         />
 
-        <button type="submit">Sign Up</button>
+        <button type="submit">
+          {t("registerPage.signUp")}
+        </button>
 
         <p>
-          Already have an account? <Link to="/login">Sign In</Link>
+          {t("registerPage.alreadyHaveAccount")}{" "}
+          <Link to="/login">
+            {t("registerPage.signIn")}
+          </Link>
         </p>
       </form>
     </div>

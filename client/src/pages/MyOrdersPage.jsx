@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { getMyOrders } from "../services/orderService";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 function MyOrdersPage() {
   const [orders, setOrders] = useState([]);
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -23,32 +25,41 @@ function MyOrdersPage() {
     fetchOrders();
   }, []);
 
+  const locale = i18n.language === "he" ? "he-IL" : "en-US";
+
   return (
     <div className="orders-page">
-      <h2>My Orders</h2>
+      <h2>{t("myOrdersPage.title")}</h2>
 
       {orders.length === 0 ? (
-        <p className="empty-orders">No orders yet</p>
+        <p className="empty-orders">{t("myOrdersPage.noOrders")}</p>
       ) : (
         <div className="orders-list">
           {orders.map((order) => (
             <div className="order-card" key={order._id}>
               <div className="order-header">
                 <div>
-                  <h3>Order</h3>
+                  <h3>{t("myOrdersPage.order")}</h3>
                   <p className="order-id">{order._id}</p>
                 </div>
 
                 <div className="order-meta">
-                  <p>Total: {order.totalPrice} ₪</p>
                   <p>
-                    {new Date(order.createdAt).toLocaleDateString()}{" "}
-                    {new Date(order.createdAt).toLocaleTimeString()}
+                    {t("myOrdersPage.total")}: {order.totalPrice} ₪
+                  </p>
+
+                  <p>
+                    {new Date(order.createdAt).toLocaleDateString(locale)}{" "}
+                    {new Date(order.createdAt).toLocaleTimeString(locale)}
                   </p>
                 </div>
               </div>
-              <Link to={`/orders/${order._id}`} className="details-link">
-                View Details
+
+              <Link
+                to={`/orders/${order._id}`}
+                className="details-link"
+              >
+                {t("myOrdersPage.viewDetails")}
               </Link>
 
               <div className="order-items">
@@ -56,8 +67,10 @@ function MyOrdersPage() {
                   <div className="order-item" key={index}>
                     <div className="order-item-info">
                       <p className="item-name">{item.name}</p>
+
                       <p className="item-details">
-                        Qty: {item.qty} | {item.price} ₪
+                        {t("myOrdersPage.quantity")}: {item.qty} |{" "}
+                        {item.price} ₪
                       </p>
                     </div>
 
@@ -67,12 +80,15 @@ function MyOrdersPage() {
                   </div>
                 ))}
               </div>
+
               {order.customizationRequest && (
                 <div className="order-customization-summary">
-                  <strong>✨ Personalization Request Included</strong>
+                  <strong>
+                    ✨ {t("myOrdersPage.personalizationIncluded")}
+                  </strong>
 
                   <p>
-                    View the order details to see the full personalization request.
+                    {t("myOrdersPage.personalizationDetails")}
                   </p>
                 </div>
               )}

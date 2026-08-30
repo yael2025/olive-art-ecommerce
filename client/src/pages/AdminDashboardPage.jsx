@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { getDashboardStats } from "../services/dashboardService";
 import * as XLSX from "xlsx";
-
+import { useTranslation } from "react-i18next";
 
 import {
   PieChart,
@@ -18,6 +18,7 @@ import {
 
 function AdminDashboardPage() {
   const [stats, setStats] = useState(null);
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
     const fetchStats = async () => {
@@ -33,23 +34,24 @@ function AdminDashboardPage() {
   }, []);
 
   if (!stats) {
-    return <p>Loading dashboard...</p>;
+    return <p>{t("dashboardPage.loading")}</p>;
   }
+
   const orderStatusData = [
     {
-      name: "Paid",
+      name: t("dashboardPage.paid"),
       value: stats.ordersByStatus.paid,
     },
     {
-      name: "Not Paid",
+      name: t("dashboardPage.notPaid"),
       value: stats.ordersByStatus.notPaid,
     },
     {
-      name: "Delivered",
+      name: t("dashboardPage.delivered"),
       value: stats.ordersByStatus.delivered,
     },
     {
-      name: "Pending",
+      name: t("dashboardPage.pending"),
       value: stats.ordersByStatus.pendingDelivery,
     },
   ];
@@ -61,91 +63,144 @@ function AdminDashboardPage() {
     "#FFC107",
   ];
 
-  const bestSeller = stats.topSellingProducts?.[0]
+  const bestSeller = stats.topSellingProducts?.[0];
 
   const exportDashboardReport = () => {
+    const isHebrew = i18n.language === "he";
+
     const summaryData = [
-      { Metric: "Orders", Value: stats.totalOrders },
-      { Metric: "Revenue", Value: stats.totalRevenue },
-      { Metric: "Average Order Value", Value: stats.averageOrderValue },
-      { Metric: "Customers", Value: stats.registeredUsers },
-      { Metric: "Top Product", Value: bestSeller ? bestSeller.name : "No sales yet" },
-    ]
+      {
+        [t("dashboardPage.excelMetric")]: t("dashboardPage.totalOrders"),
+        [t("dashboardPage.excelValue")]: stats.totalOrders,
+      },
+      {
+        [t("dashboardPage.excelMetric")]: t("dashboardPage.totalRevenue"),
+        [t("dashboardPage.excelValue")]: stats.totalRevenue,
+      },
+      {
+        [t("dashboardPage.excelMetric")]: t("dashboardPage.averageOrderValue"),
+        [t("dashboardPage.excelValue")]: stats.averageOrderValue,
+      },
+      {
+        [t("dashboardPage.excelMetric")]: t("dashboardPage.registeredUsers"),
+        [t("dashboardPage.excelValue")]: stats.registeredUsers,
+      },
+      {
+        [t("dashboardPage.excelMetric")]: t("dashboardPage.bestSeller"),
+        [t("dashboardPage.excelValue")]:
+          bestSeller ? bestSeller.name : t("dashboardPage.noSalesYet"),
+      },
+    ];
+
     const ordersStatusData = [
-      { Status: "Paid", Count: stats.ordersByStatus.paid },
-      { Status: "Not Paid", Count: stats.ordersByStatus.notPaid },
-      { Status: "Delivered", Count: stats.ordersByStatus.delivered },
-      { Status: "Pending Delivery", Count: stats.ordersByStatus.pendingDelivery },
-    ]
+      {
+        [t("dashboardPage.excelStatus")]: t("dashboardPage.paid"),
+        [t("dashboardPage.excelCount")]: stats.ordersByStatus.paid,
+      },
+      {
+        [t("dashboardPage.excelStatus")]: t("dashboardPage.notPaid"),
+        [t("dashboardPage.excelCount")]: stats.ordersByStatus.notPaid,
+      },
+      {
+        [t("dashboardPage.excelStatus")]: t("dashboardPage.delivered"),
+        [t("dashboardPage.excelCount")]: stats.ordersByStatus.delivered,
+      },
+      {
+        [t("dashboardPage.excelStatus")]: t("dashboardPage.pendingDelivery"),
+        [t("dashboardPage.excelCount")]: stats.ordersByStatus.pendingDelivery,
+      },
+    ];
+
     const topProductsData = stats.topSellingProducts.map((product) => ({
-      Product: product.name,
-      "Quantity Sold": product.quantity,
-    }))
-    const salesByCategoryData = stats.salesByCategory.map((category) => ({
-      Category: category.category,
-      Revenue: category.revenue,
+      [t("dashboardPage.excelProduct")]: product.name,
+      [t("dashboardPage.quantitySold")]: product.quantity,
     }));
+
+    const salesByCategoryData = stats.salesByCategory.map((category) => ({
+      [t("dashboardPage.excelCategory")]: category.category,
+      [t("dashboardPage.revenue")]: category.revenue,
+    }));
+
     const workbook = XLSX.utils.book_new();
 
     XLSX.utils.book_append_sheet(
       workbook,
       XLSX.utils.json_to_sheet(summaryData),
-      "Summary"
+      isHebrew ? "סיכום" : "Summary"
     );
+
     XLSX.utils.book_append_sheet(
       workbook,
       XLSX.utils.json_to_sheet(ordersStatusData),
-      "Orders Status"
+      isHebrew ? "סטטוס הזמנות" : "Orders Status"
     );
+
     XLSX.utils.book_append_sheet(
       workbook,
       XLSX.utils.json_to_sheet(topProductsData),
-      "Top Products"
+      isHebrew ? "מוצרים מובילים" : "Top Products"
     );
+
     XLSX.utils.book_append_sheet(
       workbook,
       XLSX.utils.json_to_sheet(salesByCategoryData),
-      "Sales By Category"
+      isHebrew ? "מכירות לפי קטגוריה" : "Sales By Category"
     );
-    XLSX.writeFile(workbook, "business-dashboard-report.xlsx");
-  }
+
+    XLSX.writeFile(
+      workbook,
+      isHebrew
+        ? "business-dashboard-report-he.xlsx"
+        : "business-dashboard-report.xlsx"
+    );
+  };
 
   return (
     <div className="admin-page">
       <div className="dashboard-title-row">
-        <h2>Business Dashboard</h2>
+        <h2>{t("dashboardPage.title")}</h2>
 
-        <button className="export-btn" onClick={exportDashboardReport}>
-          Export Excel Report
+        <button
+          className="export-btn"
+          onClick={exportDashboardReport}
+        >
+          {t("dashboardPage.exportExcel")}
         </button>
       </div>
+
       <div className="dashboard-cards">
         <div className="dashboard-card">
-          <h3>Total Orders</h3>
+          <h3>{t("dashboardPage.totalOrders")}</h3>
           <p>{stats.totalOrders}</p>
         </div>
 
         <div className="dashboard-card">
-          <h3>Total Revenue</h3>
+          <h3>{t("dashboardPage.totalRevenue")}</h3>
           <p>₪{stats.totalRevenue}</p>
-        </div>
-        <div className="dashboard-card">
-          <h3>Average Order Value</h3>
-          <p>₪{stats.averageOrderValue}</p>
-        </div>
-        <div className="dashboard-card">
-          <h3>Best Seller</h3>
-          <p>{bestSeller ? bestSeller.name : "No sales yet"}</p>
         </div>
 
         <div className="dashboard-card">
-          <h3>Registered Users</h3>
+          <h3>{t("dashboardPage.averageOrderValue")}</h3>
+          <p>₪{stats.averageOrderValue}</p>
+        </div>
+
+        <div className="dashboard-card">
+          <h3>{t("dashboardPage.bestSeller")}</h3>
+          <p>
+            {bestSeller
+              ? bestSeller.name
+              : t("dashboardPage.noSalesYet")}
+          </p>
+        </div>
+
+        <div className="dashboard-card">
+          <h3>{t("dashboardPage.registeredUsers")}</h3>
           <p>{stats.registeredUsers}</p>
         </div>
       </div>
 
       <div className="dashboard-chart">
-        <h3>Orders Status</h3>
+        <h3>{t("dashboardPage.ordersStatus")}</h3>
 
         <PieChart width={500} height={300}>
           <Pie
@@ -170,7 +225,7 @@ function AdminDashboardPage() {
       </div>
 
       <div className="dashboard-chart">
-        <h3>Top Selling Products</h3>
+        <h3>{t("dashboardPage.topSellingProducts")}</h3>
 
         <BarChart
           width={650}
@@ -178,22 +233,29 @@ function AdminDashboardPage() {
           data={stats.topSellingProducts}
         >
           <CartesianGrid strokeDasharray="3 3" />
+
           <XAxis
             dataKey="name"
             interval={0}
             height={70}
             tick={{ fontSize: 12 }}
           />
+
           <YAxis />
+
           <Tooltip />
           <Legend />
 
-          <Bar dataKey="quantity" name="Quantity Sold" fill="#6b4f3a" />
+          <Bar
+            dataKey="quantity"
+            name={t("dashboardPage.quantitySold")}
+            fill="#6b4f3a"
+          />
         </BarChart>
       </div>
 
       <div className="dashboard-chart">
-        <h3>Sales By Category</h3>
+        <h3>{t("dashboardPage.salesByCategory")}</h3>
 
         <BarChart
           width={650}
@@ -201,18 +263,25 @@ function AdminDashboardPage() {
           data={stats.salesByCategory}
         >
           <CartesianGrid strokeDasharray="3 3" />
+
           <XAxis
             dataKey="category"
             interval={0}
             height={70}
             tick={{ fontSize: 12 }}
           />
+
           <YAxis />
+
           <Tooltip />
           <Legend />
-          <Bar dataKey="revenue" name="Revenue" fill="#8b6a4e" />
-        </BarChart>
 
+          <Bar
+            dataKey="revenue"
+            name={t("dashboardPage.revenue")}
+            fill="#8b6a4e"
+          />
+        </BarChart>
       </div>
     </div>
   );

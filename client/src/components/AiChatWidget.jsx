@@ -1,22 +1,28 @@
 import { useState } from "react";
 import { sendChatMessage } from "../services/chatService";
+import { useTranslation } from "react-i18next";
 
 function AiChatWidget() {
+    const { t } = useTranslation();
+
     const [isOpen, setIsOpen] = useState(false);
     const [message, setMessage] = useState("");
 
     const [messages, setMessages] = useState([
         {
             sender: "ai",
-            text: "Hi! I can help you choose a handmade Judaica product.",
-        }
-    ])
-    const [loading, setLoading] = useState(false);
-    const sendMessageHandler = async (e) => {
-        e.preventDefault()
-        if (!message.trim()) return
+            translationKey: "aiChat.welcome",
+        },
+    ]);
 
-        const userMessage = message.trim()
+    const [loading, setLoading] = useState(false);
+
+    const sendMessageHandler = async (e) => {
+        e.preventDefault();
+
+        if (!message.trim()) return;
+
+        const userMessage = message.trim();
 
         setMessages((prev) => [
             ...prev,
@@ -40,21 +46,24 @@ function AiChatWidget() {
                 ...prev,
                 {
                     sender: "ai",
-                    text: "Sorry, I could not answer right now. Please try again later.",
+                    text: t("aiChat.error"),
                 },
             ]);
         } finally {
-            setLoading(false)
+            setLoading(false);
         }
-    }
+    };
 
     return (
         <div className="ai-chat-widget">
             {isOpen && (
                 <div className="ai-chat-window">
                     <div className="ai-chat-header">
-                        <span>AI Shopping Assistant</span>
-                        <button onClick={() => setIsOpen(false)}>X</button>
+                        <span>{t("aiChat.title")}</span>
+
+                        <button onClick={() => setIsOpen(false)}>
+                            X
+                        </button>
                     </div>
 
                     <div className="ai-chat-messages">
@@ -67,29 +76,35 @@ function AiChatWidget() {
                                         : "ai-message bot-message"
                                 }
                             >
-                                {msg.text}
+                                {msg.translationKey ? t(msg.translationKey) : msg.text}
                             </div>
                         ))}
+
                         {loading && (
-                            <div className="i-message bot-message">
-                                Thinking...
+                            <div className="ai-message bot-message">
+                                {t("aiChat.thinking")}
                             </div>
                         )}
                     </div>
 
                     <form
                         className="ai-chat-form"
-                        onSubmit={sendMessageHandler}>
+                        onSubmit={sendMessageHandler}
+                    >
                         <input
                             type="text"
-                            placeholder="Ask about products..."
+                            placeholder={t("aiChat.placeholder")}
                             value={message}
                             onChange={(e) => setMessage(e.target.value)}
                         />
-                        <button type="submit">Send</button>
+
+                        <button type="submit">
+                            {t("aiChat.send")}
+                        </button>
                     </form>
                 </div>
             )}
+
             <button
                 className="ai-chat-toggle"
                 onClick={() => setIsOpen((prev) => !prev)}
@@ -97,7 +112,7 @@ function AiChatWidget() {
                 💬
             </button>
         </div>
-    )
+    );
 }
 
-export default AiChatWidget
+export default AiChatWidget;

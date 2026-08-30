@@ -1,235 +1,227 @@
 import {
-    FaWhatsapp,
-    FaEnvelope,
-    FaInstagram,
-    FaFacebookF,
-    FaClock,
-    FaCheck,
+  FaWhatsapp,
+  FaEnvelope,
+  FaInstagram,
+  FaFacebookF,
+  FaClock,
+  FaCheck,
 } from "react-icons/fa";
 
 import "../styles/contact.css";
+import { useTranslation } from "react-i18next";
 
 function ContactPage() {
-    return (
-        <div className="contact-page">
-            <section className="contact-hero">
-                <div className="contact-hero-content">
-                    <span className="contact-label">Let&apos;s Create Together</span>
+  const { t, i18n } = useTranslation();
 
-                    <h1>Let&apos;s Create Something Meaningful Together</h1>
+  const whatsappMessage =
+    i18n.language === "he"
+      ? "שלום Olive Art Creations! אשמח לשאול לגבי מוצר יודאיקה בהתאמה אישית."
+      : "Hello Olive Art Creations! I would like to ask about a custom Judaica product.";
 
-                    <p>
-                        Looking for a personalized Judaica gift, a custom laser engraving,
-                        or a unique handmade creation? We would love to hear your ideas and
-                        help you create something truly special.
-                    </p>
+  const whatsappUrl = `https://wa.me/972533353529?text=${encodeURIComponent(
+    whatsappMessage
+  )}`;
 
-                    <p>
-                        Every piece is handcrafted with care using natural olive wood,
-                        premium epoxy resin, and attention to every detail.
-                    </p>
-                    <div className="contact-handmade-note">
-                        Handcrafted in Israel using natural olive wood and premium epoxy resin.
-                    </div>
-                </div>
-            </section>
+  return (
+    <div className="contact-page">
+      <section className="contact-hero">
+        <div className="contact-hero-content">
+          <span className="contact-label">
+            {t("contactPage.heroLabel")}
+          </span>
 
-            <section className="contact-section">
-                <div className="contact-section-heading">
-                    <span>Custom Creations</span>
-                    <h2>Why Contact Us?</h2>
-                    <p>
-                        We specialize in handmade Judaica products that can be customized
-                        for meaningful occasions, personal gifts, and unique requests.
-                    </p>
-                </div>
+          <h1>{t("contactPage.heroTitle")}</h1>
 
-                <div className="contact-features">
-                    <div className="contact-feature">
-                        <FaCheck />
-                        <span>Personalized laser engravings</span>
-                    </div>
+          <p>{t("contactPage.heroText1")}</p>
 
-                    <div className="contact-feature">
-                        <FaCheck />
-                        <span>Custom epoxy color combinations</span>
-                    </div>
+          <p>{t("contactPage.heroText2")}</p>
 
-                    <div className="contact-feature">
-                        <FaCheck />
-                        <span>Wedding and Bar or Bat Mitzvah gifts</span>
-                    </div>
-
-                    <div className="contact-feature">
-                        <FaCheck />
-                        <span>Family and business gifts</span>
-                    </div>
-
-                    <div className="contact-feature">
-                        <FaCheck />
-                        <span>Custom sizes and special requests</span>
-                    </div>
-
-                    <div className="contact-feature">
-                        <FaCheck />
-                        <span>One-of-a-kind handmade Judaica creations</span>
-                    </div>
-                </div>
-            </section>
-
-            <section className="contact-section">
-                <div className="contact-section-heading">
-                    <span>Get in Touch</span>
-                    <h2>Choose the Most Convenient Way to Reach Us</h2>
-                    <p>
-                        We will be happy to answer questions, discuss custom orders, and
-                        help you choose the right product.
-                    </p>
-                </div>
-
-                <div className="contact-methods">
-                    <a
-                        className="contact-method-card"
-                        href="https://wa.me/972533353529?text=Hello%20Olive%20Art%20Creations!%20I%20would%20like%20to%20ask%20about%20a%20custom%20Judaica%20product."
-                        target="_blank"
-                        rel="noreferrer"
-                    >
-                        <div className="contact-method-icon whatsapp-icon">
-                            <FaWhatsapp />
-                        </div>
-
-                        <div>
-                            <h3>WhatsApp</h3>
-                            <p>
-                                The fastest way to ask questions and discuss personalized
-                                orders.
-                            </p>
-                            <span>Chat on WhatsApp</span>
-                        </div>
-                    </a>
-
-                    <a
-                        className="contact-method-card"
-                        href="mailto:avihopi@gmail.com"
-                    >
-                        <div className="contact-method-icon email-icon">
-                            <FaEnvelope />
-                        </div>
-
-                        <div>
-                            <h3>Email</h3>
-                            <p>
-                                For detailed inquiries, custom requests, and order
-                                information.
-                            </p>
-                            <span>avihopi@gmail.com</span>
-                        </div>
-                    </a>
-
-                    <a
-                        className="contact-method-card"
-                        href="https://www.instagram.com/pinhas_aviho_judaica/"
-                        target="_blank"
-                        rel="noreferrer"
-                    >
-                        <div className="contact-method-icon instagram-icon">
-                            <FaInstagram />
-                        </div>
-
-                        <div>
-                            <h3>Instagram</h3>
-                            <p>
-                                See our newest creations, behind-the-scenes work, and customer
-                                favorites.
-                            </p>
-                            <span>Follow us on Instagram</span>
-                        </div>
-                    </a>
-
-                    <a
-                        className="contact-method-card"
-                        href="https://www.facebook.com/profile.php?id=61558005151115"
-                        target="_blank"
-                        rel="noreferrer"
-                    >
-                        <div className="contact-method-icon facebook-icon">
-                            <FaFacebookF />
-                        </div>
-
-                        <div>
-                            <h3>Facebook</h3>
-                            <p>
-                                Stay updated with new collections, handmade products, and
-                                special offers.
-                            </p>
-                            <span>Visit our Facebook page</span>
-                        </div>
-                    </a>
-                </div>
-            </section>
-
-            <section className="contact-bottom-grid">
-                <div className="contact-info-card">
-                    <div className="contact-card-title">
-                        <FaClock />
-                        <h2>Business Hours</h2>
-                    </div>
-
-                    <div className="business-hours">
-                        <div className="business-hours-row">
-                            <span>Sunday – Thursday</span>
-                            <strong>08:00 – 18:00</strong>
-                        </div>
-
-                        <div className="business-hours-row">
-                            <span>Friday</span>
-                            <strong>08:00 – 13:00</strong>
-                        </div>
-
-                        <div className="business-hours-row">
-                            <span>Saturday</span>
-                            <strong>Closed</strong>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="contact-info-card personalized-orders-card">
-                    <h2>Personalized Orders</h2>
-
-                    <p>
-                        Many of our products can be customized according to your
-                        preferences.
-                    </p>
-
-                    <ul>
-                        <li>Personal names and family blessings</li>
-                        <li>Custom laser engravings</li>
-                        <li>Different epoxy colors</li>
-                        <li>Special dimensions and shapes</li>
-                        <li>Gift packaging</li>
-                        <li>Unique design requests</li>
-                    </ul>
-
-                    <small>
-                        Additional charges may apply depending on the requested
-                        customization.
-                    </small>
-                </div>
-            </section>
-
-            <section className="contact-closing">
-                <p>
-                    Every handmade piece tells a story. We&apos;d be honored to create yours.
-                </p>
-
-                <span>
-                    We usually reply within a few hours during business days.
-                </span>
-            </section>
-
-
+          <div className="contact-handmade-note">
+            {t("contactPage.handmadeNote")}
+          </div>
         </div>
-    );
+      </section>
+
+      <section className="contact-section">
+        <div className="contact-section-heading">
+          <span>{t("contactPage.customCreations")}</span>
+
+          <h2>{t("contactPage.whyContactUs")}</h2>
+
+          <p>{t("contactPage.whyContactText")}</p>
+        </div>
+
+        <div className="contact-features">
+          <div className="contact-feature">
+            <FaCheck />
+            <span>{t("contactPage.feature1")}</span>
+          </div>
+
+          <div className="contact-feature">
+            <FaCheck />
+            <span>{t("contactPage.feature2")}</span>
+          </div>
+
+          <div className="contact-feature">
+            <FaCheck />
+            <span>{t("contactPage.feature3")}</span>
+          </div>
+
+          <div className="contact-feature">
+            <FaCheck />
+            <span>{t("contactPage.feature4")}</span>
+          </div>
+
+          <div className="contact-feature">
+            <FaCheck />
+            <span>{t("contactPage.feature5")}</span>
+          </div>
+
+          <div className="contact-feature">
+            <FaCheck />
+            <span>{t("contactPage.feature6")}</span>
+          </div>
+        </div>
+      </section>
+
+      <section className="contact-section">
+        <div className="contact-section-heading">
+          <span>{t("contactPage.getInTouch")}</span>
+
+          <h2>{t("contactPage.contactMethodsTitle")}</h2>
+
+          <p>{t("contactPage.contactMethodsText")}</p>
+        </div>
+
+        <div className="contact-methods">
+          <a
+            className="contact-method-card"
+            href={whatsappUrl}
+            target="_blank"
+            rel="noreferrer"
+          >
+            <div className="contact-method-icon whatsapp-icon">
+              <FaWhatsapp />
+            </div>
+
+            <div>
+              <h3>WhatsApp</h3>
+
+              <p>{t("contactPage.whatsappText")}</p>
+
+              <span>{t("contactPage.whatsappAction")}</span>
+            </div>
+          </a>
+
+          <a
+            className="contact-method-card"
+            href="mailto:avihopi@gmail.com"
+          >
+            <div className="contact-method-icon email-icon">
+              <FaEnvelope />
+            </div>
+
+            <div>
+              <h3>{t("contactPage.emailTitle")}</h3>
+
+              <p>{t("contactPage.emailText")}</p>
+
+              <span>avihopi@gmail.com</span>
+            </div>
+          </a>
+
+          <a
+            className="contact-method-card"
+            href="https://www.instagram.com/pinhas_aviho_judaica/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <div className="contact-method-icon instagram-icon">
+              <FaInstagram />
+            </div>
+
+            <div>
+              <h3>Instagram</h3>
+
+              <p>{t("contactPage.instagramText")}</p>
+
+              <span>{t("contactPage.instagramAction")}</span>
+            </div>
+          </a>
+
+          <a
+            className="contact-method-card"
+            href="https://www.facebook.com/profile.php?id=61558005151115"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <div className="contact-method-icon facebook-icon">
+              <FaFacebookF />
+            </div>
+
+            <div>
+              <h3>Facebook</h3>
+
+              <p>{t("contactPage.facebookText")}</p>
+
+              <span>{t("contactPage.facebookAction")}</span>
+            </div>
+          </a>
+        </div>
+      </section>
+
+      <section className="contact-bottom-grid">
+        <div className="contact-info-card">
+          <div className="contact-card-title">
+            <FaClock />
+            <h2>{t("contactPage.businessHours")}</h2>
+          </div>
+
+          <div className="business-hours">
+            <div className="business-hours-row">
+              <span>{t("contactPage.sundayThursday")}</span>
+              <strong>08:00 – 18:00</strong>
+            </div>
+
+            <div className="business-hours-row">
+              <span>{t("contactPage.friday")}</span>
+              <strong>08:00 – 13:00</strong>
+            </div>
+
+            <div className="business-hours-row">
+              <span>{t("contactPage.saturday")}</span>
+              <strong>{t("contactPage.closed")}</strong>
+            </div>
+          </div>
+        </div>
+
+        <div className="contact-info-card personalized-orders-card">
+          <h2>{t("contactPage.personalizedOrders")}</h2>
+
+          <p>{t("contactPage.personalizedOrdersText")}</p>
+
+          <ul>
+            <li>{t("contactPage.personalized1")}</li>
+            <li>{t("contactPage.personalized2")}</li>
+            <li>{t("contactPage.personalized3")}</li>
+            <li>{t("contactPage.personalized4")}</li>
+            <li>{t("contactPage.personalized5")}</li>
+            <li>{t("contactPage.personalized6")}</li>
+          </ul>
+
+          <small>
+            {t("contactPage.additionalCharges")}
+          </small>
+        </div>
+      </section>
+
+      <section className="contact-closing">
+        <p>{t("contactPage.closingText")}</p>
+
+        <span>{t("contactPage.replyTime")}</span>
+      </section>
+    </div>
+  );
 }
 
 export default ContactPage;

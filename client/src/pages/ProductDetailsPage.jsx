@@ -3,12 +3,14 @@ import { useParams } from "react-router-dom";
 import { getProductById } from "../services/productsService";
 import { useCart } from "../context/CartContext";
 import toast from "react-hot-toast";
+import { useTranslation } from "react-i18next";
 
 function ProductDetailsPage() {
   const backendUrl = import.meta.env.VITE_API_URL.replace("/api", "");
   const { id } = useParams();
   const { addToCart } = useCart();
   const [product, setProduct] = useState(null);
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -24,8 +26,24 @@ function ProductDetailsPage() {
   }, [id]);
 
   if (!product) {
-    return <p>Loading product...</p>;
+    return <p>{t("productDetailsPage.loading")}</p>;
   }
+  const isHebrew = i18n.language === "he";
+
+  const productName =
+    isHebrew && product.nameHe
+      ? product.nameHe
+      : product.name;
+
+  const productCategory =
+    isHebrew && product.categoryHe
+      ? product.categoryHe
+      : product.category;
+
+  const productDescription =
+    isHebrew && product.descriptionHe
+      ? product.descriptionHe
+      : product.description;
 
   return (
     <div className="product-details-page">
@@ -38,35 +56,48 @@ function ProductDetailsPage() {
                   ? `${backendUrl}${product.image}`
                   : product.image
               }
-              alt={product.name}
+              alt={productName}
             />
           ) : (
-            <span>No Image</span>
+            <span>{t("productDetailsPage.noImage")}</span>
           )}
         </div>
 
         <div className="product-details-info">
-          <h2>{product.name}</h2>
-          <p className="product-category">{product.category}</p>
-          <p className="product-description">{product.description}</p>
+          <h2>{productName}</h2>
+
+          <p className="product-category">
+            {productCategory}
+          </p>
+
+          <p className="product-description">
+            {productDescription}
+          </p>
 
           <p className="product-price">{product.price} ₪</p>
 
           <p className="product-stock">
             {product.countInStock > 0
-              ? `In stock: ${product.countInStock}`
-              : "Out of stock"}
+              ? t("productDetailsPage.inStock", {
+                count: product.countInStock,
+              })
+              : t("productDetailsPage.outOfStock")}
           </p>
 
           <button
             className="primary-btn"
             onClick={() => {
               addToCart(product);
-              toast.success(`${product.name} added to cart 🛒`);
+
+              toast.success(
+                t("productDetailsPage.addedToCart", {
+                  productName,
+                })
+              );
             }}
             disabled={product.countInStock <= 0}
           >
-            Add to Cart
+            {t("productDetailsPage.addToCart")}
           </button>
         </div>
       </div>

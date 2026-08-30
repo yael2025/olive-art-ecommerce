@@ -3,6 +3,7 @@ import api from "../services/api";
 import { useUser } from "../context/UserContext";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import { getAllOrders } from "../services/orderService";
 import { markOrderDelivered } from "../services/orderService";
@@ -40,7 +41,7 @@ function AdminPage() {
   });
 
   const { user } = useUser();
-
+  const { t, i18n } = useTranslation();
 
   const fetchProducts = async () => {
     try {
@@ -98,17 +99,17 @@ function AdminPage() {
     try {
       if (editingProductId) {
         await api.put(`/products/${editingProductId}`, formData);
-        toast.success("Product updated ✏️");
+        toast.success(t("adminPage.productUpdated"));
       } else {
         await api.post("/products", formData);
-        toast.success("Product created successfully 🎉");
+        toast.success(t("adminPage.productCreated"));
       }
 
       resetForm();
       fetchProducts();
     } catch (error) {
       console.error("Save product failed", error);
-      toast.error("Save product failed ❌");
+      toast.error(t("adminPage.saveProductFailed"));
     }
   };
   const handleImageUpload = async (e) => {
@@ -116,7 +117,7 @@ function AdminPage() {
 
     if (!file) return;
 
-    const toastId = toast.loading("Uploading image...");
+    const toastId = toast.loading(t("adminPage.uploadingImage"));
 
     try {
       const imageUrl = await uploadImage(file);
@@ -126,41 +127,45 @@ function AdminPage() {
         image: imageUrl,
       }));
 
-      toast.success("Image uploaded successfully", {
+      toast.success(t("adminPage.imageUploaded"), {
         id: toastId,
       });
     } catch (error) {
-      console.error("Image upload failed", error);
-
-      toast.error(error.response?.data?.message || "Image upload failed", {
-        id: toastId,
-      });
+      toast.error(
+        error.response?.data?.message || t("adminPage.imageUploadFailed"),
+        {
+          id: toastId,
+        }
+      );
     }
   };
   const editHandler = (product) => {
     setEditingProductId(product._id);
     setShowEditSection(true);
 
-    ({
+    setFormData({
       name: product.name || "",
-      price: product.price || "",
+      price: product.price ?? "",
       description: product.description || "",
       image: product.image || "",
-      countInStock: product.countInStock || "",
+      countInStock: product.countInStock ?? "",
       category: product.category || "",
     });
   };
   const deleteHandler = async (id) => {
-    if (window.confirm("Are you sure?")) {
+    if (window.confirm(t("adminPage.confirmDeleteProduct"))) {
       try {
         await api.delete(`/products/${id}`);
-        toast.success("Product deleted 🗑️");
+        toast.success(t("adminPage.productDeleted"));
         fetchProducts();
       } catch (error) {
         console.error("Delete failed", error);
-        toast.error(error.response?.data?.message || "Delete failed ❌");
+        toast.error(
+          error.response?.data?.message || t("adminPage.deleteFailed ")
+        );
         fetchProducts();
       }
+
     }
   }; setFormData
   const deliverHandler = async (id) => {
@@ -169,10 +174,10 @@ function AdminPage() {
       fetchOrders();
       await markOrderDelivered(id);
 
-      toast.success("Order delivered 🚚");
+      toast.success(t("adminPage.orderDelivered"));
     } catch (error) {
       console.error("Deliver failed", error);
-      toast.error("Something went wrong ❌");
+      toast.error(t("adminPage.somethingWentWrong"));
     }
   };
   const payHandler = async (id) => {
@@ -180,21 +185,21 @@ function AdminPage() {
       await markOrderPaid(id);
       fetchOrders();
       await markOrderPaid(id);
-      toast.success("Order marked as paid 💰");
+      toast.success(t("adminPage.orderMarkedPaid"));
     } catch (error) {
       console.error("Payment failed", error);
-      toast.error("Something went wrong ❌");
+      toast.error(t("adminPage.somethingWentWrong"));
     }
   };
   const generateAIDescription = async () => {
     try {
       if (!formData.name || !formData.category) {
-        toast.error("Please enter product name and category first")
-        return
+        toast.error(t("adminPage.enterNameAndCategory"));
+        return;
       }
-      toast.loading("Generating description...", {
-        id: "ai-description"
-      })
+      toast.loading(t("adminPage.generatingDescription"), {
+        id: "ai-description",
+      });
       const description = await generateDescription(
         formData.name,
         formData.category
@@ -208,14 +213,14 @@ function AdminPage() {
       setTimeout(() => {
         //console.log("formData after update:", document.querySelector('[name="description"]')?.value);
       }, 200);
-      toast.success("AI description generated ✨", {
+      toast.success(t("adminPage.aiDescriptionGenerated"), {
         id: "ai-description",
-      })
+      });
     } catch (error) {
       console.error(error);
-      toast.error("AI generation failed ❌", {
-        id: "ai-description"
-      })
+      toast.error(t("adminPage.aiGenerationFailed"), {
+        id: "ai-description",
+      });
     }
   }
 
@@ -224,31 +229,37 @@ function AdminPage() {
 
     try {
       if (!newCategoryName.trim()) {
-        toast.error("Category name is required");
+        toast.error(t("adminPage.categoryNameRequired"));
         return;
       }
 
       await createCategory(newCategoryName.trim());
 
-      toast.success("Category created successfully");
+      toast.success(t("adminPage.categoryCreated"));
       setNewCategoryName("");
       fetchCategories();
     } catch (error) {
       console.error("Create category failed", error);
-      toast.error(error.response?.data?.message || "Create category failed");
+      toast.error(
+        error.response?.data?.message ||
+        t("adminPage.createCategoryFailed")
+      );
     }
   };
 
   const deleteCategoryHandler = async (id) => {
-    if (window.confirm("Are you sure you want to delete this category?")) {
+    if (window.confirm(t("adminPage.confirmDeleteCategory"))) {
       try {
         await deleteCategory(id);
 
-        toast.success("Category deleted");
+        toast.success(t("adminPage.categoryDeleted"));
         fetchCategories();
       } catch (error) {
         console.error("Delete category failed", error);
-        toast.error(error.response?.data?.message || "Delete category failed");
+        toast.error(
+          error.response?.data?.message ||
+          t("adminPage.deleteCategoryFailed")
+        );
       }
     }
   };
@@ -259,7 +270,7 @@ function AdminPage() {
 
   return (
     <div className="admin-page">
-      <h2>Admin Page</h2>
+      <h2>{t("adminPage.title")}</h2>
 
       <div className="admin-sections">
         <div className="admin-section-card">
@@ -267,34 +278,36 @@ function AdminPage() {
             className="admin-section-toggle"
             onClick={() => setShowAddSection((prev) => !prev)}
           >
-            {showAddSection ? "Hide Add Product" : "Add Product"}
+            {showAddSection
+              ? t("adminPage.hideAddProduct")
+              : t("adminPage.addProduct")}
           </button>
 
           {showAddSection && (
             <div className="admin-section-content">
-              <h3>Add Product</h3>
+              <h3>{t("adminPage.addProduct")}</h3>
 
               <form className="admin-form" onSubmit={handleSubmit}>
                 <input
                   name="name"
-                  placeholder="Name"
+                  placeholder={t("adminPage.name")}
                   value={formData.name}
                   onChange={handleChange}
                 />
 
                 <input
                   name="price"
-                  placeholder="Price"
+                  placeholder={t("adminPage.price")}
                   value={formData.price}
                   onChange={handleChange}
                 />
-                <label>Description</label>
+                <label>{t("adminPage.description")}</label>
 
                 <button
                   type="button"
                   onClick={generateAIDescription}
                 >
-                  ✨ Generate AI Description
+                  ✨ {t("adminPage.generateAIDescription")}
                 </button>
 
                 <textarea
@@ -302,7 +315,7 @@ function AdminPage() {
                   value={formData.description}
                   onChange={handleChange}
                   rows="6"
-                  placeholder="Description"
+                  placeholder={t("adminPage.description")}
                 />
                 {/* <p>
                       Description length: {formData.description.length}
@@ -313,14 +326,12 @@ function AdminPage() {
                   onChange={handleImageUpload}
                 />
                 {formData.image && (
-                  <small>
-                    Uploaded ✔
-                  </small>
+                  <small>{t("adminPage.uploaded")} ✔</small>
                 )}
 
                 <input
                   name="countInStock"
-                  placeholder="Stock"
+                  placeholder={t("adminPage.stock")}
                   value={formData.countInStock}
                   onChange={handleChange}
                 />
@@ -330,19 +341,23 @@ function AdminPage() {
                   value={formData.category}
                   onChange={handleChange}
                 >
-                  <option value=""> Select Category</option>
+                  <option value="">
+                    {t("adminPage.selectCategory")}
+                  </option>
 
                   {categories.map((category) => (
                     <option
                       key={category._id}
-                      value={categories.name}
+                      value={category.name}
                     >
                       {category.name}
                     </option>
                   ))}
                 </select>
 
-                <button type="submit">Add Product</button>
+                <button type="submit">
+                  {t("adminPage.addProduct")}
+                </button>
               </form>
             </div>
           )}
@@ -353,34 +368,41 @@ function AdminPage() {
             className="admin-section-toggle"
             onClick={() => setShowEditSection((prev) => !prev)}
           >
-            {showEditSection ? "Hide Edit Product" : "Edit Product"}
+            {showEditSection
+              ? t("adminPage.hideEditProduct")
+              : t("adminPage.editProduct")}
           </button>
 
           {showEditSection && (
             <div className="admin-section-content">
-              <h3>{editingProductId ? "Update Product" : "Choose Product to Edit"}</h3>
+              <h3>
+                {editingProductId
+                  ? t("adminPage.updateProduct")
+                  : t("adminPage.chooseProductToEdit")}
+              </h3>
 
               {editingProductId && (
                 <form className="admin-form" onSubmit={handleSubmit}>
                   <input
                     name="name"
-                    placeholder="Name"
+                    placeholder={t("adminPage.name")}
                     value={formData.name}
                     onChange={handleChange}
                   />
 
                   <input
                     name="price"
-                    placeholder="Price"
+                    placeholder={t("adminPage.price")}
                     value={formData.price}
                     onChange={handleChange}
                   />
 
-                  <input
+                  <textarea
                     name="description"
-                    placeholder="Description"
+                    placeholder={t("adminPage.description")}
                     value={formData.description}
                     onChange={handleChange}
+                    rows="8"
                   />
 
                   <input
@@ -393,7 +415,7 @@ function AdminPage() {
 
                   <input
                     name="countInStock"
-                    placeholder="Stock"
+                    placeholder={t("adminPage.stock")}
                     value={formData.countInStock}
                     onChange={handleChange}
                   />
@@ -403,7 +425,9 @@ function AdminPage() {
                     value={formData.category}
                     onChange={handleChange}
                   >
-                    <option value="">Select Category</option>
+                    <option value="">
+                      {t("adminPage.selectCategory")}
+                    </option>
 
                     {categories.map((category) => (
                       <option key={category._id} value={category.name}>
@@ -413,9 +437,11 @@ function AdminPage() {
                   </select>
 
                   <div className="admin-form-actions">
-                    <button type="submit">Update Product</button>
+                    <button type="submit">
+                      {t("adminPage.updateProduct")}
+                    </button>
                     <button type="button" onClick={resetForm}>
-                      Cancel Edit
+                      {t("adminPage.cancelEdit")}
                     </button>
                   </div>
                 </form>
@@ -429,7 +455,9 @@ function AdminPage() {
                       <p>{product.price} ₪</p>
                     </div>
 
-                    <button onClick={() => editHandler(product)}>Edit</button>
+                    <button onClick={() => editHandler(product)}>
+                      {t("adminPage.edit")}
+                    </button>
                   </div>
                 ))}
               </div>
@@ -442,12 +470,14 @@ function AdminPage() {
             className="admin-section-toggle"
             onClick={() => setShowDeleteSection((prev) => !prev)}
           >
-            {showDeleteSection ? "Hide Delete Product" : "Delete Product"}
+            {showDeleteSection
+              ? t("adminPage.hideDeleteProduct")
+              : t("adminPage.deleteProduct")}
           </button>
 
           {showDeleteSection && (
             <div className="admin-section-content">
-              <h3>Delete Product</h3>
+              <h3>{t("adminPage.deleteProduct")}</h3>
 
               <div className="admin-products-list">
                 {products.map((product) => (
@@ -458,7 +488,7 @@ function AdminPage() {
                     </div>
 
                     <button onClick={() => deleteHandler(product._id)}>
-                      Delete
+                      {t("adminPage.delete")}
                     </button>
                   </div>
                 ))}
@@ -471,7 +501,9 @@ function AdminPage() {
             className="admin-section-toggle"
             onClick={() => setShowCategoriesSection((prev) => !prev)}
           >
-            {showCategoriesSection ? "Hide Category Management" : "Category Management"}
+            {showCategoriesSection
+              ? t("adminPage.hideCategoryManagement")
+              : t("adminPage.categoryManagement")}
           </button>
 
           {showCategoriesSection && (
@@ -479,17 +511,19 @@ function AdminPage() {
               <form className="admin-form" onSubmit={addCategoryHandler}>
                 <input
                   type="text"
-                  placeholder="Category Name"
+                  placeholder={t("adminPage.categoryName")}
                   value={newCategoryName}
                   onChange={(e) => setNewCategoryName(e.target.value)}
                 />
 
-                <button type="submit">Add Category</button>
+                <button type="submit">
+                  {t("adminPage.addCategory")}
+                </button>
               </form>
 
               <div className="admin-products-list">
                 {categories.length === 0 ? (
-                  <p>No categories</p>
+                  <p>{t("adminPage.noCategories")}</p>
                 ) : (
                   categories.map((category) => (
                     <div className="admin-product-row" key={category._id}>
@@ -498,7 +532,7 @@ function AdminPage() {
                       </div>
 
                       <button onClick={() => deleteCategoryHandler(category._id)}>
-                        Delete
+                        {t("adminPage.delete")}
                       </button>
                     </div>
                   ))
@@ -512,47 +546,59 @@ function AdminPage() {
             className="admin-section-toggle"
             onClick={() => setShowOrdersSection((prev) => !prev)}
           >
-            {showOrdersSection ? "Hide Orders" : "View Orders"}
+            {showOrdersSection
+              ? t("adminPage.hideOrders")
+              : t("adminPage.viewOrders")}
           </button>
 
           {showOrdersSection && (
             <div className="admin-section-content">
-              <h3>All Orders</h3>
+              <h3>{t("adminPage.allOrders")}</h3>
               {orders.length === 0 ? (
-                <p>No orders</p>
+                <p>{t("adminPage.noOrders")}</p>
               ) : (
                 <div className="admin-orders-list">
                   {orders.map((order) => (
                     <div className="admin-order-card" key={order._id}>
                       <div className="admin-order-header">
                         <span>
-                          <strong>Order #{order._id.slice(-6)}</strong>
+                          <strong>
+                            {t("adminPage.orderNumber")} #{order._id.slice(-6)}
+                          </strong>
                         </span>
 
                         <span>
-                          <strong>Total:</strong> ₪{order.totalPrice}
+                          <strong>{t("adminPage.total")}:</strong> ₪{order.totalPrice}
                         </span>
                       </div>
 
                       <p>
-                        <strong>User:</strong> {order.user?.username}
+                        <strong>{t("adminPage.user")}:</strong> {order.user?.username}
                       </p>
                       <p>
-                        <strong>Date:</strong>{" "}
-                        {new Date(order.createdAt).toLocaleDateString()}
+                        <strong>{t("adminPage.date")}:</strong>{" "}
+                        {new Date(order.createdAt).toLocaleDateString(
+                          i18n.language === "he" ? "he-IL" : "en-US"
+                        )}
                       </p>
 
                       <div className="admin-status">
                         <span className={order.isPaid ? "status paid" : "status not-paid"}>
-                          {order.isPaid ? "Paid" : "Not Paid"}
+                          {order.isPaid
+                            ? t("adminPage.paid")
+                            : t("adminPage.notPaid")}
                         </span>
 
                         <span
                           className={
-                            order.isDelivered ? "status delivered" : "status pending"
+                            order.isDelivered
+                              ? "status delivered"
+                              : "status pending"
                           }
                         >
-                          {order.isDelivered ? "Delivered" : "Pending"}
+                          {order.isDelivered
+                            ? t("adminPage.delivered")
+                            : t("adminPage.pending")}
                         </span>
                       </div>
 
@@ -560,7 +606,7 @@ function AdminPage() {
                         to={`/orders/${order._id}`}
                         className="admin-order-details-link"
                       >
-                        View Details
+                        {t("adminPage.viewDetails")}
                       </Link>
 
                       <div className="admin-order-actions">
@@ -568,14 +614,14 @@ function AdminPage() {
                           onClick={() => payHandler(order._id)}
                           disabled={order.isPaid}
                         >
-                          Mark as Paid
+                          {t("adminPage.markAsPaid")}
                         </button>
 
                         <button
                           onClick={() => deliverHandler(order._id)}
                           disabled={!order.isPaid || order.isDelivered}
                         >
-                          Mark as Delivered
+                          {t("adminPage.markAsDelivered")}
                         </button>
                       </div>
                     </div>

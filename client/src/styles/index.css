@@ -1,9 +1,28 @@
+/*
+  index.css
+  ---------
+  Main stylesheet entry point.
+
+  Responsibilities:
+  - Import all application style modules
+  - Keep CSS loading order clear and predictable
+  - Avoid defining actual page/component styles here
+*/
+
 @import "./global.css";
 @import "./layout.css";
+@import "./auth.css";
+
+@import "./home.css";
 @import "./products.css";
 @import "./cart.css";
-@import "./admin.css";
-@import "./orders.css";
-@import "./home.css";
 @import "./wishlist.css";
-@import "./orderConfirmation.css"
+@import "./orders.css";
+@import "./orderConfirmation.css";
+
+@import "./admin.css";
+
+@import "./about.css";
+@import "./contact.css";
+
+@import "./aiChat.css";

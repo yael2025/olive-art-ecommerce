@@ -1,3 +1,22 @@
+/*
+  orders.css
+  ----------
+  Styles for customer order history and order details pages.
+
+  Responsibilities:
+  - Orders list page
+  - Individual order cards
+  - Order metadata
+  - Order item lists
+  - Order details page
+  - Payment and delivery status
+  - Personalization and customization information
+  - Order totals and detail links
+
+  Admin order management styles should remain in admin.css.
+*/
+
+
 /* ===== Orders Page ===== */
 
 .orders-page {
@@ -20,10 +39,16 @@
   gap: 20px;
 }
 
+
+/* ===== Order Card ===== */
+
 .order-card {
   background: white;
+
   border-radius: 14px;
+
   padding: 18px;
+
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
@@ -31,6 +56,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+
   margin-bottom: 16px;
 }
 
@@ -40,9 +66,11 @@
 }
 
 .order-meta {
-  text-align: right;
   font-size: 14px;
 }
+
+
+/* ===== Order Items ===== */
 
 .order-items {
   display: flex;
@@ -54,8 +82,11 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+
   background: #f8f5f0;
+
   padding: 10px 12px;
+
   border-radius: 8px;
 }
 
@@ -72,6 +103,9 @@
   font-weight: bold;
 }
 
+
+/* ===== Order Details Page ===== */
+
 .order-details-page {
   max-width: 900px;
   margin: 0 auto;
@@ -81,93 +115,148 @@
 .order-details-page h3 {
   margin-bottom: 16px;
 }
+
 .order-details-card {
   background: white;
+
   border-radius: 14px;
+
   padding: 18px;
   margin-bottom: 24px;
+
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
+
 .order-details-card p {
   margin-bottom: 8px;
 }
+
+
+/* ===== Order Status ===== */
+
 .status-paid {
   color: green;
   font-weight: bold;
 }
+
 .status-pending {
   color: #b23b3b;
   font-weight: bold;
 }
+
+
+/* ===== Order Details Items ===== */
+
 .order-details-items {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
+
 .order-details-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
+
   background: white;
-  border-radius: 12px;
-  padding: 14px;
+
   border: 1px solid #e4d9cb;
+  border-radius: 12px;
+
+  padding: 14px;
 }
+
 .order-details-total {
   margin-top: 20px;
+
   background: #f8f5f0;
+
   padding: 16px;
+
   border-radius: 12px;
-  text-align: right;
 }
+
+
+/* ===== Details Link ===== */
 
 .details-link {
   display: inline-block;
+
   margin-top: 10px;
+
   color: #6b4f3a;
   font-weight: bold;
 }
+
+
+/* ===== Customization Summary ===== */
+
 .order-customization-summary {
   margin-top: 16px;
+
   padding: 14px 16px;
+
   background: #fcf7f2;
+
   border-left: 4px solid #8b6a4e;
   border-radius: 8px;
 }
+
 .order-customization-summary strong {
   display: block;
+
   margin-bottom: 6px;
+
   color: #5f432f;
 }
+
 .order-customization-summary p {
   margin: 0;
+
   color: #555;
+
   line-height: 1.5;
 }
 
+
+/* ===== Personalization ===== */
+
 .personalization-card {
   margin: 28px 0;
+
   padding: 22px;
+
   background: #fff8f1;
+
   border-left: 5px solid #8b6a4e;
   border-radius: 14px;
-  box-shadow: 0 4px 12px rgba(0,0,0,.06);
+
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
 }
+
 .personalization-card h3 {
   margin: 0 0 10px;
+
   color: #5f432f;
 }
+
 .personalization-subtitle {
   margin-bottom: 18px;
 
   color: #777;
 }
+
 .personalization-content {
   background: white;
+
   padding: 18px;
-  border-radius: 10px;
+
   border: 1px solid #e5d9ce;
+  border-radius: 10px;
+
   white-space: pre-wrap;
+
   line-height: 1.8;
+
   color: #444;
 }
