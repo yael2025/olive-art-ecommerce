@@ -29,6 +29,7 @@ function AdminPage() {
   const [showCategoriesSection, setShowCategoriesSection] = useState(false);
   const [categories, setCategories] = useState([]);
   const [newCategoryName, setNewCategoryName] = useState("");
+  const [isUploadingImage, setIsUploadingImage] = useState(false);
 
 
   const [formData, setFormData] = useState({
@@ -95,6 +96,7 @@ function AdminPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    //console.log("FORM DATA BEFORE SAVE:", formData);
 
     try {
       if (editingProductId) {
@@ -112,12 +114,17 @@ function AdminPage() {
       toast.error(t("adminPage.saveProductFailed"));
     }
   };
+
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
 
     if (!file) return;
 
-    const toastId = toast.loading(t("adminPage.uploadingImage"));
+    setIsUploadingImage(true);
+
+    const toastId = toast.loading(
+      t("adminPage.uploadingImage")
+    );
 
     try {
       const imageUrl = await uploadImage(file);
@@ -127,18 +134,30 @@ function AdminPage() {
         image: imageUrl,
       }));
 
-      toast.success(t("adminPage.imageUploaded"), {
-        id: toastId,
-      });
-    } catch (error) {
-      toast.error(
-        error.response?.data?.message || t("adminPage.imageUploadFailed"),
+      toast.success(
+        t("adminPage.imageUploaded"),
         {
           id: toastId,
         }
       );
+    } catch (error) {
+      console.error(
+        "IMAGE UPLOAD ERROR:",
+        error
+      );
+
+      toast.error(
+        error.response?.data?.message ||
+        t("adminPage.imageUploadFailed"),
+        {
+          id: toastId,
+        }
+      );
+    } finally {
+      setIsUploadingImage(false);
     }
   };
+
   const editHandler = (product) => {
     setEditingProductId(product._id);
     setShowEditSection(true);
@@ -355,8 +374,13 @@ function AdminPage() {
                   ))}
                 </select>
 
-                <button type="submit">
-                  {t("adminPage.addProduct")}
+                <button
+                  type="submit"
+                  disabled={isUploadingImage}
+                >
+                  {isUploadingImage
+                    ? t("adminPage.uploadingImage")
+                    : t("adminPage.addProduct")}
                 </button>
               </form>
             </div>
@@ -437,8 +461,13 @@ function AdminPage() {
                   </select>
 
                   <div className="admin-form-actions">
-                    <button type="submit">
-                      {t("adminPage.updateProduct")}
+                    <button
+                      type="submit"
+                      disabled={isUploadingImage}
+                    >
+                      {isUploadingImage
+                        ? t("adminPage.uploadingImage")
+                        : t("adminPage.updateProduct")}
                     </button>
                     <button type="button" onClick={resetForm}>
                       {t("adminPage.cancelEdit")}
