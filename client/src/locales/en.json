@@ -271,7 +271,16 @@
     "pending": "Pending",
     "viewDetails": "View Details",
     "markAsPaid": "Mark as Paid",
-    "markAsDelivered": "Mark as Delivered"
+    "markAsDelivered": "Mark as Delivered",
+    "userManagement": "User Management",
+    "hideUserManagement": "Hide User Management",
+    "noUsers": "No users found",
+    "customer": "Customer",
+    "businessManager": "Business Manager",
+    "adminRole": "Admin",
+    "userRoleUpdated": "User role updated successfully",
+    "updateUserRoleFailed": "Failed to update user role",
+    "loadUsersFailed": "Failed to load users"
   },
   "dashboardPage": {
     "loading": "Loading dashboard...",

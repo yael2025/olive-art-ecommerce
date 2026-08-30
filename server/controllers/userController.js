@@ -112,10 +112,76 @@ const removeFromWishlist = async (req, res) => {
   res.json(updateUser.wishlist)
 }
 
+// GET all users - Admin only
+const getUsers = async (req, res) => {
+  try {
+    const users = await User.find().select("-password");
+
+    res.json(users);
+  } catch (error) {
+    console.error("GET USERS ERROR:", error.message);
+
+    res.status(500).json({
+      message: "Server error",
+    });
+  }
+};
+
+// UPDATE user role - Admin only
+const updateUserRole = async (req, res) => {
+  try {
+    const { role } = req.body;
+
+    const allowedRoles = [
+      "customer",
+      "business_manager",
+      "admin",
+    ];
+
+    if (!allowedRoles.includes(role)) {
+      return res.status(400).json({
+        message: "Invalid role",
+      });
+    }
+
+    const user = await User.findById(req.params.id);
+
+    if (!user) {
+      return res.status(404).json({
+        message: "User not found",
+      });
+    }
+
+    user.role = role;
+    user.isAdmin = role === "admin";
+
+    const updatedUser = await user.save();
+
+    res.json({
+      _id: updatedUser._id,
+      username: updatedUser.username,
+      email: updatedUser.email,
+      role: updatedUser.role,
+      isAdmin: updatedUser.isAdmin,
+    });
+  } catch (error) {
+    console.error(
+      "UPDATE USER ROLE ERROR:",
+      error.message
+    );
+
+    res.status(500).json({
+      message: "Server error",
+    });
+  }
+};
+
 module.exports = {
   registerUser,
   loginUser,
   getWishlist,
   addToWishlist,
   removeFromWishlist,
+  getUsers,
+  updateUserRole,
 };
